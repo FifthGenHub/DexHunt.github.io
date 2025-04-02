@@ -2,120 +2,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DEX Duel: Cowboy Mode 🤠</title>
-  <style>
-    body {
-      background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
-      color: #ffc34d;
-      font-family: 'Courier New', Courier, monospace;
-      text-align: center;
-      padding: 40px;
-    }
-    h1 {
-      font-size: 2rem;
-    }
-    .wallet-btn, .start-btn {
-      background-color: #ff9900;
-      border: none;
-      border-radius: 8px;
-      padding: 14px 24px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      margin: 10px;
-      color: #1a1a1a;
-      font-weight: bold;
-    }
-    .wallet-btn:hover, .start-btn:hover {
-      background-color: #cc7a00;
-    }
-    .log {
-      margin-top: 30px;
-      font-size: 1rem;
-      color: #fff;
-    }
-    .bang {
-      font-size: 3rem;
-      color: red;
-      font-weight: bold;
-      display: none;
-    }
-    .emoji {
-      font-size: 2rem;
-    }
-<<<<<<< HEAD
-=======
-    .coming-soon {
-      margin-top: 40px;
-      padding: 20px;
-      border: 2px dashed #ffc34d;
-      border-radius: 12px;
-      color: #fff;
-      background-color: #262626;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-    }
->>>>>>> 7090bb0 (Revamped Wild West arcade UI + Dex Duel launch setup)
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TXSE Cowboy Arcade 🎮🤠</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #1a1a1a, #2a2a2a);
+            font-family: "Courier New", Courier, monospace;
+            color: #f5f5dc;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            padding: 2rem 1rem;
+            background-color: #222;
+            color: #ffcc00;
+            font-size: 2rem;
+        }
+        .subheader {
+            color: #ccc;
+            margin-bottom: 2rem;
+        }
+        .game-card {
+            background-color: #333;
+            border: 2px solid #ffcc00;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem auto;
+            width: 300px;
+        }
+        a.button {
+            display: inline-block;
+            background-color: #ffcc00;
+            color: #000;
+            padding: 0.5rem 1rem;
+            margin-top: 1rem;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
-  <h1><span class="emoji">🤠</span> DEX Duel: Cowboy Reaction Showdown</h1>
-  <button class="wallet-btn" onclick="connectWallet()">Wallet: Connect</button>
-  <button class="start-btn" onclick="startDuel()">Start Duel (0.01 SOL)</button>
-  <div class="log" id="log">Ready to duel?</div>
-  <div class="bang" id="bang">BANG! 🔫</div>
+    <header>🤠 TXSE Cowboy Arcade</header>
+    <div class="subheader">Bet SOL. Duel friends. Climb the leaderboard. Powered by TXSE + Solana speed ⚡</div>
 
-<<<<<<< HEAD
-  <script>
-    let duelTimeout;
-    let canShoot = false;
+    <div class="game-card">
+        <h2>DEX Duel 🔫</h2>
+        <p>High-noon reaction showdown. One winner. One shot.</p>
+        <a class="button" href="duel.html">Play Now</a>
+    </div>
 
-=======
-  <div class="coming-soon">
-    <h2>🎮 More Cowboy Games Coming Soon...</h2>
-    <p>We’re building a full Web3 Wild West arcade.<br>
-    Duel, Bet, Dominate — stay tuned!</p>
-  </div>
+    <div class="game-card">
+        <h2>Coming Soon...</h2>
+        <p>More cowboy-coded mini games arriving soon.</p>
+    </div>
 
-  <script>
-    let duelTimeout;
-    let canShoot = false;
-
->>>>>>> 7090bb0 (Revamped Wild West arcade UI + Dex Duel launch setup)
-    function connectWallet() {
-      const log = document.getElementById('log');
-      log.textContent = 'Wallet connected: 2vNp...5zAn';
-    }
-
-    function startDuel() {
-      const log = document.getElementById('log');
-      const bang = document.getElementById('bang');
-      bang.style.display = 'none';
-      canShoot = false;
-      log.textContent = 'Get ready... wait for it...';
-
-      const delay = Math.random() * 3000 + 2000;
-      duelTimeout = setTimeout(() => {
-        bang.style.display = 'block';
-        log.textContent = 'SHOOT NOW! (Click to win)';
-        canShoot = true;
-      }, delay);
-    }
-
-    document.body.addEventListener('click', () => {
-      const log = document.getElementById('log');
-      const bang = document.getElementById('bang');
-      if (canShoot) {
-        log.textContent = 'You won the duel! 💰 Cowboy UP.';
-        bang.style.display = 'none';
-        canShoot = false;
-      } else {
-        clearTimeout(duelTimeout);
-        log.textContent = 'You shot too early! You lose. 💸';
-      }
-    });
-  </script>
+    <footer style="margin-top: 3rem; color: #888;">Built for degens. Born in Texas. 🧠</footer>
 </body>
 </html>
