@@ -88,23 +88,23 @@
     bang.style.display = 'none';
     canShoot = false;
     gameStarted = true;
-    log.textContent = 'Get ready... wait for it...';
+    log.textContent = '🎯 Get ready... wait for it...';
 
-    const delay = Math.random() * 3000 + 2000;
+    const delay = Math.random() * 9000 + 1000; // random between 1-10s
     duelTimeout = setTimeout(() => {
       bang.style.display = 'block';
-      log.textContent = '🔥 SHOOT NOW! Click fast 💸';
+      log.textContent = '🔥 BANG! Click fast or lose.';
       canShoot = true;
 
-      // Add reaction time limit (1.2 seconds)
+      // 750ms reaction time limit
       reactionTimeout = setTimeout(() => {
         if (canShoot) {
-          log.textContent = '⏱️ Too slow! Duel lost.';
+          log.textContent = '⏱️ Too slow! You lost the duel.';
           bang.style.display = 'none';
           canShoot = false;
           gameStarted = false;
         }
-      }, 1200);
+      }, 750);
     }, delay);
   }
 
@@ -118,16 +118,17 @@
 
     if (canShoot) {
       clearTimeout(reactionTimeout);
-      log.textContent = '🏆 You won the duel! Cowboy up.';
+      log.textContent = '🏆 Fast draw! You won the duel.';
       bang.style.display = 'none';
       canShoot = false;
       gameStarted = false;
     } else {
       clearTimeout(duelTimeout);
-      log.textContent = '💥 You shot too early! Lost the duel.';
+      log.textContent = '💥 Shot too early! You lost.';
       gameStarted = false;
     }
   });
 </script>
+
 </body>
 </html>
