@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,104 +7,129 @@
   <title>DexDegenDuel (Powered by $TXSE)</title>
   <style>
     body {
-      background: url('https://i.imgur.com/4JgN8vS.png') no-repeat center center fixed;
-      background-size: cover;
+      background: linear-gradient(to bottom, #1e1e1e, #2a2a2a);
+      color: #ffc34d;
       font-family: 'Courier New', Courier, monospace;
-      color: #ffcc00;
       text-align: center;
-      padding-top: 60px;
+      padding: 40px;
+      overflow: hidden;
     }
     h1 {
       font-size: 2rem;
-      margin-bottom: 0.2em;
     }
-    .subtitle {
-      margin-bottom: 30px;
-      font-size: 1rem;
-    }
-    .wallet-btn, .duel-btn {
-      padding: 12px 20px;
-      font-size: 1rem;
+    .wallet-btn, .start-btn, .reset-btn {
+      background-color: #ff9900;
       border: none;
-      border-radius: 6px;
-      margin: 10px;
+      border-radius: 8px;
+      padding: 14px 24px;
+      font-size: 1.1rem;
       cursor: pointer;
+      margin: 10px;
+      color: #1a1a1a;
       font-weight: bold;
     }
-    .wallet-btn {
-      background-color: #ffa500;
-      color: #1a1a1a;
+    .wallet-btn:hover, .start-btn:hover, .reset-btn:hover {
+      background-color: #cc7a00;
     }
-    .duel-btn {
-      background-color: #ff6600;
+    .log {
+      margin-top: 30px;
+      font-size: 1rem;
       color: #fff;
     }
-    .wallet-btn:hover, .duel-btn:hover {
-      opacity: 0.8;
-    }
-    #bang {
-      display: none;
-      position: absolute;
+    .bang {
       font-size: 3rem;
       font-weight: bold;
       color: red;
-      pointer-events: auto;
+      position: absolute;
+      display: none;
+      z-index: 10;
+      cursor: pointer;
     }
-    #log {
-      margin-top: 40px;
-      color: white;
-      font-size: 1.1rem;
+    .emoji {
+      font-size: 2rem;
     }
   </style>
 </head>
 <body>
-  <h1>🤠 DexDegenDuel</h1>
-  <div class="subtitle">(Powered by $TXSE)</div>
+  <h1><span class="emoji">🤠</span> DexDegenDuel: Cowboy Reaction Showdown</h1>
   <button class="wallet-btn" onclick="connectWallet()">🔗 Connect Wallet</button>
-  <button class="duel-btn" onclick="startDuel()">⚡ Start Duel (0.01 SOL)</button>
-  <div id="bang">💥 BANG</div>
-  <div id="log">TXSEDUEL: Tap to begin, Cowboy!</div>
+  <button class="start-btn" onclick="startDuel()">⚡ Start Duel (0.01 SOL)</button>
+  <button class="reset-btn" onclick="resetDuel()">🔄 Reset</button>
+  <div class="log" id="log">Ready to duel?</div>
+  <div class="bang" id="bang" onclick="shoot()">💥 BANG 💥</div>
 
   <script>
+    let duelTimeout, reactionTimeout;
     let canShoot = false;
-    let duelTimeout;
+    let walletConnected = false;
 
     function connectWallet() {
-      document.getElementById("log").innerText = "Testing Wallet Connected to 2vNp...5zAn NO SOL SPENT";
+      const log = document.getElementById('log');
+      walletConnected = true;
+      log.textContent = 'Wallet connected: 2vNp...5zAn';
     }
 
     function startDuel() {
+      const log = document.getElementById('log');
+      const bang = document.getElementById('bang');
+      if (!walletConnected) {
+        log.textContent = 'Please connect wallet first!';
+        return;
+      }
+
+      bang.style.display = 'none';
       canShoot = false;
-      const log = document.getElementById("log");
-      const bang = document.getElementById("bang");
-      bang.style.display = "none";
-      log.innerText = "Wait for it...";
+      log.textContent = 'Get ready... wait for it...';
 
-      const delay = Math.floor(Math.random() * 9000) + 1000;
-
+      const delay = Math.random() * 9000 + 1000; // Between 1–10 seconds
       duelTimeout = setTimeout(() => {
-        const x = Math.random() * (window.innerWidth - 100);
-        const y = Math.random() * (window.innerHeight - 100);
-        bang.style.left = `${x}px`;
-        bang.style.top = `${y}px`;
-        bang.style.display = "block";
-        canShoot = true;
-        log.innerText = "SHOOT NOW!";
+        showBang();
       }, delay);
     }
 
-    document.body.addEventListener("click", (e) => {
-      const log = document.getElementById("log");
-      const bang = document.getElementById("bang");
+    function showBang() {
+      const bang = document.getElementById('bang');
+      const log = document.getElementById('log');
+
+      // Random screen position
+      const x = Math.random() * (window.innerWidth - 200);
+      const y = Math.random() * (window.innerHeight - 200);
+      bang.style.left = `${x}px`;
+      bang.style.top = `${y}px`;
+      bang.style.display = 'block';
+
+      log.textContent = 'SHOOT NOW! 💥';
+
+      canShoot = true;
+
+      // Reaction timeout (750ms)
+      reactionTimeout = setTimeout(() => {
+        if (canShoot) {
+          canShoot = false;
+          bang.style.display = 'none';
+          log.textContent = 'Too slow, cowboy. You lose 💸';
+        }
+      }, 750);
+    }
+
+    function shoot() {
+      const log = document.getElementById('log');
+      const bang = document.getElementById('bang');
       if (canShoot) {
-        log.innerText = "You win! 💰";
-        bang.style.display = "none";
+        clearTimeout(reactionTimeout);
+        bang.style.display = 'none';
         canShoot = false;
-      } else {
-        clearTimeout(duelTimeout);
-        log.innerText = "Too early! Lost the duel. 💸";
+        log.textContent = 'You won the duel! 💰 Cowboy UP.';
       }
-    });
+    }
+
+    function resetDuel() {
+      clearTimeout(duelTimeout);
+      clearTimeout(reactionTimeout);
+      document.getElementById('bang').style.display = 'none';
+      document.getElementById('log').textContent = 'Ready to duel?';
+      canShoot = false;
+    }
   </script>
 </body>
 </html>
