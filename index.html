@@ -3,61 +3,70 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TXSE Cowboy Arcade 🎮🤠</title>
+    <title>DexDegenDuel (Powered by $TXSE)</title>
     <style>
         body {
-            background: linear-gradient(to bottom, #1a1a1a, #2a2a2a);
-            font-family: "Courier New", Courier, monospace;
-            color: #f5f5dc;
             margin: 0;
             padding: 0;
+            background: linear-gradient(135deg, #1e1e2f, #2d2d44);
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
             text-align: center;
         }
+
         header {
-            padding: 2rem 1rem;
-            background-color: #222;
-            color: #ffcc00;
-            font-size: 2rem;
+            padding: 30px 20px 10px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #00ffc8;
+            text-shadow: 0 0 8px #00ffc8;
         }
-        .subheader {
-            color: #ccc;
-            margin-bottom: 2rem;
+
+        .subtext {
+            font-size: 1rem;
+            color: #aaa;
+            margin-bottom: 40px;
         }
-        .game-card {
-            background-color: #333;
-            border: 2px solid #ffcc00;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1rem auto;
-            width: 300px;
+
+        .game-box {
+            background-color: #2a2a3b;
+            border: 2px solid #00ffc8;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(0, 255, 200, 0.4);
         }
-        a.button {
-            display: inline-block;
-            background-color: #ffcc00;
+
+        button {
+            font-size: 1.2rem;
+            padding: 12px 24px;
+            background: #00ffc8;
             color: #000;
-            padding: 0.5rem 1rem;
-            margin-top: 1rem;
-            text-decoration: none;
-            border-radius: 4px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background: #00d0a3;
         }
     </style>
 </head>
 <body>
-    <header>🤠 TXSE Cowboy Arcade</header>
-    <div class="subheader">Bet SOL. Duel friends. Climb the leaderboard. Powered by TXSE + Solana speed ⚡</div>
-
-    <div class="game-card">
-        <h2>DEX Duel 🔫</h2>
-        <p>High-noon reaction showdown. One winner. One shot.</p>
-        <a class="button" href="duel.html">Play Now</a>
+    <header>DexDegenDuel</header>
+    <div class="subtext">(Powered by $TXSE)</div>
+    <div class="game-box">
+        <p>Welcome to the duel arena. Fast hands, faster SOL. 🥷⚡</p>
+        <button onclick="startGame()">PLAY NOW</button>
     </div>
 
-    <div class="game-card">
-        <h2>Coming Soon...</h2>
-        <p>More cowboy-coded mini games arriving soon.</p>
-    </div>
-
-    <footer style="margin-top: 3rem; color: #888;">Built for degens. Born in Texas. 🧠</footer>
+    <script>
+        function startGame() {
+            window.location.href = "duel.html";
+        }
+    </script>
 </body>
 </html>
