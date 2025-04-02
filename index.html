@@ -1,82 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>DexDegenDuel (Powered by $TXSE)</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Stardos+Stencil&display=swap');
-
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(145deg, #5b3e1d, #2c1c10);
-            color: #f5deb3;
-            font-family: 'Stardos Stencil', cursive;
-            text-align: center;
-        }
-
-        header {
-            padding: 40px 20px 10px;
-            font-size: 3rem;
-            color: #ffd700;
-            text-shadow: 0 0 10px #ffdf70;
-        }
-
-        .subtext {
-            font-size: 1.2rem;
-            color: #f0e68c;
-            margin-bottom: 40px;
-        }
-
-        .game-box {
-            background-color: #3b2715;
-            border: 3px solid #ffd700;
-            border-radius: 16px;
-            padding: 30px;
-            margin: 20px auto;
-            max-width: 550px;
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
-        }
-
-        button {
-            font-size: 1.4rem;
-            padding: 14px 30px;
-            background: #ffd700;
-            color: #000;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: 0.3s ease;
-        }
-
-        button:hover {
-            background: #e5c100;
-        }
-
-        .coming-soon {
-            margin-top: 60px;
-            font-size: 1.2rem;
-            color: #deb887;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DEX Duel: Cowboy Mode 🤠</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+      color: #ffc34d;
+      font-family: 'Courier New', Courier, monospace;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 2rem;
+    }
+    .wallet-btn, .start-btn {
+      background-color: #ff9900;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 24px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin: 10px;
+      color: #1a1a1a;
+      font-weight: bold;
+    }
+    .wallet-btn:hover, .start-btn:hover {
+      background-color: #cc7a00;
+    }
+    .log {
+      margin-top: 30px;
+      font-size: 1rem;
+      color: #fff;
+    }
+    .bang {
+      font-size: 3rem;
+      color: red;
+      font-weight: bold;
+      display: none;
+    }
+    .emoji {
+      font-size: 2rem;
+    }
+  </style>
 </head>
 <body>
-    <header>DexDegenDuel</header>
-    <div class="subtext">(Powered by $TXSE)</div>
-    <div class="game-box">
-        <p>Saddle up, partner. It’s time to duel for SOL. ⚔️💰</p>
-        <button onclick="startGame()">PLAY NOW</button>
-    </div>
+  <h1><span class="emoji">🤠</span> DEX Duel: Cowboy Reaction Showdown</h1>
+  <button class="wallet-btn" onclick="connectWallet()">Wallet: Connect</button>
+  <button class="start-btn" onclick="startDuel()">Start Duel (0.01 SOL)</button>
+  <div class="log" id="log">Ready to duel?</div>
+  <div class="bang" id="bang">BANG! 🔫</div>
 
-    <div class="coming-soon">
-        🤠 More cowboy crypto games coming soon... stay in the saddle!
-    </div>
+  <script>
+    let duelTimeout;
+    let canShoot = false;
 
-    <script>
-        function startGame() {
-            window.location.href = "duel.html";
-        }
-    </script>
+    function connectWallet() {
+      const log = document.getElementById('log');
+      log.textContent = 'Wallet connected: 2vNp...5zAn';
+    }
+
+    function startDuel() {
+      const log = document.getElementById('log');
+      const bang = document.getElementById('bang');
+      bang.style.display = 'none';
+      canShoot = false;
+      log.textContent = 'Get ready... wait for it...';
+
+      const delay = Math.random() * 3000 + 2000;
+      duelTimeout = setTimeout(() => {
+        bang.style.display = 'block';
+        log.textContent = 'SHOOT NOW! (Click to win)';
+        canShoot = true;
+      }, delay);
+    }
+
+    document.body.addEventListener('click', () => {
+      const log = document.getElementById('log');
+      const bang = document.getElementById('bang');
+      if (canShoot) {
+        log.textContent = 'You won the duel! 💰 Cowboy UP.';
+        bang.style.display = 'none';
+        canShoot = false;
+      } else {
+        clearTimeout(duelTimeout);
+        log.textContent = 'You shot too early! You lose. 💸';
+      }
+    });
+  </script>
 </body>
 </html>
