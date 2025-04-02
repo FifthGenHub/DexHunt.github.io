@@ -106,8 +106,8 @@
   </style>
 </head>
 <body>
-  <audio id="gunshot" src="https://cdn.pixabay.com/download/audio/2022/03/16/audio_a45070fbcb.mp3?filename=gunshot-13459.mp3"></audio>
-  <audio id="toosoon" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5ffb0f86f1.mp3?filename=cartoon-voice-yee-haw-111423.mp3"></audio>
+  <audio id="gunshot" src="https://cdn.pixabay.com/download/audio/2022/03/16/audio_a45070fbcb.mp3?filename=gunshot-13459.mp3" preload="auto"></audio>
+  <audio id="toosoon" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5ffb0f86f1.mp3?filename=cartoon-voice-yee-haw-111423.mp3" preload="auto"></audio>
 
   <div class="fullscreen-warning" id="warning">
     🤠 DexDegenDuel requires fullscreen mode on desktop.<br><br>
@@ -133,13 +133,17 @@
 
     const gunshotSound = document.getElementById('gunshot');
     const tooSoonSound = document.getElementById('toosoon');
+    gunshotSound.volume = 1.0;
+    tooSoonSound.volume = 1.0;
 
     function checkScreenSize() {
       const warning = document.getElementById('warning');
       const game = document.getElementById('game');
+      const aspectRatio = window.innerWidth / window.innerHeight;
       const minWidth = 1024;
       const minHeight = 700;
-      if (window.innerWidth < minWidth || window.innerHeight < minHeight) {
+      const minAspect = 1.4; // prevent mobile-like tall views
+      if (window.innerWidth < minWidth || window.innerHeight < minHeight || aspectRatio < minAspect) {
         warning.style.display = 'flex';
         game.classList.add('disabled');
       } else {
@@ -212,10 +216,10 @@
         bang.style.display = 'none';
         canShoot = false;
         log.textContent = 'You won the duel! 💰 Cowboy UP.';
-        gunshotSound.play();
+        gunshotSound.play().catch(e => console.log('Sound blocked: ', e));
       } else {
         log.textContent = 'YEE-HAW! Too Soon, Cowboy!';
-        tooSoonSound.play();
+        tooSoonSound.play().catch(e => console.log('Sound blocked: ', e));
       }
     }
 
