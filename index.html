@@ -3,112 +3,91 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DEX Duel - Cowboy Reaction Showdown</title>
-  <script src="https://unpkg.com/@solana/wallet-adapter-wallets@0.11.16/umd/index.min.js"></script>
-  <script src="https://unpkg.com/@solana/wallet-adapter-base@0.9.20/umd/index.min.js"></script>
-  <script src="https://unpkg.com/@solana/wallet-adapter-wallets@0.11.16/umd/index.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.js"></script>
+  <title>DEX Duel: Cowboy Mode 🤠</title>
   <style>
     body {
-      margin: 0;
-      background: #111;
-      font-family: monospace;
-      color: #f8f0d9;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+      color: #ffc34d;
+      font-family: 'Courier New', Courier, monospace;
       text-align: center;
+      padding: 40px;
     }
     h1 {
       font-size: 2rem;
-      color: #ffbb33;
     }
-    .duel-box {
-      background: #222;
-      border: 3px solid #ffbb33;
-      padding: 20px;
-      border-radius: 10px;
-    }
-    button {
-      background: #ffbb33;
-      color: #111;
+    .wallet-btn, .start-btn {
+      background-color: #ff9900;
       border: none;
-      padding: 15px 25px;
-      font-size: 1.2rem;
+      border-radius: 8px;
+      padding: 14px 24px;
+      font-size: 1.1rem;
       cursor: pointer;
-      border-radius: 5px;
-      margin-top: 10px;
+      margin: 10px;
+      color: #1a1a1a;
+      font-weight: bold;
     }
-    #wallet-btn {
-      margin-bottom: 15px;
+    .wallet-btn:hover, .start-btn:hover {
+      background-color: #cc7a00;
     }
-    #status {
-      margin-top: 20px;
+    .log {
+      margin-top: 30px;
+      font-size: 1rem;
+      color: #fff;
+    }
+    .bang {
+      font-size: 3rem;
+      color: red;
+      font-weight: bold;
+      display: none;
+    }
+    .emoji {
+      font-size: 2rem;
     }
   </style>
 </head>
 <body>
-  <h1>🤠 DEX Duel: Cowboy Reaction Showdown</h1>
-  <div class="duel-box">
-    <button id="wallet-btn">Connect Wallet</button><br />
-    <button id="start-duel">Start Duel (0.01 SOL)</button>
-    <div id="status">Ready to duel?</div>
-  </div>
+  <h1><span class="emoji">🤠</span> DEX Duel: Cowboy Reaction Showdown</h1>
+  <button class="wallet-btn" onclick="connectWallet()">Wallet: Connect</button>
+  <button class="start-btn" onclick="startDuel()">Start Duel (0.01 SOL)</button>
+  <div class="log" id="log">Ready to duel?</div>
+  <div class="bang" id="bang">BANG! 🔫</div>
+
   <script>
-    const walletBtn = document.getElementById('wallet-btn');
-    const startDuel = document.getElementById('start-duel');
-    const statusText = document.getElementById('status');
+    let duelTimeout;
+    let canShoot = false;
 
-    let wallet = null;
-    let provider = null;
+    function connectWallet() {
+      const log = document.getElementById('log');
+      log.textContent = 'Wallet connected: 2vNp...5zAn';
+    }
 
-    async function connectWallet() {
-      if (window.solana && window.solana.isPhantom) {
-        try {
-          const response = await window.solana.connect();
-          wallet = response.publicKey.toString();
-          provider = window.solana;
-          walletBtn.textContent = `Wallet: ${wallet.slice(0, 4)}...${wallet.slice(-4)}`;
-        } catch (err) {
-          console.error(err);
-        }
+    function startDuel() {
+      const log = document.getElementById('log');
+      const bang = document.getElementById('bang');
+      bang.style.display = 'none';
+      canShoot = false;
+      log.textContent = 'Get ready... wait for it...';
+
+      const delay = Math.random() * 3000 + 2000;
+      duelTimeout = setTimeout(() => {
+        bang.style.display = 'block';
+        log.textContent = 'SHOOT NOW! (Click to win)';
+        canShoot = true;
+      }, delay);
+    }
+
+    document.body.addEventListener('click', () => {
+      const log = document.getElementById('log');
+      const bang = document.getElementById('bang');
+      if (canShoot) {
+        log.textContent = 'You won the duel! 💰 Cowboy UP.';
+        bang.style.display = 'none';
+        canShoot = false;
       } else {
-        alert("Please install Phantom Wallet");
+        clearTimeout(duelTimeout);
+        log.textContent = 'You shot too early! You lose. 💸';
       }
-    }
-
-    async function initiateDuel() {
-      if (!provider || !wallet) {
-        alert("Please connect your wallet first");
-        return;
-      }
-
-      const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'));
-      const tx = new solanaWeb3.Transaction();
-
-      const receiver = new solanaWeb3.PublicKey("7WRKiyPSFRRnChhLt6Lt5UdJjU3wRbTJXU94Z97ukjAX"); // Your wallet to receive funds
-      const lamports = 0.01 * solanaWeb3.LAMPORTS_PER_SOL;
-
-      const instruction = solanaWeb3.SystemProgram.transfer({
-        fromPubkey: provider.publicKey,
-        toPubkey: receiver,
-        lamports
-      });
-
-      tx.add(instruction);
-
-      try {
-        const signature = await provider.signAndSendTransaction(tx);
-        statusText.textContent = `Duel initiated! TX: ${signature}`;
-      } catch (err) {
-        statusText.textContent = `Transaction failed.`;
-      }
-    }
-
-    walletBtn.onclick = connectWallet;
-    startDuel.onclick = initiateDuel;
+    });
   </script>
 </body>
 </html>
