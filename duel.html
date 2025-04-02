@@ -1,72 +1,84 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>DexDegenDuel (Powered by $TXSE)</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #1e1e2f, #2d2d44);
-            color: #fff;
-            font-family: 'Courier New', Courier, monospace;
-            text-align: center;
-        }
-
-        header {
-            padding: 30px 20px 10px;
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #00ffc8;
-            text-shadow: 0 0 8px #00ffc8;
-        }
-
-        .subtext {
-            font-size: 1rem;
-            color: #aaa;
-            margin-bottom: 40px;
-        }
-
-        .game-box {
-            background-color: #2a2a3b;
-            border: 2px solid #00ffc8;
-            border-radius: 12px;
-            padding: 30px;
-            margin: 20px auto;
-            max-width: 500px;
-            box-shadow: 0 0 20px rgba(0, 255, 200, 0.4);
-        }
-
-        button {
-            font-size: 1.2rem;
-            padding: 12px 24px;
-            background: #00ffc8;
-            color: #000;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: 0.3s ease;
-        }
-
-        button:hover {
-            background: #00d0a3;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DexDegenDuel - Game Mode</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+      color: #ffc34d;
+      font-family: 'Courier New', Courier, monospace;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 2rem;
+    }
+    .btn {
+      background-color: #ff9900;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 24px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin: 10px;
+      color: #1a1a1a;
+      font-weight: bold;
+    }
+    .btn:hover {
+      background-color: #cc7a00;
+    }
+    .log {
+      margin-top: 30px;
+      font-size: 1rem;
+      color: #fff;
+    }
+    .bang {
+      font-size: 3rem;
+      color: red;
+      font-weight: bold;
+      display: none;
+    }
+  </style>
 </head>
 <body>
-    <header>DexDegenDuel</header>
-    <div class="subtext">(Powered by $TXSE)</div>
-    <div class="game-box">
-        <p>Welcome to the duel arena. Fast hands, faster SOL. 🥷⚡</p>
-        <button onclick="startGame()">PLAY NOW</button>
-    </div>
+  <h1>🤠 DEX Duel: Cowboy Reaction Showdown</h1>
+  <button class="btn" onclick="startDuel()">Start Duel (0.01 SOL)</button>
+  <div class="log" id="log">Ready to draw?</div>
+  <div class="bang" id="bang">BANG! 🔫</div>
 
-    <script>
-        function startGame() {
-            window.location.href = "duel.html";
-        }
-    </script>
+  <script>
+    let duelTimeout;
+    let canShoot = false;
+
+    function startDuel() {
+      const log = document.getElementById('log');
+      const bang = document.getElementById('bang');
+      bang.style.display = 'none';
+      canShoot = false;
+      log.textContent = 'Get ready... wait for it...';
+
+      const delay = Math.random() * 3000 + 2000;
+      duelTimeout = setTimeout(() => {
+        bang.style.display = 'block';
+        log.textContent = 'SHOOT NOW! Click anywhere!';
+        canShoot = true;
+      }, delay);
+    }
+
+    document.body.addEventListener('click', () => {
+      const log = document.getElementById('log');
+      const bang = document.getElementById('bang');
+      if (canShoot) {
+        log.textContent = 'You won the duel! 💰';
+        bang.style.display = 'none';
+        canShoot = false;
+      } else {
+        clearTimeout(duelTimeout);
+        log.textContent = 'You shot too early! You lose. 💸';
+      }
+    });
+  </script>
 </body>
 </html>
