@@ -4,53 +4,60 @@
     <meta charset="UTF-8">
     <title>DexDegenDuel (Powered by $TXSE)</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Stardos+Stencil&display=swap');
+
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #1e1e2f, #2d2d44);
-            color: #fff;
-            font-family: 'Courier New', Courier, monospace;
+            background: linear-gradient(145deg, #5b3e1d, #2c1c10);
+            color: #f5deb3;
+            font-family: 'Stardos Stencil', cursive;
             text-align: center;
         }
 
         header {
-            padding: 30px 20px 10px;
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #00ffc8;
-            text-shadow: 0 0 8px #00ffc8;
+            padding: 40px 20px 10px;
+            font-size: 3rem;
+            color: #ffd700;
+            text-shadow: 0 0 10px #ffdf70;
         }
 
         .subtext {
-            font-size: 1rem;
-            color: #aaa;
+            font-size: 1.2rem;
+            color: #f0e68c;
             margin-bottom: 40px;
         }
 
         .game-box {
-            background-color: #2a2a3b;
-            border: 2px solid #00ffc8;
-            border-radius: 12px;
+            background-color: #3b2715;
+            border: 3px solid #ffd700;
+            border-radius: 16px;
             padding: 30px;
             margin: 20px auto;
-            max-width: 500px;
-            box-shadow: 0 0 20px rgba(0, 255, 200, 0.4);
+            max-width: 550px;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
         }
 
         button {
-            font-size: 1.2rem;
-            padding: 12px 24px;
-            background: #00ffc8;
+            font-size: 1.4rem;
+            padding: 14px 30px;
+            background: #ffd700;
             color: #000;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             margin-top: 20px;
             transition: 0.3s ease;
         }
 
         button:hover {
-            background: #00d0a3;
+            background: #e5c100;
+        }
+
+        .coming-soon {
+            margin-top: 60px;
+            font-size: 1.2rem;
+            color: #deb887;
         }
     </style>
 </head>
@@ -58,8 +65,12 @@
     <header>DexDegenDuel</header>
     <div class="subtext">(Powered by $TXSE)</div>
     <div class="game-box">
-        <p>Welcome to the duel arena. Fast hands, faster SOL. 🥷⚡</p>
+        <p>Saddle up, partner. It’s time to duel for SOL. ⚔️💰</p>
         <button onclick="startGame()">PLAY NOW</button>
+    </div>
+
+    <div class="coming-soon">
+        🤠 More cowboy crypto games coming soon... stay in the saddle!
     </div>
 
     <script>
