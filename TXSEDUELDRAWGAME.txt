@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DEX Duel - Cowboy Quickdraw</title>
+  <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background: linear-gradient(to bottom, #2c0d0d, #000);
+      color: #fff;
+      text-align: center;
+      padding: 40px;
+    }
+    button {
+      font-size: 1.2rem;
+      margin: 20px;
+      padding: 12px 24px;
+      background-color: #ffae00;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #game-box {
+      margin-top: 40px;
+      font-size: 2rem;
+    }
+    #draw-btn {
+      display: none;
+      background-color: crimson;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>🤠 DEX Duel</h1>
+  <p>Bet 0.01 SOL. Outdraw the DEX. Win fast or walk.</p>
+  <button id="connect">🔌 Connect Wallet</button>
+  <div id="wallet-address"></div>
+  <button id="start">🎯 Start Duel</button>
+  <div id="game-box"></div>
+  <button id="draw-btn">DRAW!</button>
+  <script>
+    const solana = window.solana;
+    let wallet = null;
+
+    const connectBtn = document.getElementById('connect');
+    const walletAddressDisplay = document.getElementById('wallet-address');
+    const startBtn = document.getElementById('start');
+    const drawBtn = document.getElementById('draw-btn');
+    const gameBox = document.getElementById('game-box');
+
+    connectBtn.onclick = async () => {
+      const resp = await solana.connect();
+      wallet = resp.publicKey;
+      walletAddressDisplay.innerText = `Connected: ${wallet.toString()}`;
+    };
+
+    startBtn.onclick = () => {
+      if (!wallet) return alert('Connect your wallet first');
+      gameBox.innerText = 'Get ready...';
+      drawBtn.style.display = 'none';
+      const delay = Math.random() * 3000 + 2000;
+      setTimeout(() => {
+        gameBox.innerText = 'DRAW!';
+        drawBtn.style.display = 'inline-block';
+        drawBtn.dataset.timestamp = Date.now();
+      }, delay);
+    };
+
+    drawBtn.onclick = async () => {
+      const reactionTime = Date.now() - parseInt(drawBtn.dataset.timestamp);
+      drawBtn.style.display = 'none';
+      gameBox.innerText = `You reacted in ${reactionTime} ms.`;
+
+      if (reactionTime < 500) {
+        gameBox.innerText += '\n🔥 You win! Sending 0.008 SOL...';
+        await sendSol(wallet, 0.008);
+      } else {
+        gameBox.innerText += '\n💀 Too slow! House keeps the pot.';
+      }
+    };
+
+    async function sendSol(to, amount) {
+      const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'));
+      const from = solana.publicKey;
+      const transaction = new solanaWeb3.Transaction().add(
+        solanaWeb3.SystemProgram.transfer({
+          fromPubkey: from,
+          toPubkey: to,
+          lamports: amount * solanaWeb3.LAMPORTS_PER_SOL,
+        })
+      );
+      const { signature } = await solana.signAndSendTransaction(transaction);
+      await connection.confirmTransaction(signature);
+    }
+  </script>
+</body>
+</html>
