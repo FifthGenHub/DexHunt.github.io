@@ -31,6 +31,10 @@
       text-align: center;
       padding: 2rem;
     }
+    .disabled {
+      pointer-events: none;
+      opacity: 0.3;
+    }
     .game-container {
       width: 100vw;
       height: 100vh;
@@ -103,12 +107,12 @@
 </head>
 <body>
   <div class="fullscreen-warning" id="warning">
-    🤠 This game is best experienced full screen on a desktop!<br><br>
-    Please maximize your browser window or switch to a larger display.
+    🤠 DexDegenDuel requires fullscreen mode on desktop.<br><br>
+    Please maximize your browser window or use a larger screen.
   </div>
   <div class="game-container" id="game">
     <h1><span class="emoji">🤠</span> DexDegenDuel: Cowboy Reaction Showdown</h1>
-    <div class="button-row">
+    <div class="button-row" id="buttonRow">
       <button class="wallet-btn" onclick="connectWallet()">🔗 Connect Wallet</button>
       <button class="start-btn" onclick="startDuel()">⚡ Start Duel (0.01 SOL)</button>
       <button class="reset-btn" onclick="resetDuel()">🔄 Reset</button>
@@ -127,12 +131,15 @@
     function checkScreenSize() {
       const warning = document.getElementById('warning');
       const game = document.getElementById('game');
-      if (window.innerWidth < 1024 || window.innerHeight < 600) {
+      const buttonRow = document.getElementById('buttonRow');
+      const minWidth = 1024;
+      const minHeight = 700;
+      if (window.innerWidth < minWidth || window.innerHeight < minHeight) {
         warning.style.display = 'flex';
-        game.style.display = 'none';
+        game.classList.add('disabled');
       } else {
         warning.style.display = 'none';
-        game.style.display = 'flex';
+        game.classList.remove('disabled');
       }
     }
 
@@ -140,12 +147,14 @@
     window.addEventListener('load', checkScreenSize);
 
     function connectWallet() {
+      if (game.classList.contains('disabled')) return;
       const log = document.getElementById('log');
       walletConnected = true;
       log.textContent = 'Testing Wallet Connected to 2vNp...5zAn NO SOL SPENT';
     }
 
     function startDuel() {
+      if (game.classList.contains('disabled')) return;
       const log = document.getElementById('log');
       const bang = document.getElementById('bang');
       if (!walletConnected) {
@@ -190,6 +199,7 @@
     }
 
     function shoot() {
+      if (game.classList.contains('disabled')) return;
       const bang = document.getElementById('bang');
       const log = document.getElementById('log');
       if (canShoot) {
