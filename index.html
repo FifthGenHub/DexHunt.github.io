@@ -3,49 +3,112 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DEX Duel - TXSE Cowboy Game</title>
+  <title>DEX Duel - Cowboy Reaction Showdown</title>
+  <script src="https://unpkg.com/@solana/wallet-adapter-wallets@0.11.16/umd/index.min.js"></script>
+  <script src="https://unpkg.com/@solana/wallet-adapter-base@0.9.20/umd/index.min.js"></script>
+  <script src="https://unpkg.com/@solana/wallet-adapter-wallets@0.11.16/umd/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.js"></script>
   <style>
     body {
-      background: linear-gradient(to bottom, #1e0f07, #381c0d);
-      color: #f5d9a6;
-      font-family: 'Courier New', monospace;
+      margin: 0;
+      background: #111;
+      font-family: monospace;
+      color: #f8f0d9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
       text-align: center;
-      padding: 50px;
     }
     h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
+      font-size: 2rem;
+      color: #ffbb33;
     }
-    .button {
-      background-color: #c08401;
-      color: black;
-      padding: 15px 30px;
-      margin: 20px;
-      border: none;
+    .duel-box {
+      background: #222;
+      border: 3px solid #ffbb33;
+      padding: 20px;
       border-radius: 10px;
+    }
+    button {
+      background: #ffbb33;
+      color: #111;
+      border: none;
+      padding: 15px 25px;
       font-size: 1.2rem;
       cursor: pointer;
-      transition: background 0.3s;
+      border-radius: 5px;
+      margin-top: 10px;
     }
-    .button:hover {
-      background-color: #e2a400;
+    #wallet-btn {
+      margin-bottom: 15px;
     }
-    .footer {
-      margin-top: 60px;
-      font-size: 0.9rem;
-      color: #aa8456;
+    #status {
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>🤠 DEX Duel</h1>
-  <p>Test your reflexes. Win SOL. Or lose like a landlubber.</p>
-  <button class="button" onclick="alert('Feature coming soon!')">Connect Wallet</button>
-  <button class="button" onclick="alert('You must connect your wallet to duel.')">Start Duel</button>
-
-  <div class="footer">
-    Built on Solana • Powered by $TXSE • Made for Degens<br>
-    <a href="https://fifthgenhub.github.io/txse-link/" style="color: #f5d9a6;">Return to Linktree</a>
+  <h1>🤠 DEX Duel: Cowboy Reaction Showdown</h1>
+  <div class="duel-box">
+    <button id="wallet-btn">Connect Wallet</button><br />
+    <button id="start-duel">Start Duel (0.01 SOL)</button>
+    <div id="status">Ready to duel?</div>
   </div>
+  <script>
+    const walletBtn = document.getElementById('wallet-btn');
+    const startDuel = document.getElementById('start-duel');
+    const statusText = document.getElementById('status');
+
+    let wallet = null;
+    let provider = null;
+
+    async function connectWallet() {
+      if (window.solana && window.solana.isPhantom) {
+        try {
+          const response = await window.solana.connect();
+          wallet = response.publicKey.toString();
+          provider = window.solana;
+          walletBtn.textContent = `Wallet: ${wallet.slice(0, 4)}...${wallet.slice(-4)}`;
+        } catch (err) {
+          console.error(err);
+        }
+      } else {
+        alert("Please install Phantom Wallet");
+      }
+    }
+
+    async function initiateDuel() {
+      if (!provider || !wallet) {
+        alert("Please connect your wallet first");
+        return;
+      }
+
+      const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'));
+      const tx = new solanaWeb3.Transaction();
+
+      const receiver = new solanaWeb3.PublicKey("7WRKiyPSFRRnChhLt6Lt5UdJjU3wRbTJXU94Z97ukjAX"); // Your wallet to receive funds
+      const lamports = 0.01 * solanaWeb3.LAMPORTS_PER_SOL;
+
+      const instruction = solanaWeb3.SystemProgram.transfer({
+        fromPubkey: provider.publicKey,
+        toPubkey: receiver,
+        lamports
+      });
+
+      tx.add(instruction);
+
+      try {
+        const signature = await provider.signAndSendTransaction(tx);
+        statusText.textContent = `Duel initiated! TX: ${signature}`;
+      } catch (err) {
+        statusText.textContent = `Transaction failed.`;
+      }
+    }
+
+    walletBtn.onclick = connectWallet;
+    startDuel.onclick = initiateDuel;
+  </script>
 </body>
 </html>
