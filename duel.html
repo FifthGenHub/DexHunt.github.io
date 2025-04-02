@@ -5,14 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DexDegenDuel (Powered by $TXSE)</title>
   <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
+      height: 100%;
+      overflow: hidden;
       font-family: 'Courier New', Courier, monospace;
       background: #000;
       color: #ffc34d;
       text-align: center;
-      overflow: hidden;
+    }
+    .fullscreen-warning {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      color: #ffcc00;
+      font-size: 1.5rem;
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
     }
     .game-container {
       width: 100vw;
@@ -85,7 +102,11 @@
   </style>
 </head>
 <body>
-  <div class="game-container">
+  <div class="fullscreen-warning" id="warning">
+    🤠 This game is best experienced full screen on a desktop!<br><br>
+    Please maximize your browser window or switch to a larger display.
+  </div>
+  <div class="game-container" id="game">
     <h1><span class="emoji">🤠</span> DexDegenDuel: Cowboy Reaction Showdown</h1>
     <div class="button-row">
       <button class="wallet-btn" onclick="connectWallet()">🔗 Connect Wallet</button>
@@ -102,6 +123,21 @@
     let duelTimeout, reactionTimeout;
     let canShoot = false;
     let walletConnected = false;
+
+    function checkScreenSize() {
+      const warning = document.getElementById('warning');
+      const game = document.getElementById('game');
+      if (window.innerWidth < 1024 || window.innerHeight < 600) {
+        warning.style.display = 'flex';
+        game.style.display = 'none';
+      } else {
+        warning.style.display = 'none';
+        game.style.display = 'flex';
+      }
+    }
+
+    window.addEventListener('resize', checkScreenSize);
+    window.addEventListener('load', checkScreenSize);
 
     function connectWallet() {
       const log = document.getElementById('log');
