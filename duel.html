@@ -9,26 +9,45 @@
       margin: 0;
       padding: 0;
       font-family: 'Courier New', Courier, monospace;
-      background: url('https://images.unsplash.com/photo-1549924231-f129b911e442') no-repeat center center fixed;
-      background-size: cover;
+      background: #000;
       color: #ffc34d;
       text-align: center;
       overflow: hidden;
     }
+    .game-container {
+      width: 100vw;
+      height: 100vh;
+      background: url('https://images.unsplash.com/photo-1549924231-f129b911e442') center center no-repeat;
+      background-size: cover;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
     h1 {
-      font-size: 2.5rem;
-      background: rgba(0, 0, 0, 0.6);
+      font-size: 2.2rem;
+      background: rgba(0, 0, 0, 0.7);
       padding: 1rem;
       margin: 0;
+      width: 100%;
+      z-index: 2;
+    }
+    .button-row {
+      margin-top: 1rem;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 1rem;
+      width: 100%;
+      z-index: 2;
     }
     .wallet-btn, .start-btn, .reset-btn {
       background-color: #ff9900;
       border: none;
       border-radius: 8px;
-      padding: 14px 24px;
-      font-size: 1.1rem;
+      padding: 12px 22px;
+      font-size: 1rem;
       cursor: pointer;
-      margin: 10px;
+      margin: 0 8px;
       color: #1a1a1a;
       font-weight: bold;
     }
@@ -36,11 +55,10 @@
       background-color: #cc7a00;
     }
     .log {
-      margin-top: 30px;
+      margin-top: 20px;
       font-size: 1rem;
       color: #fff;
       background: rgba(0, 0, 0, 0.6);
-      display: inline-block;
       padding: 10px 20px;
       border-radius: 10px;
     }
@@ -56,15 +74,29 @@
     .emoji {
       font-size: 2rem;
     }
+    .duel-area {
+      flex-grow: 1;
+      width: 100%;
+      position: relative;
+      border-top: 5px solid #ff9900;
+      border-bottom: 5px solid #ff9900;
+      overflow: hidden;
+    }
   </style>
 </head>
 <body>
-  <h1><span class="emoji">🤠</span> DexDegenDuel: Cowboy Reaction Showdown</h1>
-  <button class="wallet-btn" onclick="connectWallet()">🔗 Connect Wallet</button>
-  <button class="start-btn" onclick="startDuel()">⚡ Start Duel (0.01 SOL)</button>
-  <button class="reset-btn" onclick="resetDuel()">🔄 Reset</button>
-  <div class="log" id="log">Ready to duel?</div>
-  <div class="bang" id="bang" onclick="shoot()">💥 BANG 💥</div>
+  <div class="game-container">
+    <h1><span class="emoji">🤠</span> DexDegenDuel: Cowboy Reaction Showdown</h1>
+    <div class="button-row">
+      <button class="wallet-btn" onclick="connectWallet()">🔗 Connect Wallet</button>
+      <button class="start-btn" onclick="startDuel()">⚡ Start Duel (0.01 SOL)</button>
+      <button class="reset-btn" onclick="resetDuel()">🔄 Reset</button>
+      <div class="log" id="log">Ready to duel?</div>
+    </div>
+    <div class="duel-area" id="duel-area">
+      <div class="bang" id="bang" onclick="shoot()">💥 BANG 💥</div>
+    </div>
+  </div>
 
   <script>
     let duelTimeout, reactionTimeout;
@@ -89,7 +121,7 @@
       canShoot = false;
       log.textContent = 'Get ready... wait for it...';
 
-      const delay = Math.random() * 9000 + 1000; // 1–10 sec
+      const delay = Math.random() * 9000 + 1000;
       duelTimeout = setTimeout(() => {
         showBang();
       }, delay);
@@ -97,17 +129,20 @@
 
     function showBang() {
       const bang = document.getElementById('bang');
+      const duelArea = document.getElementById('duel-area');
       const log = document.getElementById('log');
 
-      const x = Math.random() * (window.innerWidth - 200);
-      const y = Math.random() * (window.innerHeight - 200);
+      const maxX = duelArea.clientWidth - 200;
+      const maxY = duelArea.clientHeight - 200;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
       bang.style.left = `${x}px`;
       bang.style.top = `${y}px`;
       bang.style.display = 'block';
 
-      log.textContent = 'SHOOT NOW! 💥';
-
       canShoot = true;
+      log.textContent = 'SHOOT NOW! 💥';
 
       reactionTimeout = setTimeout(() => {
         if (canShoot) {
@@ -119,8 +154,8 @@
     }
 
     function shoot() {
-      const log = document.getElementById('log');
       const bang = document.getElementById('bang');
+      const log = document.getElementById('log');
       if (canShoot) {
         clearTimeout(reactionTimeout);
         bang.style.display = 'none';
