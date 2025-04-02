@@ -64,59 +64,70 @@
   <div class="bang" id="bang">🔥 BANG! 🔫</div>
 
   <script>
-    let duelTimeout;
-    let canShoot = false;
-    let gameStarted = false;
-    let walletConnected = false;
+  let duelTimeout;
+  let canShoot = false;
+  let gameStarted = false;
+  let walletConnected = false;
+  let reactionTimeout;
 
-    function connectWallet() {
-      const log = document.getElementById('log');
-      walletConnected = true;
-      log.textContent = 'Wallet connected: CowboyDegen.sol';
+  function connectWallet() {
+    const log = document.getElementById('log');
+    walletConnected = true;
+    log.textContent = 'Wallet connected: CowboyDegen.sol';
+  }
+
+  function startDuel() {
+    const log = document.getElementById('log');
+    const bang = document.getElementById('bang');
+
+    if (!walletConnected) {
+      log.textContent = '⚠️ Connect your wallet first!';
+      return;
     }
 
-    function startDuel() {
-      const log = document.getElementById('log');
-      const bang = document.getElementById('bang');
+    bang.style.display = 'none';
+    canShoot = false;
+    gameStarted = true;
+    log.textContent = 'Get ready... wait for it...';
 
-      if (!walletConnected) {
-        log.textContent = '⚠️ Connect your wallet first!';
-        return;
-      }
+    const delay = Math.random() * 3000 + 2000;
+    duelTimeout = setTimeout(() => {
+      bang.style.display = 'block';
+      log.textContent = '🔥 SHOOT NOW! Click fast 💸';
+      canShoot = true;
 
+      // Add reaction time limit (1.2 seconds)
+      reactionTimeout = setTimeout(() => {
+        if (canShoot) {
+          log.textContent = '⏱️ Too slow! Duel lost.';
+          bang.style.display = 'none';
+          canShoot = false;
+          gameStarted = false;
+        }
+      }, 1200);
+    }, delay);
+  }
+
+  document.body.addEventListener('click', (e) => {
+    const log = document.getElementById('log');
+    const bang = document.getElementById('bang');
+
+    if (e.target.classList.contains('wallet-btn') || e.target.classList.contains('start-btn')) return;
+
+    if (!walletConnected || !gameStarted) return;
+
+    if (canShoot) {
+      clearTimeout(reactionTimeout);
+      log.textContent = '🏆 You won the duel! Cowboy up.';
       bang.style.display = 'none';
       canShoot = false;
-      gameStarted = true;
-      log.textContent = 'Get ready... wait for it...';
-
-      const delay = Math.random() * 3000 + 2000;
-      duelTimeout = setTimeout(() => {
-        bang.style.display = 'block';
-        log.textContent = 'SHOOT NOW! Click to win 💸';
-        canShoot = true;
-      }, delay);
+      gameStarted = false;
+    } else {
+      clearTimeout(duelTimeout);
+      log.textContent = '💥 You shot too early! Lost the duel.';
+      gameStarted = false;
     }
-
-    document.body.addEventListener('click', (e) => {
-      const log = document.getElementById('log');
-      const bang = document.getElementById('bang');
-
-      // Don't react to clicks on buttons
-      if (e.target.classList.contains('wallet-btn') || e.target.classList.contains('start-btn')) return;
-
-      if (!walletConnected || !gameStarted) return;
-
-      if (canShoot) {
-        log.textContent = '🏆 You won the duel! Cowboy up.';
-        bang.style.display = 'none';
-        canShoot = false;
-        gameStarted = false;
-      } else {
-        clearTimeout(duelTimeout);
-        log.textContent = '💥 You shot too early! Lost the duel.';
-        gameStarted = false;
-      }
-    });
-  </script>
+  });
+</script>
 </body>
 </html>
