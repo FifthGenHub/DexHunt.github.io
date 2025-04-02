@@ -3,20 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DexDegenDuel - Game Mode</title>
+  <title>DexDegenDuel | $TXSE</title>
   <style>
     body {
-      background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+      background: linear-gradient(to bottom, #1a0f07, #3b1c10);
       color: #ffc34d;
       font-family: 'Courier New', Courier, monospace;
       text-align: center;
       padding: 40px;
     }
+
     h1 {
-      font-size: 2rem;
+      font-size: 2.4rem;
+      margin-bottom: 10px;
     }
-    .btn {
-      background-color: #ff9900;
+
+    .wallet-btn, .start-btn {
+      background-color: #ffaa33;
       border: none;
       border-radius: 8px;
       padding: 14px 24px;
@@ -26,43 +29,68 @@
       color: #1a1a1a;
       font-weight: bold;
     }
-    .btn:hover {
-      background-color: #cc7a00;
+
+    .wallet-btn:hover, .start-btn:hover {
+      background-color: #d4881c;
     }
+
     .log {
       margin-top: 30px;
-      font-size: 1rem;
+      font-size: 1.1rem;
       color: #fff;
     }
+
     .bang {
       font-size: 3rem;
       color: red;
       font-weight: bold;
       display: none;
+      margin-top: 20px;
+    }
+
+    .emoji {
+      font-size: 2rem;
     }
   </style>
 </head>
 <body>
-  <h1>🤠 DEX Duel: Cowboy Reaction Showdown</h1>
-  <button class="btn" onclick="startDuel()">Start Duel (0.01 SOL)</button>
-  <div class="log" id="log">Ready to draw?</div>
-  <div class="bang" id="bang">BANG! 🔫</div>
+  <h1><span class="emoji">🤠</span> DexDegenDuel</h1>
+  <div>(Powered by $TXSE)</div>
+
+  <button class="wallet-btn" onclick="connectWallet()">🔗 Connect Wallet</button>
+  <button class="start-btn" onclick="startDuel()">⚡ Start Duel (0.01 SOL)</button>
+
+  <div class="log" id="log">Ready to duel? Click anywhere after the signal.</div>
+  <div class="bang" id="bang">🔥 BANG! 🔫</div>
 
   <script>
     let duelTimeout;
     let canShoot = false;
+    let walletConnected = false;
+
+    function connectWallet() {
+      const log = document.getElementById('log');
+      walletConnected = true;
+      log.textContent = 'Wallet connected: CowboyDegen.sol';
+    }
 
     function startDuel() {
       const log = document.getElementById('log');
       const bang = document.getElementById('bang');
+
+      if (!walletConnected) {
+        log.textContent = '⚠️ Connect your wallet first, cowboy!';
+        return;
+      }
+
       bang.style.display = 'none';
       canShoot = false;
       log.textContent = 'Get ready... wait for it...';
 
-      const delay = Math.random() * 3000 + 2000;
+      const delay = Math.random() * 3000 + 2000; // 2s–5s
       duelTimeout = setTimeout(() => {
         bang.style.display = 'block';
-        log.textContent = 'SHOOT NOW! Click anywhere!';
+        log.textContent = 'SHOOT NOW! Click to win 💸';
         canShoot = true;
       }, delay);
     }
@@ -70,13 +98,16 @@
     document.body.addEventListener('click', () => {
       const log = document.getElementById('log');
       const bang = document.getElementById('bang');
+
+      if (!walletConnected) return;
+
       if (canShoot) {
-        log.textContent = 'You won the duel! 💰';
+        log.textContent = '🏆 You won the duel! Cowboy up.';
         bang.style.display = 'none';
         canShoot = false;
       } else {
         clearTimeout(duelTimeout);
-        log.textContent = 'You shot too early! You lose. 💸';
+        log.textContent = '💥 You shot too early! Lost the duel.';
       }
     });
   </script>
