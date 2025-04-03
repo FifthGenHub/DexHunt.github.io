@@ -106,8 +106,14 @@
   </style>
 </head>
 <body>
-  <audio id="gunshot" src="https://cdn.pixabay.com/download/audio/2022/03/16/audio_a45070fbcb.mp3?filename=gunshot-13459.mp3" preload="auto"></audio>
-  <audio id="toosoon" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5ffb0f86f1.mp3?filename=cartoon-voice-yee-haw-111423.mp3" preload="auto"></audio>
+  <!-- Audio Preloads -->
+  <audio id="gunshot" src="sounds/pistol-shot-233473.mp3" preload="auto"></audio>
+  <audio id="toosoon" src="sounds/clickmouse-266516.mp3" preload="auto"></audio>
+  <audio id="winSound" src="sounds/multi-coin-payout-14-213732.mp3" preload="auto"></audio>
+  <audio id="loseSound" src="sounds/8-bit-video-game-lose-sound-version-1-145828.mp3" preload="auto"></audio>
+  <audio id="resetSound" src="sounds/clean-revolver-reload-6889.mp3" preload="auto"></audio>
+  <audio id="startSound" src="sounds/coin-donation-1-180437.mp3" preload="auto"></audio>
+  <audio id="walletSound" src="sounds/yeehaw-13229.mp3" preload="auto"></audio>
 
   <div class="fullscreen-warning" id="warning">
     🤠 DexDegenDuel requires fullscreen mode on desktop.<br><br>
@@ -130,11 +136,15 @@
     let duelTimeout, reactionTimeout;
     let canShoot = false;
     let walletConnected = false;
+    let bangShownAt = 0;
 
     const gunshotSound = document.getElementById('gunshot');
     const tooSoonSound = document.getElementById('toosoon');
-    gunshotSound.volume = 1.0;
-    tooSoonSound.volume = 1.0;
+    const winSound = document.getElementById('winSound');
+    const loseSound = document.getElementById('loseSound');
+    const resetSound = document.getElementById('resetSound');
+    const startSound = document.getElementById('startSound');
+    const walletSound = document.getElementById('walletSound');
 
     function checkScreenSize() {
       const warning = document.getElementById('warning');
@@ -142,7 +152,7 @@
       const aspectRatio = window.innerWidth / window.innerHeight;
       const minWidth = 1024;
       const minHeight = 700;
-      const minAspect = 1.4; // prevent mobile-like tall views
+      const minAspect = 1.4;
       if (window.innerWidth < minWidth || window.innerHeight < minHeight || aspectRatio < minAspect) {
         warning.style.display = 'flex';
         game.classList.add('disabled');
@@ -157,6 +167,7 @@
 
     function connectWallet() {
       if (game.classList.contains('disabled')) return;
+      walletSound.play();
       const log = document.getElementById('log');
       walletConnected = true;
       log.textContent = 'Testing Wallet Connected to 2vNp...5zAn NO SOL SPENT';
@@ -164,6 +175,7 @@
 
     function startDuel() {
       if (game.classList.contains('disabled')) return;
+      startSound.play();
       const log = document.getElementById('log');
       const bang = document.getElementById('bang');
       if (!walletConnected) {
@@ -196,6 +208,7 @@
       bang.style.display = 'block';
 
       canShoot = true;
+      bangShownAt = performance.now();
       log.textContent = 'SHOOT NOW! 💥';
 
       reactionTimeout = setTimeout(() => {
@@ -203,6 +216,7 @@
           canShoot = false;
           bang.style.display = 'none';
           log.textContent = 'Too slow, cowboy. You lose 💸';
+          loseSound.play();
         }
       }, 750);
     }
@@ -211,15 +225,19 @@
       if (game.classList.contains('disabled')) return;
       const bang = document.getElementById('bang');
       const log = document.getElementById('log');
+      const now = performance.now();
+
       if (canShoot) {
+        const reactionTime = Math.round(now - bangShownAt);
         clearTimeout(reactionTimeout);
         bang.style.display = 'none';
         canShoot = false;
-        log.textContent = 'You won the duel! 💰 Cowboy UP.';
-        gunshotSound.play().catch(e => console.log('Sound blocked: ', e));
+        log.textContent = `You won the duel! 💰 Cowboy UP. Draw time: ${reactionTime} ms`;
+        gunshotSound.play();
+        winSound.play();
       } else {
         log.textContent = 'YEE-HAW! Too Soon, Cowboy!';
-        tooSoonSound.play().catch(e => console.log('Sound blocked: ', e));
+        tooSoonSound.play();
       }
     }
 
@@ -229,6 +247,7 @@
       document.getElementById('bang').style.display = 'none';
       document.getElementById('log').textContent = 'Ready to duel?';
       canShoot = false;
+      resetSound.play();
     }
   </script>
 </body>
