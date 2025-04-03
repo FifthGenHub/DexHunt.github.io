@@ -132,6 +132,13 @@
   </style>
 </head>
 <body>
+<script>
+  const passkey = prompt("🪙 Enter TXSE Access Code to Play:");
+  if (passkey !== "4uMuchoHo0dy2025!") {
+    document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top:30vh;'>🚫 Access Denied<br><br>This game is currently private.</h1>";
+  }
+</script>
+
   <audio id="gunshot" src="sounds/pistol-shot-233473.mp3" preload="auto"></audio>
   <audio id="toosoon" src="sounds/clickmouse-266516.mp3" preload="auto"></audio>
   <audio id="winSound" src="sounds/multi-coin-payout-14-213732.mp3" preload="auto"></audio>
