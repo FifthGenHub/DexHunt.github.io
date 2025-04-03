@@ -61,7 +61,7 @@
       width: 100%;
       z-index: 2;
     }
-    .wallet-btn, .start-btn, .reset-btn {
+    .wallet-btn, .start-btn, .reset-btn, .leaderboard-btn {
       background-color: #ff9900;
       border: none;
       border-radius: 8px;
@@ -72,7 +72,7 @@
       color: #1a1a1a;
       font-weight: bold;
     }
-    .wallet-btn:hover, .start-btn:hover, .reset-btn:hover {
+    .wallet-btn:hover, .start-btn:hover, .reset-btn:hover, .leaderboard-btn:hover {
       background-color: #cc7a00;
     }
     .log {
@@ -116,10 +116,22 @@
       border-bottom: 5px solid #ff9900;
       overflow: hidden;
     }
+    .leaderboard-popup {
+      display: none;
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 20px;
+      border-radius: 12px;
+      color: #ffc34d;
+      font-size: 1rem;
+      z-index: 999;
+    }
   </style>
 </head>
 <body>
-  <!-- Audio Preloads -->
   <audio id="gunshot" src="sounds/pistol-shot-233473.mp3" preload="auto"></audio>
   <audio id="toosoon" src="sounds/clickmouse-266516.mp3" preload="auto"></audio>
   <audio id="winSound" src="sounds/multi-coin-payout-14-213732.mp3" preload="auto"></audio>
@@ -138,12 +150,14 @@
       <button class="wallet-btn" onclick="connectWallet()">🔗 Connect Wallet</button>
       <button class="start-btn" onclick="startDuel()">⚡ Start Duel (0.01 SOL)</button>
       <button class="reset-btn" onclick="resetDuel()">🔄 Reset</button>
+      <button class="leaderboard-btn" onclick="toggleLeaderboard()">🏆 Leaderboard</button>
       <div class="log" id="log">Ready to duel?</div>
     </div>
     <div class="duel-area" id="duel-area">
       <div class="bang" id="bang" onclick="shoot()">💥 BANG 💥</div>
       <div id="countdown" class="countdown" style="display:none;"></div>
     </div>
+    <div class="leaderboard-popup" id="leaderboardPopup"></div>
   </div>
 
   <script>
@@ -151,6 +165,8 @@
     let canShoot = false;
     let walletConnected = false;
     let bangShownAt = 0;
+    let totalDuels = 0;
+    let bestDraw = null;
 
     const gunshotSound = document.getElementById('gunshot');
     const tooSoonSound = document.getElementById('toosoon');
@@ -159,6 +175,26 @@
     const resetSound = document.getElementById('resetSound');
     const startSound = document.getElementById('startSound');
     const walletSound = document.getElementById('walletSound');
+
+    function updateLeaderboard(latestDraw) {
+      totalDuels++;
+      if (bestDraw === null || latestDraw < bestDraw) {
+        bestDraw = latestDraw;
+      }
+      const title = bestDraw < 200 ? '⚡ Lightning Cowboy' : '--';
+      document.getElementById('leaderboardPopup').innerHTML = `
+        <h3>🏆 Session Leaderboard</h3>
+        <p>Fastest Draw: ${bestDraw} ms</p>
+        <p>Duels Played: ${totalDuels}</p>
+        <p>Title: ${title}</p>
+        <button onclick="toggleLeaderboard()">Close</button>
+      `;
+    }
+
+    function toggleLeaderboard() {
+      const popup = document.getElementById('leaderboardPopup');
+      popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+    }
 
     function checkScreenSize() {
       const warning = document.getElementById('warning');
@@ -249,6 +285,7 @@
         log.textContent = `You won the duel! 💰 Cowboy UP. Draw time: ${reactionTime} ms`;
         gunshotSound.play();
         winSound.play();
+        updateLeaderboard(reactionTime);
       } else {
         log.textContent = 'YEE-HAW! Too Soon, Cowboy!';
         tooSoonSound.play();
