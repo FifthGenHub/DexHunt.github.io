@@ -38,7 +38,7 @@
     .game-container {
       width: 100vw;
       height: 100vh;
-      background: url('/mnt/data/A_pixel_art_digital_illustration_serves_as_the_bac.png') center center no-repeat;
+      background: url('sounds/ChatGPT%20Image%20Apr%202%2C%202025%2C%2005_56_36%20PM.png') center center no-repeat;
       background-size: cover;
       position: relative;
       display: flex;
@@ -82,6 +82,19 @@
       background: rgba(0, 0, 0, 0.6);
       padding: 10px 20px;
       border-radius: 10px;
+    }
+    .countdown {
+      font-size: 4rem;
+      font-weight: bold;
+      color: #ffc34d;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20;
+      background: rgba(0,0,0,0.7);
+      padding: 1rem 2rem;
+      border-radius: 12px;
     }
     .bang {
       font-size: 3rem;
@@ -129,11 +142,12 @@
     </div>
     <div class="duel-area" id="duel-area">
       <div class="bang" id="bang" onclick="shoot()">💥 BANG 💥</div>
+      <div id="countdown" class="countdown" style="display:none;"></div>
     </div>
   </div>
 
   <script>
-    let duelTimeout, reactionTimeout;
+    let duelTimeout, reactionTimeout, countdownInterval;
     let canShoot = false;
     let walletConnected = false;
     let bangShownAt = 0;
@@ -248,6 +262,22 @@
       document.getElementById('log').textContent = 'Ready to duel?';
       canShoot = false;
       resetSound.play();
+
+      const countdownEl = document.getElementById('countdown');
+      let timeLeft = 3;
+      countdownEl.style.display = 'block';
+      countdownEl.textContent = timeLeft;
+
+      countdownInterval = setInterval(() => {
+        timeLeft--;
+        if (timeLeft > 0) {
+          countdownEl.textContent = timeLeft;
+        } else {
+          clearInterval(countdownInterval);
+          countdownEl.style.display = 'none';
+          startDuel();
+        }
+      }, 1000);
     }
   </script>
 </body>
