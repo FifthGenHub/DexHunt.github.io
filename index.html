@@ -2,38 +2,90 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>TXSE Arcade</title>
+  <title>Saloona Arcade</title>
   <style>
     body {
-      background: #1a1a1a;
+      background: #1a1a1a url('saloon-bg.png') center center no-repeat;
+      background-size: cover;
       color: #ffc34d;
       font-family: 'Courier New', Courier, monospace;
       text-align: center;
       padding: 60px;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    h1 {
+      font-size: 2.5rem;
+      text-shadow: 2px 2px #ff9900;
+    }
+    .game-list {
+      margin: 20px 0;
     }
     a {
       display: block;
       color: #ffcc00;
-      margin: 20px;
+      margin: 15px;
       font-size: 1.4rem;
       text-decoration: none;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 5px;
+      transition: all 0.3s;
     }
     a:hover {
       color: #ffffff;
+      background: #ff9900;
+    }
+    .stats {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px auto;
+      width: 80%;
+      max-width: 500px;
+    }
+    .social-links a {
+      display: inline-block;
+      margin: 0 10px;
+      font-size: 1rem;
+    }
+    footer {
+      font-size: 0.9rem;
+      color: #999;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>🎮 Welcome to TXSE Arcade</h1>
-  <p>Select a game below:</p>
+  <div>
+    <h1>🤠 Welcome to Saloona Arcade</h1>
+    <p>Select a game below:</p>
+    <div class="game-list">
+      <a href="DexHunt.html">🔥 DexHunt: Cowboy Reflex Showdown</a>
+      <!-- Placeholder for future games -->
+    </div>
+  </div>
 
-  <a href="DexHunt.html">🔥 Play DexHunt</a>
-  <!-- Future Games -->
-  <!-- <a href="MemeFusion.html">🧬 Meme Fusion</a> -->
-  <!-- <a href="DegenDerby.html">🏇 Degen Derby</a> -->
+  <div class="stats">
+    <h2>Token Stats</h2>
+    <p>Moonshot Progress: 11.5% ($7,935 / $69,000)</p>
+    <p>Top Score: 150ms (Player: 2vNp...5zAn)</p>
+  </div>
 
-  <p style="margin-top: 40px; font-size: 0.9rem; color: #999;">
-    Powered by $TXSE — The decentralized NYSE of Solana 🌵
-  </p>
+  <footer>
+    <div class="social-links">
+      <a href="https://twitter.com/SaloonaArcade" target="_blank">🐦 Twitter</a>
+      <a href="https://discord.gg/SaloonaSaloon" target="_blank">💬 Discord</a>
+    </div>
+    <p>Powered by Saloona — The Western DeFi Hub of Solana 🌵</p>
+  </footer>
+
+  <script>
+    // Placeholder for dynamic updates (e.g., fetch Moonshot API)
+    console.log("Saloona Arcade Loaded");
+  </script>
 </body>
 </html>
