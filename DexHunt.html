@@ -15,26 +15,6 @@
       color: #ffc34d;
       text-align: center;
     }
-    .fullscreen-warning {
-      display: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.95);
-      color: #ffcc00;
-      font-size: 1.5rem;
-      z-index: 999;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 2rem;
-    }
-    .disabled {
-      pointer-events: none;
-      opacity: 0.3;
-    }
     .game-container {
       width: 100vw;
       height: 100vh;
@@ -102,13 +82,18 @@
       border-radius: 12px;
     }
     .bang {
-      font-size: clamp(2rem, 5vw, 3rem);
+      font-size: clamp(3rem, 8vw, 5rem);
       font-weight: bold;
-      color: red;
+      color: #fff;
+      background: #ff0000;
+      padding: 1rem 2rem;
+      border-radius: 10px;
       position: absolute;
       display: none;
       z-index: 10;
       cursor: pointer;
+      box-shadow: 0 0 10px #ff0000;
+      text-transform: uppercase;
       animation: pulse 0.5s infinite;
     }
     @keyframes pulse {
@@ -163,11 +148,8 @@
   <audio id="startSound" src="sounds/coin-donation-1-180437.mp3" preload="auto"></audio>
   <audio id="walletSound" src="sounds/yeehaw-13229.mp3" preload="auto"></audio>
   <audio id="coyoteHowl" src="sounds/coyote-howl.mp3" preload="auto"></audio>
+  <audio id="drawSound" src="sounds/draw-sound.mp3" preload="auto"></audio>
 
-  <div class="fullscreen-warning" id="warning">
-    🤠 DexHunt requires fullscreen mode on desktop.<br><br>
-    Please maximize your browser window or use a larger screen.
-  </div>
   <div class="game-container" id="game">
     <h1><span class="emoji">🤠</span> DexHunt: Cowboy Reflex Showdown</h1>
     <div class="button-row" id="buttonRow">
@@ -185,7 +167,7 @@
       <div class="log" id="log">Ready to duel, partner? Dynamite Dex challenges you!</div>
     </div>
     <div class="duel-area" id="duel-area">
-      <div class="bang" id="bang" onclick="shoot()">💥 BANG 💥</div>
+      <div class="bang" id="bang" onclick="shoot()">BANG</div>
       <div id="countdown" class="countdown" style="display:none;"></div>
       <div class="rival" id="rival">🤠 Shotgun Slim: "Draw, cowboy!" 🐺 Sly the Coyote watches...</div>
     </div>
@@ -209,6 +191,7 @@
     const startSound = document.getElementById('startSound');
     const walletSound = document.getElementById('walletSound');
     const coyoteHowlSound = document.getElementById('coyoteHowl');
+    const drawSound = document.getElementById('drawSound');
 
     function updateLeaderboard(latestDraw) {
       totalDuels++;
@@ -230,27 +213,7 @@
       popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
     }
 
-    function checkScreenSize() {
-      const warning = document.getElementById('warning');
-      const game = document.getElementById('game');
-      const aspectRatio = window.innerWidth / window.innerHeight;
-      const minWidth = 1024;
-      const minHeight = 700;
-      const minAspect = 1.4;
-      if (window.innerWidth < minWidth || window.innerHeight < minHeight || aspectRatio < minAspect) {
-        warning.style.display = 'flex';
-        game.classList.add('disabled');
-      } else {
-        warning.style.display = 'none';
-        game.classList.remove('disabled');
-      }
-    }
-
-    window.addEventListener('resize', checkScreenSize);
-    window.addEventListener('load', checkScreenSize);
-
     function connectWallet() {
-      if (game.classList.contains('disabled')) return;
       walletSound.play();
       const log = document.getElementById('log');
       walletConnected = true;
@@ -258,7 +221,6 @@
     }
 
     function startDuel() {
-      if (game.classList.contains('disabled')) return;
       startSound.play();
       const log = document.getElementById('log');
       const bang = document.getElementById('bang');
@@ -293,8 +255,8 @@
       const duelArea = document.getElementById('duel-area');
       const log = document.getElementById('log');
 
-      const maxX = duelArea.clientWidth - 200;
-      const maxY = duelArea.clientHeight - 200;
+      const maxX = duelArea.clientWidth * 0.8; // 80% of duel area width
+      const maxY = duelArea.clientHeight * 0.8; // 80% of duel area height
       const x = Math.random() * maxX;
       const y = Math.random() * maxY;
 
@@ -305,6 +267,7 @@
       canShoot = true;
       bangShownAt = performance.now();
       log.textContent = 'SHOOT NOW! 💥';
+      document.getElementById('drawSound').play();
 
       reactionTimeout = setTimeout(() => {
         if (canShoot) {
@@ -317,7 +280,6 @@
     }
 
     function shoot() {
-      if (game.classList.contains('disabled')) return;
       const bang = document.getElementById('bang');
       const log = document.getElementById('log');
       const rewardType = document.getElementById('rewardType').value;
