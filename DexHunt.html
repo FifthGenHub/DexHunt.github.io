@@ -18,7 +18,7 @@
     .game-container {
       width: 100vw;
       height: 100vh;
-      background: url('sounds/DexHuntBackground.png') center center no-repeat;
+      background: url('sounds/DexHuntBackground.png') center center no-repeat; /* Updated background image */
       background-size: cover;
       position: relative;
       display: flex;
@@ -27,307 +27,146 @@
       justify-content: flex-start;
     }
     h1 {
-      font-size: clamp(1.5rem, 5vw, 2.2rem);
-      background: rgba(0, 0, 0, 0.7);
-      padding: 1rem;
-      margin: 0;
-      width: 100%;
-      z-index: 2;
+      font-size: 2.5em;
+      margin: 20px 0;
+      text-shadow: 2px 2px #000;
     }
-    .button-row {
-      margin-top: 1rem;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 1rem;
-      width: 100%;
-      z-index: 2;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-    }
-    .wallet-btn, .start-btn, .reset-btn, .leaderboard-btn {
-      background-color: #ff9900;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 22px;
-      font-size: clamp(0.8rem, 2vw, 1rem);
-      cursor: pointer;
-      color: #1a1a1a;
-      font-weight: bold;
-    }
-    .wallet-btn:hover, .start-btn:hover, .reset-btn:hover, .leaderboard-btn:hover {
-      background-color: #cc7a00;
-    }
-    .log {
-      margin-top: 20px;
-      font-size: clamp(0.8rem, 2vw, 1rem);
-      color: #fff;
-      background: rgba(0, 0, 0, 0.6);
-      padding: 10px 20px;
-      border-radius: 10px;
-      width: 80%;
-      max-width: 500px;
-    }
-    .countdown {
-      font-size: clamp(2rem, 5vw, 4rem);
-      font-weight: bold;
-      color: #ffc34d;
+    .score {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 20;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 1rem 2rem;
-      border-radius: 12px;
-    }
-    .bang {
-      font-size: clamp(3rem, 8vw, 5rem);
-      font-weight: bold;
-      color: #fff;
-      background: #ff0000;
-      padding: 1rem 2rem;
-      border-radius: 10px;
-      position: absolute;
-      display: none;
-      z-index: 10;
-      cursor: pointer;
-      box-shadow: 0 0 10px #ff0000;
-      text-transform: uppercase;
-      animation: pulse 0.5s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
-    .emoji {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-    }
-    .duel-area {
-      flex-grow: 1;
-      width: 100%;
-      position: relative;
-      border-top: 5px solid #ff9900;
-      border-bottom: 5px solid #ff9900;
-      overflow: hidden;
+      top: 20px;
+      right: 20px;
+      font-size: 1.5em;
+      text-shadow: 1px 1px #000;
     }
     .rival {
       position: absolute;
       bottom: 20px;
       right: 20px;
-      font-size: 1.2rem;
-      color: #ffcc00;
-      background: rgba(0, 0, 0, 0.8);
-      padding: 10px;
-      border-radius: 5px;
-      z-index: 5;
+      font-size: 1.2em;
+      text-shadow: 1px 1px #000;
     }
-    .leaderboard-popup {
-      display: none;
+    .prompt {
       position: absolute;
-      top: 20%;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.85);
-      padding: 20px;
-      border-radius: 12px;
+      transform: translate(-50%, -50%);
+      font-size: 4em;
+      color: #ff0000;
+      text-shadow: 2px 2px #000;
+      display: none;
+    }
+    .button-container {
+      margin-top: 20px;
+    }
+    button {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.2em;
+      padding: 10px 20px;
+      margin: 0 10px;
+      background: #8b4513;
       color: #ffc34d;
-      font-size: clamp(0.8rem, 2vw, 1rem);
-      z-index: 999;
-      max-width: 90%;
+      border: 2px solid #000;
+      cursor: pointer;
+      text-shadow: 1px 1px #000;
+    }
+    button:hover {
+      background: #a0522d;
     }
   </style>
 </head>
 <body>
-  <audio id="gunshot" src="sounds/pistol-shot-233473.mp3" preload="auto"></audio>
-  <audio id="toosoon" src="sounds/clickmouse-266516.mp3" preload="auto"></audio>
-  <audio id="winSound" src="sounds/multi-coin-payout-14-213732.mp3" preload="auto"></audio>
-  <audio id="loseSound" src="sounds/8-bit-video-game-lose-sound-version-1-145828.mp3" preload="auto"></audio>
-  <audio id="resetSound" src="sounds/clean-revolver-reload-6889.mp3" preload="auto"></audio>
-  <audio id="startSound" src="sounds/coin-donation-1-180437.mp3" preload="auto"></audio>
-  <audio id="walletSound" src="sounds/yeehaw-13229.mp3" preload="auto"></audio>
-  <audio id="coyoteHowl" src="sounds/coyote-howl.mp3" preload="auto"></audio>
-  <audio id="drawSound" src="sounds/draw-sound.mp3" preload="auto"></audio>
-
-  <div class="game-container" id="game">
-    <h1><span class="emoji">🤠</span> DexHunt: Cowboy Reflex Showdown</h1>
-    <div class="button-row" id="buttonRow">
-      <button class="wallet-btn" onclick="connectWallet()">🔗 Connect Wallet</button>
-      <select id="rewardType" style="padding: 12px; margin: 0 8px; border-radius: 8px;">
-        <option value="sol">Win SOL</option>
-        <option value="txse">Win $TXSE</option>
-      </select>
-      <button class="start-btn" onclick="startDuel()">⚡ Start Duel (0.01 SOL)</button>
-      <button class="reset-btn" onclick="resetDuel()">🔄 Reset</button>
-      <button class="leaderboard-btn" onclick="toggleLeaderboard()">🏆 Leaderboard</button>
-      <a href="https://moonshot.cc/buy/NY5E3h8uSMv7j5FuTq2pX5tT3qK2U3kVqL2K1vL5zAn" target="_blank">
-        <button class="wallet-btn">🪙 Buy $TXSE</button>
-      </a>
-      <div class="log" id="log">Ready to duel, partner? Dynamite Dex challenges you!</div>
+  <div class="game-container">
+    <h1>DexHunt: Cowboy Reflex Showdown</h1>
+    <div class="score">Score: <span id="score">0</span></div>
+    <div class="rival">Rival: <span id="rival-score">0</span></div>
+    <div class="prompt" id="prompt">BANG</div>
+    <div class="button-container">
+      <button onclick="startGame()">Start Game</button>
+      <button onclick="shoot()">Shoot</button>
     </div>
-    <div class="duel-area" id="duel-area">
-      <div class="bang" id="bang" onclick="shoot()">BANG</div>
-      <div id="countdown" class="countdown" style="display:none;"></div>
-      <div class="rival" id="rival">🤠 Shotgun Slim: "Draw, cowboy!" 🐺 Sly the Coyote watches...</div>
-    </div>
-    <div class="leaderboard-popup" id="leaderboardPopup"></div>
   </div>
 
+  <audio id="shoot-sound" src="sounds/shoot.mp3"></audio>
+  <audio id="win-sound" src="sounds/win.mp3"></audio>
+  <audio id="lose-sound" src="sounds/lose.mp3"></audio>
+
   <script>
-    let duelTimeout, reactionTimeout, countdownInterval;
-    let canShoot = false;
-    let walletConnected = false;
-    let bangShownAt = 0;
-    let totalDuels = 0;
-    let bestDraw = null;
-    let coyoteHowlTriggered = false;
+    let score = 0;
+    let rivalScore = 0;
+    let gameActive = false;
+    let reactionTime;
+    let promptTimeout;
 
-    const gunshotSound = document.getElementById('gunshot');
-    const tooSoonSound = document.getElementById('toosoon');
-    const winSound = document.getElementById('winSound');
-    const loseSound = document.getElementById('loseSound');
-    const resetSound = document.getElementById('resetSound');
-    const startSound = document.getElementById('startSound');
-    const walletSound = document.getElementById('walletSound');
-    const coyoteHowlSound = document.getElementById('coyoteHowl');
-    const drawSound = document.getElementById('drawSound');
+    const prompt = document.getElementById('prompt');
+    const scoreDisplay = document.getElementById('score');
+    const rivalScoreDisplay = document.getElementById('rival-score');
+    const shootSound = document.getElementById('shoot-sound');
+    const winSound = document.getElementById('win-sound');
+    const loseSound = document.getElementById('lose-sound');
 
-    function updateLeaderboard(latestDraw) {
-      totalDuels++;
-      if (bestDraw === null || latestDraw < bestDraw) {
-        bestDraw = latestDraw;
-      }
-      const title = bestDraw < 200 ? '⚡ Lightning Cowboy' : '--';
-      document.getElementById('leaderboardPopup').innerHTML = `
-        <h3>🏆 Session Leaderboard</h3>
-        <p>Fastest Draw: ${bestDraw} ms</p>
-        <p>Duels Played: ${totalDuels}</p>
-        <p>Title: ${title}</p>
-        <button onclick="toggleLeaderboard()">Close</button>
-      `;
+    function startGame() {
+      if (gameActive) return;
+      gameActive = true;
+      prompt.style.display = 'none';
+      const delay = Math.random() * 3000 + 2000; // Random delay between 2-5 seconds
+      promptTimeout = setTimeout(showPrompt, delay);
     }
 
-    function toggleLeaderboard() {
-      const popup = document.getElementById('leaderboardPopup');
-      popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function connectWallet() {
-      walletSound.play();
-      const log = document.getElementById('log');
-      walletConnected = true;
-      log.textContent = 'Wallet Connected to 2vNp...5zAn (0.01 SOL Deducted - Placeholder)';
-    }
-
-    function startDuel() {
-      startSound.play();
-      const log = document.getElementById('log');
-      const bang = document.getElementById('bang');
-      if (!walletConnected) {
-        log.textContent = 'Please connect wallet first!';
-        return;
-      }
-
-      bang.style.display = 'none';
-      canShoot = false;
-      coyoteHowlTriggered = false;
-      log.textContent = 'Get ready... Shotgun Slim is watchin’...';
-
-      const delay = Math.random() * 9000 + 1000;
-      duelTimeout = setTimeout(() => {
-        showBang();
-      }, delay);
-
-      // Shotgun Slim's Coyote Howl (20% chance)
-      if (Math.random() < 0.2) {
-        setTimeout(() => {
-          if (canShoot) return;
-          coyoteHowlSound.play();
-          log.textContent = 'Sly the Coyote howls! Wait a bit longer...';
-          coyoteHowlTriggered = true;
-        }, delay - 1000);
-      }
-    }
-
-    function showBang() {
-      const bang = document.getElementById('bang');
-      const duelArea = document.getElementById('duel-area');
-      const log = document.getElementById('log');
-
-      const maxX = duelArea.clientWidth * 0.8; // 80% of duel area width
-      const maxY = duelArea.clientHeight * 0.8; // 80% of duel area height
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
-
-      bang.style.left = `${x}px`;
-      bang.style.top = `${y}px`;
-      bang.style.display = 'block';
-
-      canShoot = true;
-      bangShownAt = performance.now();
-      log.textContent = 'SHOOT NOW! 💥';
-      document.getElementById('drawSound').play();
-
-      reactionTimeout = setTimeout(() => {
-        if (canShoot) {
-          canShoot = false;
-          bang.style.display = 'none';
-          log.textContent = 'Too slow, cowboy. Shotgun Slim wins! 💸';
-          loseSound.play();
-        }
-      }, coyoteHowlTriggered ? 1000 : 750);
+    function showPrompt() {
+      prompt.style.display = 'block';
+      reactionTime = Date.now();
+      setTimeout(rivalShoot, Math.random() * 1000 + 500); // Rival shoots after 0.5-1.5 seconds
     }
 
     function shoot() {
-      const bang = document.getElementById('bang');
-      const log = document.getElementById('log');
-      const rewardType = document.getElementById('rewardType').value;
-      const now = performance.now();
-
-      if (canShoot) {
-        const reactionTime = Math.round(now - bangShownAt);
-        clearTimeout(reactionTimeout);
-        bang.style.display = 'none';
-        canShoot = false;
-        if (rewardType === 'sol') {
-          log.textContent = `You beat Shotgun Slim! 💰 Draw time: ${reactionTime} ms. Won 0.02 SOL!`;
-        } else {
-          log.textContent = `You beat Shotgun Slim! 💰 Draw time: ${reactionTime} ms. Won 100 $TXSE!`;
+      if (!gameActive || prompt.style.display !== 'block') {
+        if (gameActive) {
+          // Player shot too early
+          loseSound.play();
+          rivalScore++;
+          rivalScoreDisplay.textContent = rivalScore;
+          resetRound();
         }
-        gunshotSound.play();
+        return;
+      }
+
+      const timeTaken = Date.now() - reactionTime;
+      shootSound.play();
+
+      if (timeTaken < 1500) { // If player shoots faster than rival
+        score++;
+        scoreDisplay.textContent = score;
         winSound.play();
-        updateLeaderboard(reactionTime);
       } else {
-        log.textContent = 'YEE-HAW! Too Soon, Cowboy! Shotgun Slim smirks...';
-        tooSoonSound.play();
+        rivalScore++;
+        rivalScoreDisplay.textContent = rivalScore;
+        loseSound.play();
+      }
+
+      resetRound();
+    }
+
+    function rivalShoot() {
+      if (gameActive && prompt.style.display === 'block') {
+        rivalScore++;
+        rivalScoreDisplay.textContent = rivalScore;
+        loseSound.play();
+        resetRound();
       }
     }
 
-    function resetDuel() {
-      clearTimeout(duelTimeout);
-      clearTimeout(reactionTimeout);
-      document.getElementById('bang').style.display = 'none';
-      document.getElementById('log').textContent = 'Ready to duel, partner? Dynamite Dex challenges you!';
-      canShoot = false;
-      resetSound.play();
-
-      const countdownEl = document.getElementById('countdown');
-      let timeLeft = 3;
-      countdownEl.style.display = 'block';
-      countdownEl.textContent = timeLeft;
-
-      countdownInterval = setInterval(() => {
-        timeLeft--;
-        if (timeLeft > 0) {
-          countdownEl.textContent = timeLeft;
-        } else {
-          clearInterval(countdownInterval);
-          countdownEl.style.display = 'none';
-          startDuel();
-        }
-      }, 1000);
+    function resetRound() {
+      gameActive = false;
+      prompt.style.display = 'none';
+      clearTimeout(promptTimeout);
     }
+
+    // Allow shooting with spacebar
+    document.addEventListener('keydown', (event) => {
+      if (event.code === 'Space') {
+        shoot();
+      }
+    });
   </script>
 </body>
 </html>
