@@ -82,23 +82,32 @@
       border-radius: 12px;
     }
     .bang {
-      font-size: clamp(3rem, 8vw, 5rem);
+      font-size: clamp(2rem, 5vw, 3rem); /* Reduced size for better balance */
       font-weight: bold;
       color: #fff;
-      background: #ff0000;
-      padding: 1rem 2rem;
-      border-radius: 10px;
+      background: radial-gradient(circle, #ffcc00, #ff6600); /* Yellow-to-orange gradient */
+      padding: 1rem; /* Reduced padding */
+      border-radius: 50%; /* Circular shape */
       position: absolute;
       display: none;
       z-index: 10;
       cursor: pointer;
-      box-shadow: 0 0 10px #ff0000;
+      box-shadow: 0 0 15px #ff6600, 0 0 30px #ffcc00; /* Slightly reduced glow */
       text-transform: uppercase;
-      animation: pulse 0.5s infinite;
+      animation: pulse 0.3s infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px; /* Space between symbol and text */
+      min-width: 120px; /* Ensure button doesn't collapse */
+      min-height: 120px; /* Ensure circular shape */
+    }
+    .bang-symbol {
+      font-size: clamp(1.2rem, 3vw, 2rem); /* Slightly smaller symbol */
     }
     @keyframes pulse {
       0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
+      50% { transform: scale(1.05); }
       100% { transform: scale(1); }
     }
     .quick-draw {
@@ -204,7 +213,7 @@
     </div>
     <div class="duel-area" id="duel-area">
       <canvas id="gameCanvas"></canvas>
-      <div class="bang" id="bang" onclick="shoot()">BANG</div>
+      <div class="bang" id="bang" onclick="shoot()"><span class="bang-symbol">💥</span> POW!</div>
       <div id="countdown" class="countdown" style="display:none;"></div>
       <div id="quickDraw" class="quick-draw" style="display:none;">Quick Draw!</div>
     </div>
@@ -221,7 +230,7 @@
     let coyoteHowlTriggered = false;
     let consecutiveLosses = 0;
     let playStreak = 0;
-    let reactionWindow = 5000;
+    let reactionWindow = 500; // Reverted to 500 ms
 
     const gunshotSound = document.getElementById('gunshot');
     const tooSoonSound = document.getElementById('toosoon');
