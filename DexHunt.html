@@ -1,583 +1,391 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DexHunt: Cowboy Reflex Showdown (Powered by $TXSE)</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-      font-family: 'Courier New', Courier, monospace;
-      background: #000;
-      color: #ffc34d;
-      text-align: center;
-    }
-    .game-container {
-      width: 100vw;
-      height: 100vh;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-    }
-    h1 {
-      font-size: clamp(1.5rem, 5vw, 2.2rem);
-      background: rgba(0, 0, 0, 0.9);
-      padding: 1rem;
-      margin: 0;
-      width: 100%;
-      z-index: 2;
-      text-shadow: 2px 2px #ff9900;
-    }
-    .button-row {
-      margin-top: 1rem;
-      background: rgba(0, 0, 0, 0.8);
-      padding: 1rem;
-      width: 100%;
-      z-index: 2;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-    }
-    .wallet-btn, .start-btn, .reset-btn, .links-leaderboard-btn {
-      background-color: #ff9900;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 22px;
-      font-size: clamp(0.8rem, 2vw, 1rem);
-      cursor: pointer;
-      color: #1a1a1a;
-      font-weight: bold;
-    }
-    .wallet-btn:hover, .start-btn:hover, .reset-btn:hover, .links-leaderboard-btn:hover {
-      background-color: #cc7a00;
-    }
-    .log {
-      margin-top: 20px;
-      font-size: clamp(0.8rem, 2vw, 1rem);
-      color: #fff;
-      background: rgba(0, 0, 0, 0.6);
-      padding: 10px 20px;
-      border-radius: 10px;
-      width: 80%;
-      max-width: 500px;
-      z-index: 2;
-    }
-    .countdown {
-      font-size: clamp(2rem, 5vw, 4rem);
-      font-weight: bold;
-      color: #ffc34d;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 20;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 1rem 2rem;
-      border-radius: 12px;
-    }
-    .bang {
-      font-size: clamp(2rem, 5vw, 3rem); /* Reduced size for better balance */
-      font-weight: bold;
-      color: #fff;
-      background: radial-gradient(circle, #ffcc00, #ff6600); /* Yellow-to-orange gradient */
-      padding: 1rem; /* Reduced padding */
-      border-radius: 50%; /* Circular shape */
-      position: absolute;
-      display: none;
-      z-index: 10;
-      cursor: pointer;
-      box-shadow: 0 0 15px #ff6600, 0 0 30px #ffcc00; /* Slightly reduced glow */
-      text-transform: uppercase;
-      animation: pulse 0.3s infinite;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px; /* Space between symbol and text */
-      min-width: 120px; /* Ensure button doesn't collapse */
-      min-height: 120px; /* Ensure circular shape */
-    }
-    .bang-symbol {
-      font-size: clamp(1.2rem, 3vw, 2rem); /* Slightly smaller symbol */
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-    .quick-draw {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      color: #ffcc00;
-      position: absolute;
-      top: 30%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 15;
-      animation: flash 0.5s 3;
-    }
-    @keyframes flash {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-    .emoji {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-    }
-    .duel-area {
-      flex-grow: 1;
-      width: 100%;
-      position: relative;
-      border-top: 5px solid #ff9900;
-      border-bottom: 5px solid #ff9900;
-      overflow: hidden;
-      padding-top: 60px;
-    }
-    #gameCanvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-    }
-    .leaderboard-popup {
-      display: none;
-      position: absolute;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.85);
-      padding: 20px;
-      border-radius: 12px;
-      color: #ffc34d;
-      font-size: clamp(0.8rem, 2vw, 1rem);
-      z-index: 999;
-      max-width: 90%;
-      text-align: center;
-    }
-    .share-buttons {
-      margin-top: 15px;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-    }
-    .share-btn {
-      background-color: #ff9900;
-      border: none;
-      border-radius: 8px;
-      padding: 10px 15px;
-      font-size: clamp(0.7rem, 1.5vw, 0.9rem);
-      cursor: pointer;
-      color: #1a1a1a;
-      font-weight: bold;
-    }
-    .share-btn:hover {
-      background-color: #cc7a00;
-    }
-  </style>
-</head>
-<body>
-  <audio id="gunshot" src="assets/sounds/pistol-shot-233473.mp3" preload="auto"></audio>
-  <audio id="toosoon" src="assets/sounds/clickmouse-266516.mp3" preload="auto"></audio>
-  <audio id="winSound" src="assets/sounds/multi-coin-payout-14-213732.mp3" preload="auto"></audio>
-  <audio id="loseSound" src="assets/sounds/8-bit-video-game-lose-sound-version-1-145828.mp3" preload="auto"></audio>
-  <audio id="resetSound" src="assets/sounds/clean-revolver-reload-6889.mp3" preload="auto"></audio>
-  <audio id="startSound" src="assets/sounds/coin-donation-1-180437.mp3" preload="auto"></audio>
-  <audio id="walletSound" src="assets/sounds/yeehaw-13229.mp3" preload="auto"></audio>
-  <audio id="coyoteHowl" src="assets/sounds/coyote-howl.mp3" preload="auto"></audio>
-  <audio id="drawSound" src="assets/sounds/draw-sound.mp3" preload="auto"></audio>
-  <audio id="backgroundMusic" loop>
-    <source src="assets/sounds/background_music.mp3" type="audio/mpeg">
-  </audio>
-  <audio id="tumbleweedRoll" src="assets/sounds/tumbleweed_roll.mp3" preload="auto"></audio>
+<script>
+  let duelTimeout, reactionTimeout, countdownInterval;
+  let canShoot = false;
+  let walletConnected = false;
+  let bangShownAt = 0;
+  let totalDuels = 0;
+  let bestDraw = null;
+  let coyoteHowlTriggered = false;
+  let consecutiveLosses = 0;
+  let playStreak = 0;
+  let reactionWindow = 500;
 
-  <div class="game-container" id="game">
-    <h1><span class="emoji">🤠</span> DexHunt: Cowboy Reflex Showdown</h1>
-    <div class="button-row" id="buttonRow">
-      <button class="wallet-btn" onclick="connectWallet()">🔗 Connect Wallet</button>
-      <select id="rewardType" style="padding: 12px; margin: 0 8px; border-radius: 8px;">
-        <option value="sol">Win SOL</option>
-        <option value="txse">Win $TXSE</option>
-      </select>
-      <button class="start-btn" onclick="startDuel()">⚡ Start Duel (0.015 SOL)</button>
-      <button class="reset-btn" onclick="resetDuel()">🔄 Reset</button>
-      <button class="links-leaderboard-btn" onclick="toggleLinksLeaderboard()">🏆 Links & Leaderboard</button>
-      <a href="https://moonshot.cc/buy/NY5E3h8uSMv7j5FuTq2pX5tT3qK2U3kVqL2K1vL5zAn" target="_blank">
-        <button class="wallet-btn">🪙 Buy $TXSE</button>
-      </a>
-      <div class="log" id="log">Think you’re quick enough, cowboy? Sawn-Off Slim’s ready to take your SOL!</div>
-    </div>
-    <div class="duel-area" id="duel-area">
-      <canvas id="gameCanvas"></canvas>
-      <div class="bang" id="bang" onclick="shoot()"><span class="bang-symbol">💥</span> POW!</div>
-      <div id="countdown" class="countdown" style="display:none;"></div>
-      <div id="quickDraw" class="quick-draw" style="display:none;">Quick Draw!</div>
-    </div>
-    <div class="leaderboard-popup" id="leaderboardPopup"></div>
-  </div>
+  const gunshotSound = document.getElementById('gunshot');
+  const tooSoonSound = document.getElementById('toosoon');
+  const winSound = document.getElementById('winSound');
+  const loseSound = document.getElementById('loseSound');
+  const resetSound = document.getElementById('resetSound');
+  const startSound = document.getElementById('startSound');
+  const walletSound = document.getElementById('walletSound');
+  const coyoteHowlSound = document.getElementById('coyoteHowl');
+  const drawSound = document.getElementById('drawSound');
+  const backgroundMusic = document.getElementById('backgroundMusic');
+  const tumbleweedRollSound = document.getElementById('tumbleweedRoll');
+  const eagleScreechSound = document.getElementById('eagleScreech');
 
-  <script>
-    let duelTimeout, reactionTimeout, countdownInterval;
-    let canShoot = false;
-    let walletConnected = false;
-    let bangShownAt = 0;
-    let totalDuels = 0;
-    let bestDraw = null;
-    let coyoteHowlTriggered = false;
-    let consecutiveLosses = 0;
-    let playStreak = 0;
-    let reactionWindow = 500; // Reverted to 500 ms
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+  const duelArea = document.getElementById('duel-area');
 
-    const gunshotSound = document.getElementById('gunshot');
-    const tooSoonSound = document.getElementById('toosoon');
-    const winSound = document.getElementById('winSound');
-    const loseSound = document.getElementById('loseSound');
-    const resetSound = document.getElementById('resetSound');
-    const startSound = document.getElementById('startSound');
-    const walletSound = document.getElementById('walletSound');
-    const coyoteHowlSound = document.getElementById('coyoteHowl');
-    const drawSound = document.getElementById('drawSound');
-    const backgroundMusic = document.getElementById('backgroundMusic');
-    const tumbleweedRollSound = document.getElementById('tumbleweedRoll');
+  function resizeCanvas() {
+    canvas.width = duelArea.clientWidth;
+    canvas.height = duelArea.clientHeight;
+    eagleTargetX = canvas.width * 0.5 - 50;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
 
-    // Canvas setup
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-    const duelArea = document.getElementById('duel-area');
+  const background = new Image();
+  background.src = 'assets/DexHuntBackground.png';
+  const cloud1 = new Image();
+  cloud1.src = 'assets/cloud1.png';
+  const cloud2 = new Image();
+  cloud2.src = 'assets/cloud2.png';
+  const tumbleweed1 = new Image();
+  tumbleweed1.src = 'assets/tumbleweed1.png';
+  const tumbleweed2 = new Image();
+  tumbleweed2.src = 'assets/tumbleweed2.png';
+  const tumbleweed3 = new Image();
+  tumbleweed3.src = 'assets/tumbleweed3.png';
+  const bird1 = new Image();
+  bird1.src = 'assets/bird1.png';
+  const bird2 = new Image();
+  bird2.src = 'assets/bird2.png';
+  const crypto = new Image();
+  crypto.src = 'assets/crypto.png';
+  const sawnOffSlim = new Image();
+  sawnOffSlim.src = 'assets/sawn_off_slim.png';
+  const txseRider = new Image();
+  txseRider.src = 'assets/txse_rider.png';
+  const eagle = new Image();
+  eagle.src = 'assets/eagle.png';
 
-    function resizeCanvas() {
-      canvas.width = duelArea.clientWidth;
-      canvas.height = duelArea.clientHeight;
+  let cloud1X = 0, cloud1Speed = 0.5;
+  let cloud2X = 200, cloud2Speed = 0.3;
+  let tumbleweed1X = 0, tumbleweed1Speed = 1;
+  let tumbleweed2X = 100, tumbleweed2Speed = 0.8;
+  let tumbleweed3X = 300, tumbleweed3Speed = 1.2;
+  let bird1X = 50, bird1Y = 50, bird1SpeedX = 0.7, bird1SpeedY = 0.2;
+  let bird2X = 150, bird2Y = 80, bird2SpeedX = 0.5, bird2SpeedY = -0.1;
+  let cryptoX = 500, cryptoY = 50;
+  let cryptoScale = 1, cryptoPulse = 0.05;
+  let eagleX = -100;
+  let eagleY = -100;
+  let eagleSpeedX = 2;
+  let eagleSpeedY = 2;
+  let eagleLanded = false;
+  let eagleTargetX = canvas.width * 0.5 - 50;
+  let eagleTargetY = 100;
+  let eagleScale = 1;
+  let eaglePulse = 0.05;
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(cloud1, cloud1X, 50, cloud1.width, cloud1.height);
+    ctx.drawImage(cloud2, cloud2X, 80, cloud2.width, cloud2.height);
+    cloud1X += cloud1Speed;
+    cloud2X += cloud2Speed;
+    if (cloud1X > canvas.width) cloud1X = -cloud1.width;
+    if (cloud2X > canvas.width) cloud2X = -cloud2.width;
+
+    ctx.drawImage(tumbleweed1, tumbleweed1X, canvas.height - 80, tumbleweed1.width, tumbleweed1.height);
+    ctx.drawImage(tumbleweed2, tumbleweed2X, canvas.height - 60, tumbleweed2.width, tumbleweed2.height);
+    ctx.drawImage(tumbleweed3, tumbleweed3X, canvas.height - 100, tumbleweed3.width, tumbleweed3.height);
+    tumbleweed1X += tumbleweed1Speed;
+    tumbleweed2X += tumbleweed2Speed;
+    tumbleweed3X += tumbleweed3Speed;
+    if (tumbleweed1X > canvas.width) {
+      tumbleweed1X = -tumbleweed1.width;
+      if (Math.random() < 0.3) tumbleweedRollSound.play();
     }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    if (tumbleweed2X > canvas.width) tumbleweed2X = -tumbleweed2.width;
+    if (tumbleweed3X > canvas.width) tumbleweed3X = -tumbleweed3.width;
 
-    // Load images
-    const background = new Image();
-    background.src = 'assets/DexHuntBackground.png';
-    const cloud1 = new Image();
-    cloud1.src = 'assets/cloud1.png';
-    const cloud2 = new Image();
-    cloud2.src = 'assets/cloud2.png';
-    const tumbleweed1 = new Image();
-    tumbleweed1.src = 'assets/tumbleweed1.png';
-    const tumbleweed2 = new Image();
-    tumbleweed2.src = 'assets/tumbleweed2.png';
-    const tumbleweed3 = new Image();
-    tumbleweed3.src = 'assets/tumbleweed3.png';
-    const bird1 = new Image();
-    bird1.src = 'assets/bird1.png';
-    const bird2 = new Image();
-    bird2.src = 'assets/bird2.png';
-    const crypto = new Image();
-    crypto.src = 'assets/crypto.png';
-    const sawnOffSlim = new Image();
-    sawnOffSlim.src = 'assets/sawn_off_slim.png';
-    const txseRider = new Image();
-    txseRider.src = 'assets/txse_rider.png';
+    ctx.drawImage(bird1, bird1X, bird1Y, bird1.width, bird1.height);
+    ctx.drawImage(bird2, bird2X, bird2Y, bird2.width, bird2.height);
+    bird1X += bird1SpeedX;
+    bird1Y += bird1SpeedY;
+    bird2X += bird2SpeedX;
+    bird2Y += bird2SpeedY;
+    if (bird1X > canvas.width || bird1X < 0) bird1SpeedX *= -1;
+    if (bird1Y > 150 || bird1Y < 0) bird1SpeedY *= -1;
+    if (bird2X > canvas.width || bird2X < 0) bird2SpeedX *= -1;
+    if (bird2Y > 150 || bird2Y < 0) bird2SpeedY *= -1;
 
-    // Animation variables
-    let cloud1X = 0, cloud1Speed = 0.5;
-    let cloud2X = 200, cloud2Speed = 0.3;
-    let tumbleweed1X = 0, tumbleweed1Speed = 1;
-    let tumbleweed2X = 100, tumbleweed2Speed = 0.8;
-    let tumbleweed3X = 300, tumbleweed3Speed = 1.2;
-    let bird1X = 50, bird1Y = 50, bird1SpeedX = 0.7, bird1SpeedY = 0.2;
-    let bird2X = 150, bird2Y = 80, bird2SpeedX = 0.5, bird2SpeedY = -0.1;
-    let cryptoX = 500, cryptoY = 50;
-    let cryptoScale = 1, cryptoPulse = 0.05;
+    ctx.save();
+    ctx.translate(cryptoX + crypto.width / 2, cryptoY + crypto.height / 2);
+    ctx.scale(cryptoScale, cryptoScale);
+    ctx.drawImage(crypto, -crypto.width / 2, -crypto.height / 2, crypto.width, crypto.height);
+    ctx.restore();
+    cryptoScale += cryptoPulse;
+    if (cryptoScale > 1.2 || cryptoScale < 1) cryptoPulse *= -1;
 
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (sawnOffSlim.complete && sawnOffSlim.naturalWidth !== 0) {
+      ctx.drawImage(sawnOffSlim, canvas.width - 150, canvas.height - 150, 100, 100);
+    }
 
-      ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-      ctx.drawImage(cloud1, cloud1X, 50, cloud1.width, cloud1.height);
-      ctx.drawImage(cloud2, cloud2X, 80, cloud2.width, cloud2.height);
-      cloud1X += cloud1Speed;
-      cloud2X += cloud2Speed;
-      if (cloud1X > canvas.width) cloud1X = -cloud1.width;
-      if (cloud2X > canvas.width) cloud2X = -cloud2.width;
+    if (txseRider.complete && txseRider.naturalWidth !== 0) {
+      ctx.drawImage(txseRider, 50, canvas.height - 150, 100, 100);
+    }
 
-      ctx.drawImage(tumbleweed1, tumbleweed1X, canvas.height - 80, tumbleweed1.width, tumbleweed1.height);
-      ctx.drawImage(tumbleweed2, tumbleweed2X, canvas.height - 60, tumbleweed2.width, tumbleweed2.height);
-      ctx.drawImage(tumbleweed3, tumbleweed3X, canvas.height - 100, tumbleweed3.width, tumbleweed3.height);
-      tumbleweed1X += tumbleweed1Speed;
-      tumbleweed2X += tumbleweed2Speed;
-      tumbleweed3X += tumbleweed3Speed;
-      if (tumbleweed1X > canvas.width) {
-        tumbleweed1X = -tumbleweed1.width;
-        if (Math.random() < 0.3) tumbleweedRollSound.play();
+    // Eagle animation
+    if (!eagleLanded) {
+      if (eagleX < eagleTargetX) eagleX += eagleSpeedX;
+      if (eagleY < eagleTargetY) eagleY += eagleSpeedY;
+      if (Math.abs(eagleX - eagleTargetX) < 5 && Math.abs(eagleY - eagleTargetY) < 5) {
+        eagleLanded = true;
+        eagleX = eagleTargetX;
+        eagleY = eagleTargetY;
+        eagleScreechSound.play();
       }
-      if (tumbleweed2X > canvas.width) tumbleweed2X = -tumbleweed2.width;
-      if (tumbleweed3X > canvas.width) tumbleweed3X = -tumbleweed3.width;
-
-      ctx.drawImage(bird1, bird1X, bird1Y, bird1.width, bird1.height);
-      ctx.drawImage(bird2, bird2X, bird2Y, bird2.width, bird2.height);
-      bird1X += bird1SpeedX;
-      bird1Y += bird1SpeedY;
-      bird2X += bird2SpeedX;
-      bird2Y += bird2SpeedY;
-      if (bird1X > canvas.width || bird1X < 0) bird1SpeedX *= -1;
-      if (bird1Y > 150 || bird1Y < 0) bird1SpeedY *= -1;
-      if (bird2X > canvas.width || bird2X < 0) bird2SpeedX *= -1;
-      if (bird2Y > 150 || bird2Y < 0) bird2SpeedY *= -1;
-
+    }
+    eagleScale += eaglePulse;
+    if (eagleScale > 1.2 || eagleScale < 0.8) eaglePulse *= -1;
+    if (eagle.complete && eagle.naturalWidth !== 0) {
       ctx.save();
-      ctx.translate(cryptoX + crypto.width / 2, cryptoY + crypto.height / 2);
-      ctx.scale(cryptoScale, cryptoScale);
-      ctx.drawImage(crypto, -crypto.width / 2, -crypto.height / 2, crypto.width, crypto.height);
+      ctx.translate(eagleX + 40, eagleY + 40);
+      ctx.scale(eagleScale, eagleScale);
+      ctx.drawImage(eagle, -40, -40, 80, 80);
       ctx.restore();
-      cryptoScale += cryptoPulse;
-      if (cryptoScale > 1.2 || cryptoScale < 1) cryptoPulse *= -1;
-
-      if (sawnOffSlim.complete && sawnOffSlim.naturalWidth !== 0) {
-        ctx.drawImage(sawnOffSlim, canvas.width - 150, canvas.height - 150, 100, 100);
-      }
-
-      if (txseRider.complete && txseRider.naturalWidth !== 0) {
-        ctx.drawImage(txseRider, 50, canvas.height - 150, 100, 100);
-      }
-
-      requestAnimationFrame(animate);
     }
 
-    Promise.all([
-      new Promise(resolve => background.onload = resolve),
-      new Promise(resolve => cloud1.onload = resolve),
-      new Promise(resolve => cloud2.onload = resolve),
-      new Promise(resolve => tumbleweed1.onload = resolve),
-      new Promise(resolve => tumbleweed2.onload = resolve),
-      new Promise(resolve => tumbleweed3.onload = resolve),
-      new Promise(resolve => bird1.onload = resolve),
-      new Promise(resolve => bird2.onload = resolve),
-      new Promise(resolve => crypto.onload = resolve),
-      new Promise(resolve => sawnOffSlim.onload = resolve),
-      new Promise(resolve => txseRider.onload = resolve)
-    ]).then(() => {
-      animate();
-      backgroundMusic.play();
+    requestAnimationFrame(animate);
+  }
+
+  Promise.all([
+    new Promise(resolve => background.onload = resolve),
+    new Promise(resolve => cloud1.onload = resolve),
+    new Promise(resolve => cloud2.onload = resolve),
+    new Promise(resolve => tumbleweed1.onload = resolve),
+    new Promise(resolve => tumbleweed2.onload = resolve),
+    new Promise(resolve => tumbleweed3.onload = resolve),
+    new Promise(resolve => bird1.onload = resolve),
+    new Promise(resolve => bird2.onload = resolve),
+    new Promise(resolve => crypto.onload = resolve),
+    new Promise(resolve => sawnOffSlim.onload = resolve),
+    new Promise(resolve => txseRider.onload = resolve),
+    new Promise(resolve => eagle.onload = resolve)
+  ]).then(() => {
+    animate();
+    backgroundMusic.play();
+  }).catch(() => {
+    animate();
+    backgroundMusic.play();
+  });
+
+  function updateLeaderboard() {
+    const title = bestDraw < 200 ? '⚡ Lightning Cowboy' : '--';
+    document.getElementById('leaderboardPopup').innerHTML = `
+      <h3>🏆 Session Leaderboard</h3>
+      <p>Fastest Draw: ${bestDraw || '--'} ms</p>
+      <p>Duels Played: ${totalDuels}</p>
+      <p>Title: ${title}</p>
+      <div class="share-buttons">
+        <button class="share-btn" onclick="shareGame()">📢 Share DexHunt & Earn $TXSE</button>
+        <button class="share-btn" onclick="shareTXSE()">📈 Share $TXSE & Earn More!</button>
+      </div>
+      <button onclick="toggleLinksLeaderboard()">Close</button>
+    `;
+  }
+
+  function toggleLinksLeaderboard() {
+    const popup = document.getElementById('leaderboardPopup');
+    if (popup.style.display === 'block') {
+      popup.style.display = 'none';
+    } else {
+      updateLeaderboard();
+      popup.style.display = 'block';
+    }
+  }
+
+  function shareGame() {
+    const log = document.getElementById('log');
+    const gameLink = 'https://FifthGenHub.github.io/DexHunt.html';
+    navigator.clipboard.writeText(gameLink).then(() => {
+      log.textContent = 'Thanks for sharing DexHunt! You earned 10 $TXSE!';
     }).catch(() => {
-      animate();
-      backgroundMusic.play();
+      log.textContent = 'Failed to copy link. Please share manually: ' + gameLink;
     });
+  }
 
-    function updateLeaderboard() {
-      const title = bestDraw < 200 ? '⚡ Lightning Cowboy' : '--';
-      document.getElementById('leaderboardPopup').innerHTML = `
-        <h3>🏆 Session Leaderboard</h3>
-        <p>Fastest Draw: ${bestDraw || '--'} ms</p>
-        <p>Duels Played: ${totalDuels}</p>
-        <p>Title: ${title}</p>
-        <div class="share-buttons">
-          <button class="share-btn" onclick="shareGame()">📢 Share DexHunt & Earn $TXSE</button>
-          <button class="share-btn" onclick="shareTXSE()">📈 Share $TXSE & Earn More!</button>
-        </div>
-        <button onclick="toggleLinksLeaderboard()">Close</button>
-      `;
+  function shareTXSE() {
+    const log = document.getElementById('log');
+    const txseLink = 'https://moonshot.cc/buy/NY5E3h8uSMv7j5FuTq2pX5tT3qK2U3kVqL2K1vL5zAn';
+    navigator.clipboard.writeText(txseLink).then(() => {
+      log.textContent = 'Thanks for sharing $TXSE! You earned 10 $TXSE!';
+    }).catch(() => {
+      log.textContent = 'Failed to copy link. Please share manually: ' + txseLink;
+    });
+  }
+
+  function connectWallet() {
+    walletSound.play();
+    const log = document.getElementById('log');
+    walletConnected = true;
+    log.textContent = 'Wallet Connected to 2vNp...5zAn (0.015 SOL Deducted - Placeholder)';
+  }
+
+  function startDuel() {
+    startSound.play();
+    const log = document.getElementById('log');
+    const bang = document.getElementById('bang');
+    if (!walletConnected) {
+      log.textContent = 'Please connect wallet first!';
+      return;
     }
 
-    function toggleLinksLeaderboard() {
-      const popup = document.getElementById('leaderboardPopup');
-      if (popup.style.display === 'block') {
-        popup.style.display = 'none';
-      } else {
-        updateLeaderboard();
-        popup.style.display = 'block';
-      }
+    bang.style.display = 'none';
+    canShoot = false;
+    coyoteHowlTriggered = false;
+    log.textContent = 'Get ready... Sawn-Off Slim is watchin’...';
+
+    const delay = Math.random() * 9000 + 1000;
+    const additionalDelay = Math.random() * 2000;
+    duelTimeout = setTimeout(() => {
+      showBang();
+    }, delay + additionalDelay);
+
+    if (Math.random() < 0.2) {
+      setTimeout(() => {
+        if (canShoot) return;
+        coyoteHowlSound.play();
+        log.textContent = 'Sly the Coyote howls! Wait a bit longer...';
+        coyoteHowlTriggered = true;
+      }, delay + additionalDelay - 1000);
     }
+  }
 
-    function shareGame() {
-      const log = document.getElementById('log');
-      const gameLink = 'https://FifthGenHub.github.io/DexHunt.html';
-      navigator.clipboard.writeText(gameLink).then(() => {
-        log.textContent = 'Thanks for sharing DexHunt! You earned 10 $TXSE!';
-      }).catch(() => {
-        log.textContent = 'Failed to copy link. Please share manually: ' + gameLink;
-      });
-    }
+  function showBang() {
+    const bang = document.getElementById('bang');
+    const duelArea = document.getElementById('duel-area');
+    const log = document.getElementById('log');
 
-    function shareTXSE() {
-      const log = document.getElementById('log');
-      const txseLink = 'https://moonshot.cc/buy/NY5E3h8uSMv7j5FuTq2pX5tT3qK2U3kVqL2K1vL5zAn';
-      navigator.clipboard.writeText(txseLink).then(() => {
-        log.textContent = 'Thanks for sharing $TXSE! You earned 10 $TXSE!';
-      }).catch(() => {
-        log.textContent = 'Failed to copy link. Please share manually: ' + txseLink;
-      });
-    }
+    const maxX = duelArea.clientWidth * 0.8;
+    const maxY = duelArea.clientHeight * 0.8;
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
 
-    function connectWallet() {
-      walletSound.play();
-      const log = document.getElementById('log');
-      walletConnected = true;
-      log.textContent = 'Wallet Connected to 2vNp...5zAn (0.015 SOL Deducted - Placeholder)';
-    }
+    bang.style.left = `${x}px`;
+    bang.style.top = `${y}px`;
+    bang.style.display = 'block';
 
-    function startDuel() {
-      startSound.play();
-      const log = document.getElementById('log');
-      const bang = document.getElementById('bang');
-      if (!walletConnected) {
-        log.textContent = 'Please connect wallet first!';
-        return;
-      }
+    canShoot = true;
+    bangShownAt = performance.now();
+    log.textContent = 'SHOOT NOW! 💥';
+    drawSound.play();
 
-      bang.style.display = 'none';
-      canShoot = false;
-      coyoteHowlTriggered = false;
-      log.textContent = 'Get ready... Sawn-Off Slim is watchin’...';
-
-      const delay = Math.random() * 9000 + 1000;
-      const additionalDelay = Math.random() * 2000;
-      duelTimeout = setTimeout(() => {
-        showBang();
-      }, delay + additionalDelay);
-
-      if (Math.random() < 0.2) {
-        setTimeout(() => {
-          if (canShoot) return;
-          coyoteHowlSound.play();
-          log.textContent = 'Sly the Coyote howls! Wait a bit longer...';
-          coyoteHowlTriggered = true;
-        }, delay + additionalDelay - 1000);
-      }
-    }
-
-    function showBang() {
-      const bang = document.getElementById('bang');
-      const duelArea = document.getElementById('duel-area');
-      const log = document.getElementById('log');
-
-      const maxX = duelArea.clientWidth * 0.8;
-      const maxY = duelArea.clientHeight * 0.8;
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
-
-      bang.style.left = `${x}px`;
-      bang.style.top = `${y}px`;
-      bang.style.display = 'block';
-
-      canShoot = true;
-      bangShownAt = performance.now();
-      log.textContent = 'SHOOT NOW! 💥';
-      drawSound.play();
-
-      reactionTimeout = setTimeout(() => {
-        if (canShoot) {
-          canShoot = false;
-          bang.style.display = 'none';
-          log.textContent = 'Too slow, cowboy. Sawn-Off Slim wins! 💸';
-          loseSound.play();
-          consecutiveLosses++;
-          playStreak++;
-          checkStreak();
-          checkDoubleOrNothing();
-        }
-      }, coyoteHowlTriggered ? 750 : reactionWindow);
-    }
-
-    function shoot() {
-      const bang = document.getElementById('bang');
-      const log = document.getElementById('log');
-      const quickDraw = document.getElementById('quickDraw');
-      const rewardType = document.getElementById('rewardType').value;
-      const now = performance.now();
-
+    reactionTimeout = setTimeout(() => {
       if (canShoot) {
-        const reactionTime = Math.round(now - bangShownAt);
-        clearTimeout(reactionTimeout);
-        bang.style.display = 'none';
         canShoot = false;
-
-        playStreak++;
-        if (reactionTime < 200) {
-          consecutiveLosses = 0;
-          reactionWindow = Math.max(400, reactionWindow - 50);
-          let bonus = Math.random() < 0.1 ? ' + Bonus 0.005 SOL!' : '';
-          if (rewardType === 'sol') {
-            log.textContent = `You beat Sawn-Off Slim! 💰 Draw time: ${reactionTime} ms. Won 0.02 SOL!${bonus}`;
-          } else {
-            bonus = Math.random() < 0.1 ? ' + Bonus 25 $TXSE!' : '';
-            log.textContent = `You beat Sawn-Off Slim! 💰 Draw time: ${reactionTime} ms. Won 100 $TXSE!${bonus}`;
-            cryptoScale = 1;
-          }
-          quickDraw.style.display = 'block';
-          setTimeout(() => quickDraw.style.display = 'none', 1500);
-          winSound.play();
-          log.textContent += ' Another cowboy just won 100 $TXSE—can you do better?';
-        } else if (reactionTime < 250) {
-          log.textContent = `So close! You’re gettin’ faster, cowboy! Draw time: ${reactionTime} ms. Won 0.005 SOL!`;
-          quickDraw.style.display = 'block';
-          setTimeout(() => quickDraw.style.display = 'none', 1500);
-          consecutiveLosses++;
-          reactionWindow = 500;
-          winSound.play();
-        } else {
-          log.textContent = `Nice try, but Sawn-Off Slim was faster! Draw time: ${reactionTime} ms.`;
-          log.textContent += ` Sawn-Off Slim laughs: "Better luck next time, greenhorn!"`;
-          consecutiveLosses++;
-          reactionWindow = 500;
-        }
-        gunshotSound.play();
-        if (bestDraw === null || reactionTime < bestDraw) bestDraw = reactionTime;
-        totalDuels++;
-        checkStreak();
-        checkDoubleOrNothing();
-      } else {
-        log.textContent = 'YEE-HAW! Too Soon, Cowboy! Sawn-Off Slim smirks...';
-        tooSoonSound.play();
+        bang.style.display = 'none';
+        log.textContent = 'Too slow, cowboy. Sawn-Off Slim wins! 💸';
+        loseSound.play();
         consecutiveLosses++;
         playStreak++;
         checkStreak();
         checkDoubleOrNothing();
       }
-    }
+    }, coyoteHowlTriggered ? 750 : reactionWindow);
+  }
 
-    function checkStreak() {
-      const log = document.getElementById('log');
-      if (playStreak % 3 === 0) {
-        log.textContent += ' Nice streak! Earned 5 $TXSE for playin’!';
-      }
-      if (playStreak % 5 === 0) {
-        log.textContent += ' Hot streak! Earned 10 $TXSE to HODL!';
-      }
-    }
+  function shoot() {
+    const bang = document.getElementById('bang');
+    const log = document.getElementById('log');
+    const quickDraw = document.getElementById('quickDraw');
+    const rewardType = document.getElementById('rewardType').value;
+    const now = performance.now();
 
-    function checkDoubleOrNothing() {
-      const log = document.getElementById('log');
-      if (consecutiveLosses >= 5) {
-        log.textContent += ' 5 losses in a row! Risk 0.015 SOL for a Double or Nothing shot?';
-      }
-    }
-
-    function resetDuel() {
-      clearTimeout(duelTimeout);
+    if (canShoot) {
+      const reactionTime = Math.round(now - bangShownAt);
       clearTimeout(reactionTimeout);
-      document.getElementById('bang').style.display = 'none';
-      document.getElementById('log').textContent = 'Think you’re quick enough, cowboy? Sawn-Off Slim’s ready to take your SOL!';
+      bang.style.display = 'none';
       canShoot = false;
-      resetSound.play();
 
-      const countdownEl = document.getElementById('countdown');
-      let timeLeft = 3;
-      countdownEl.style.display = 'block';
-      countdownEl.textContent = timeLeft;
-
-      countdownInterval = setInterval(() => {
-        timeLeft--;
-        if (timeLeft > 0) {
-          countdownEl.textContent = timeLeft;
+      playStreak++;
+      if (reactionTime < 200) {
+        consecutiveLosses = 0;
+        reactionWindow = Math.max(400, reactionWindow - 50);
+        let bonus = Math.random() < 0.1 ? ' + Bonus 0.005 SOL!' : '';
+        if (rewardType === 'sol') {
+          log.textContent = `You beat Sawn-Off Slim! 💰 Draw time: ${reactionTime} ms. Won 0.02 SOL!${bonus}`;
         } else {
-          clearInterval(countdownInterval);
-          countdownEl.style.display = 'none';
-          startDuel();
+          bonus = Math.random() < 0.1 ? ' + Bonus 25 $TXSE!' : '';
+          log.textContent = `You beat Sawn-Off Slim! 💰 Draw time: ${reactionTime} ms. Won 100 $TXSE!${bonus}`;
+          cryptoScale = 1;
         }
-      }, 1000);
+        quickDraw.style.display = 'block';
+        setTimeout(() => quickDraw.style.display = 'none', 1500);
+        winSound.play();
+        log.textContent += ' Another cowboy just won 100 $TXSE—can you do better?';
+      } else if (reactionTime < 250) {
+        log.textContent = `So close! You’re gettin’ faster, cowboy! Draw time: ${reactionTime} ms. Won 0.005 SOL!`;
+        quickDraw.style.display = 'block';
+        setTimeout(() => quickDraw.style.display = 'none', 1500);
+        consecutiveLosses++;
+        reactionWindow = 500;
+        winSound.play();
+      } else {
+        log.textContent = `Nice try, but Sawn-Off Slim was faster! Draw time: ${reactionTime} ms.`;
+        log.textContent += ` Sawn-Off Slim laughs: "Better luck next time, greenhorn!"`;
+        consecutiveLosses++;
+        reactionWindow = 500;
+      }
+      gunshotSound.play();
+      if (bestDraw === null || reactionTime < bestDraw) bestDraw = reactionTime;
+      totalDuels++;
+      checkStreak();
+      checkDoubleOrNothing();
+    } else {
+      log.textContent = 'YEE-HAW! Too Soon, Cowboy! Sawn-Off Slim smirks...';
+      tooSoonSound.play();
+      consecutiveLosses++;
+      playStreak++;
+      checkStreak();
+      checkDoubleOrNothing();
     }
-  </script>
-</body>
-</html>
+  }
+
+  function checkStreak() {
+    const log = document.getElementById('log');
+    if (playStreak % 3 === 0) {
+      log.textContent += ' Nice streak! Earned 5 $TXSE for playin’!';
+    }
+    if (playStreak % 5 === 0) {
+      log.textContent += ' Hot streak! Earned 10 $TXSE to HODL!';
+    }
+  }
+
+  function checkDoubleOrNothing() {
+    const log = document.getElementById('log');
+    if (consecutiveLosses >= 5) {
+      log.textContent += ' 5 losses in a row! Risk 0.015 SOL for a Double or Nothing shot?';
+    }
+  }
+
+  function resetDuel() {
+    clearTimeout(duelTimeout);
+    clearTimeout(reactionTimeout);
+    document.getElementById('bang').style.display = 'none';
+    document.getElementById('log').textContent = 'Think you’re quick enough, cowboy? Sawn-Off Slim’s ready to take your SOL!';
+    canShoot = false;
+    resetSound.play();
+
+    const countdownEl = document.getElementById('countdown');
+    let timeLeft = 3;
+    countdownEl.style.display = 'block';
+    countdownEl.textContent = timeLeft;
+
+    countdownInterval = setInterval(() => {
+      timeLeft--;
+      if (timeLeft > 0) {
+        countdownEl.textContent = timeLeft;
+      } else {
+        clearInterval(countdownInterval);
+        countdownEl.style.display = 'none';
+        startDuel();
+      }
+    }, 1000);
+  }
+</script>
