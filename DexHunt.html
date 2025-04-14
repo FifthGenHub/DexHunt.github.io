@@ -226,7 +226,7 @@
     const startSound = document.getElementById('startSound');
     const walletSound = document.getElementById('walletSound');
     const coyoteHowlSound = document.getElementById('coyoteHowl');
-    const drawSound = document.getElementById('drawSound');
+    const drawSound = document.getElementOf('drawSound');
     const backgroundMusic = document.getElementById('backgroundMusic');
     const tumbleweedRollSound = document.getElementById('tumbleweedRoll');
 
@@ -289,17 +289,30 @@
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-      ctx.drawImage(cloud1, cloud1X, 50, cloud1.width, cloud1.height);
-      ctx.drawImage(cloud2, cloud2X, 80, cloud2.width, cloud2.height);
+      if (background.complete && background.naturalWidth !== 0) {
+        ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+      }
+
+      if (cloud1.complete && cloud1.naturalWidth !== 0) {
+        ctx.drawImage(cloud1, cloud1X, 50, cloud1.width, cloud1.height);
+      }
+      if (cloud2.complete && cloud2.naturalWidth !== 0) {
+        ctx.drawImage(cloud2, cloud2X, 80, cloud2.width, cloud2.height);
+      }
       cloud1X += cloud1Speed;
       cloud2X += cloud2Speed;
       if (cloud1X > canvas.width) cloud1X = -cloud1.width;
       if (cloud2X > canvas.width) cloud2X = -cloud2.width;
 
-      ctx.drawImage(tumbleweed1, tumbleweed1X, canvas.height - 80, tumbleweed1.width, tumbleweed1.height);
-      ctx.drawImage(tumbleweed2, tumbleweed2X, canvas.height - 60, tumbleweed2.width, tumbleweed2.height);
-      ctx.drawImage(tumbleweed3, tumbleweed3X, canvas.height - 100, tumbleweed3.width, tumbleweed3.height);
+      if (tumbleweed1.complete && tumbleweed1.naturalWidth !== 0) {
+        ctx.drawImage(tumbleweed1, tumbleweed1X, canvas.height - 80, tumbleweed1.width, tumbleweed1.height);
+      }
+      if (tumbleweed2.complete && tumbleweed2.naturalWidth !== 0) {
+        ctx.drawImage(tumbleweed2, tumbleweed2X, canvas.height - 60, tumbleweed2.width, tumbleweed2.height);
+      }
+      if (tumbleweed3.complete && tumbleweed3.naturalWidth !== 0) {
+        ctx.drawImage(tumbleweed3, tumbleweed3X, canvas.height - 100, tumbleweed3.width, tumbleweed3.height);
+      }
       tumbleweed1X += tumbleweed1Speed;
       tumbleweed2X += tumbleweed2Speed;
       tumbleweed3X += tumbleweed3Speed;
@@ -310,8 +323,12 @@
       if (tumbleweed2X > canvas.width) tumbleweed2X = -tumbleweed2.width;
       if (tumbleweed3X > canvas.width) tumbleweed3X = -tumbleweed3.width;
 
-      ctx.drawImage(bird1, bird1X, bird1Y, bird1.width, bird1.height);
-      ctx.drawImage(bird2, bird2X, bird2Y, bird2.width, bird2.height);
+      if (bird1.complete && bird1.naturalWidth !== 0) {
+        ctx.drawImage(bird1, bird1X, bird1Y, bird1.width, bird1.height);
+      }
+      if (bird2.complete && bird2.naturalWidth !== 0) {
+        ctx.drawImage(bird2, bird2X, bird2Y, bird2.width, bird2.height);
+      }
       bird1X += bird1SpeedX;
       bird1Y += bird1SpeedY;
       bird2X += bird2SpeedX;
@@ -321,11 +338,13 @@
       if (bird2X > canvas.width || bird2X < 0) bird2SpeedX *= -1;
       if (bird2Y > 150 || bird2Y < 0) bird2SpeedY *= -1;
 
-      ctx.save();
-      ctx.translate(cryptoX + crypto.width / 2, cryptoY + crypto.height / 2);
-      ctx.scale(cryptoScale, cryptoScale);
-      ctx.drawImage(crypto, -crypto.width / 2, -crypto.height / 2, crypto.width, crypto.height);
-      ctx.restore();
+      if (crypto.complete && crypto.naturalWidth !== 0) {
+        ctx.save();
+        ctx.translate(cryptoX + crypto.width / 2, cryptoY + crypto.height / 2);
+        ctx.scale(cryptoScale, cryptoScale);
+        ctx.drawImage(crypto, -crypto.width / 2, -crypto.height / 2, crypto.width, crypto.height);
+        ctx.restore();
+      }
       cryptoScale += cryptoPulse;
       if (cryptoScale > 1.2 || cryptoScale < 1) cryptoPulse *= -1;
 
@@ -401,7 +420,7 @@
     }
 
     function shareTXSE() {
-      const log = document.getElementById('log');
+      const log = document.getElementOf('log');
       const txseLink = 'https://moonshot.cc/buy/NY5E3h8uSMv7j5FuTq2pX5tT3qK2U3kVqL2K1vL5zAn';
       navigator.clipboard.writeText(txseLink).then(() => {
         log.textContent = 'Thanks for sharing $TXSE! You earned 10 $TXSE!';
@@ -419,7 +438,13 @@
 
     function startDuel() {
       startSound.play();
-      backgroundMusic.play();
+      try {
+        backgroundMusic.play().catch(err => {
+          console.error("Failed to play background music:", err);
+        });
+      } catch (err) {
+        console.error("Error playing background music:", err);
+      }
       const log = document.getElementById('log');
       const bang = document.getElementById('bang');
       if (!walletConnected) {
