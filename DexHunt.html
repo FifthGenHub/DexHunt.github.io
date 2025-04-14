@@ -87,8 +87,8 @@
       z-index: 10;
       cursor: pointer;
       animation: pulse 0.3s infinite;
-      width: 120px;
-      height: 120px;
+      width: 240px;
+      height: 240px;
       object-fit: contain;
     }
     @keyframes pulse {
@@ -236,18 +236,17 @@
 
     let eagleTargetX = 0;
     let eagleTargetY = 100;
-    let eagleX = -100;
-    let eagleY = -100;
-    let eagleSpeedX = 2;
-    let eagleSpeedY = 2;
-    let eagleLanded = false;
-    let eagleScale = 1;
-    let eaglePulse = 0.05;
+    let eagleX = 0;
+    let eagleY = 0;
 
     function resizeCanvas() {
       canvas.width = duelArea.clientWidth;
       canvas.height = duelArea.clientHeight;
-      eagleTargetX = canvas.width * 0.5 - 50;
+      eagleTargetX = canvas.width * 0.5 + 20;
+      eagleTargetY = 50;
+      eagleX = eagleTargetX;
+      eagleY = eagleTargetY - 50;
+      cryptoX = canvas.width * 0.5 - 50;
     }
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
@@ -338,23 +337,8 @@
         ctx.drawImage(txseRider, 50, canvas.height - 150, 100, 100);
       }
 
-      if (!eagleLanded) {
-        if (eagleX < eagleTargetX) eagleX += eagleSpeedX;
-        if (eagleY < eagleTargetY) eagleY += eagleSpeedY;
-        if (Math.abs(eagleX - eagleTargetX) < 5 && Math.abs(eagleY - eagleTargetY) < 5) {
-          eagleLanded = true;
-          eagleX = eagleTargetX;
-          eagleY = eagleTargetY;
-        }
-      }
-      eagleScale += eaglePulse;
-      if (eagleScale > 1.2 || eagleScale < 0.8) eaglePulse *= -1;
       if (eagle.complete && eagle.naturalWidth !== 0) {
-        ctx.save();
-        ctx.translate(eagleX + 40, eagleY + 40);
-        ctx.scale(eagleScale, eagleScale);
-        ctx.drawImage(eagle, -40, -40, 80, 80);
-        ctx.restore();
+        ctx.drawImage(eagle, eagleX, eagleY, 80, 80);
       }
 
       requestAnimationFrame(animate);
@@ -374,11 +358,11 @@
       new Promise(resolve => txseRider.onload = resolve),
       new Promise(resolve => eagle.onload = resolve)
     ]).then(() => {
+      console.log("All assets loaded successfully");
       animate();
-      backgroundMusic.play();
-    }).catch(() => {
+    }).catch(err => {
+      console.error("Asset loading failed:", err);
       animate();
-      backgroundMusic.play();
     });
 
     function updateLeaderboard() {
@@ -435,6 +419,7 @@
 
     function startDuel() {
       startSound.play();
+      backgroundMusic.play();
       const log = document.getElementById('log');
       const bang = document.getElementById('bang');
       if (!walletConnected) {
@@ -468,8 +453,10 @@
       const duelArea = document.getElementById('duel-area');
       const log = document.getElementById('log');
 
-      const maxX = duelArea.clientWidth * 0.8;
-      const maxY = duelArea.clientHeight * 0.8;
+      const bangWidth = 240;
+      const bangHeight = 240;
+      const maxX = duelArea.clientWidth - bangWidth;
+      const maxY = duelArea.clientHeight - bangHeight;
       const x = Math.random() * maxX;
       const y = Math.random() * maxY;
 
