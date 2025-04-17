@@ -120,7 +120,7 @@
       border-top: 5px solid #ff9900;
       border-bottom: 5px solid #ff9900;
       overflow: hidden;
-      padding-top: 60px;
+      height: calc(100vh - 150px);
     }
     #gameCanvas {
       position: absolute;
@@ -164,9 +164,27 @@
     .share-btn:hover {
       background-color: #cc7a00;
     }
+    /* Added loading screen styles */
+    #loadingScreen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      color: #ffc34d;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      z-index: 1000;
+    }
   </style>
 </head>
 <body>
+  <!-- Added loading screen -->
+  <div id="loadingScreen">Loading...</div>
+
   <audio id="gunshot" src="assets/sounds/pistol-shot-233473.mp3" preload="auto"></audio>
   <audio id="toosoon" src="assets/sounds/clickmouse-266516.mp3" preload="auto"></audio>
   <audio id="winSound" src="assets/sounds/multi-coin-payout-14-213732.mp3" preload="auto"></audio>
@@ -189,7 +207,6 @@
         <option value="sol">Win SOL</option>
         <option value="txse">Win $TXSE</option>
       </select>
-      <!-- Added dropdown for selecting bet amount -->
       <select id="betAmount" onchange="setBetAmount(this.value)" style="padding: 12px; margin: 0 8px; border-radius: 8px;">
         <option value="0.01">Bet 0.01 SOL</option>
         <option value="0.015" selected>Bet 0.015 SOL</option>
@@ -201,7 +218,6 @@
       <a href="https://moonshot.cc/buy/NY5E3h8uSMv7j5FuTq2pX5tT3qK2U3kVqL2K1vL5zAn" target="_blank">
         <button class="wallet-btn">🪙 Buy $TXSE</button>
       </a>
-      <!-- Added button for daily login reward -->
       <button class="login-btn" onclick="dailyLoginReward()">🎁 Daily Login Reward</button>
       <div class="log" id="log">Think you’re quick enough, cowboy? Sawn-Off Slim’s ready to take your SOL!</div>
     </div>
@@ -225,9 +241,7 @@
     let consecutiveLosses = 0;
     let playStreak = 0;
     let reactionWindow = 500;
-    // Added betAmount variable for dynamic betting
     let betAmount = 0.015;
-    // Added loginStreak variable for daily login rewards
     let loginStreak = 0;
 
     const gunshotSound = document.getElementById('gunshot');
@@ -238,7 +252,6 @@
     const startSound = document.getElementById('startSound');
     const walletSound = document.getElementById('walletSound');
     const coyoteHowlSound = document.getElementById('coyoteHowl');
-    // Fixed typo: getElementOf -> getElementById
     const drawSound = document.getElementById('drawSound');
     const backgroundMusic = document.getElementById('backgroundMusic');
     const tumbleweedRollSound = document.getElementById('tumbleweedRoll');
@@ -251,46 +264,69 @@
     let eagleTargetY = 100;
     let eagleX = 0;
     let eagleY = 0;
-    // Added speed variables for eagle animation
     let eagleSpeedX = 0.6;
     let eagleSpeedY = 0.1;
 
     function resizeCanvas() {
-      canvas.width = duelArea.clientWidth;
-      canvas.height = duelArea.clientHeight;
+      canvas.width = duelArea.offsetWidth;
+      canvas.height = duelArea.offsetHeight;
       eagleTargetX = canvas.width * 0.5 + 20;
       eagleTargetY = 50;
       eagleX = eagleTargetX;
       eagleY = eagleTargetY - 50;
       cryptoX = canvas.width * 0.5 - 50;
+      console.log(`Canvas resized to ${canvas.width}x${canvas.height}`);
     }
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
     const background = new Image();
     background.src = 'assets/DexHuntBackground.png';
+    background.onerror = () => console.error("Failed to load background image");
+
     const cloud1 = new Image();
     cloud1.src = 'assets/cloud1.png';
+    cloud1.onerror = () => console.error("Failed to load cloud1 image");
+
     const cloud2 = new Image();
     cloud2.src = 'assets/cloud2.png';
+    cloud2.onerror = () => console.error("Failed to load cloud2 image");
+
     const tumbleweed1 = new Image();
     tumbleweed1.src = 'assets/tumbleweed1.png';
+    tumbleweed1.onerror = () => console.error("Failed to load tumbleweed1 image");
+
     const tumbleweed2 = new Image();
     tumbleweed2.src = 'assets/tumbleweed2.png';
+    tumbleweed2.onerror = () => console.error("Failed to load tumbleweed2 image");
+
     const tumbleweed3 = new Image();
     tumbleweed3.src = 'assets/tumbleweed3.png';
+    tumbleweed3.onerror = () => console.error("Failed to load tumbleweed3 image");
+
     const bird1 = new Image();
     bird1.src = 'assets/bird1.png';
+    bird1.onerror = () => console.error("Failed to load bird1 image");
+
     const bird2 = new Image();
     bird2.src = 'assets/bird2.png';
+    bird2.onerror = () => console.error("Failed to load bird2 image");
+
     const crypto = new Image();
     crypto.src = 'assets/crypto.png';
+    crypto.onerror = () => console.error("Failed to load crypto image");
+
     const sawnOffSlim = new Image();
     sawnOffSlim.src = 'assets/sawn_off_slim.png';
+    sawnOffSlim.onerror = () => console.error("Failed to load sawnOffSlim image");
+
     const txseRider = new Image();
     txseRider.src = 'assets/txse_rider.png';
+    txseRider.onerror = () => console.error("Failed to load txseRider image");
+
     const eagle = new Image();
     eagle.src = 'assets/eagle.png';
+    eagle.onerror = () => console.error("Failed to load eagle image");
 
     let cloud1X = 0, cloud1Speed = 0.5;
     let cloud2X = 200, cloud2Speed = 0.3;
@@ -307,6 +343,12 @@
 
       if (background.complete && background.naturalWidth !== 0) {
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+        console.log("Drawing background");
+      } else {
+        // Fallback: Draw a colored rectangle if background fails to load
+        ctx.fillStyle = '#4a2c00'; // Desert-like color
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        console.log("Background not loaded, using fallback");
       }
 
       if (cloud1.complete && cloud1.naturalWidth !== 0) {
@@ -334,7 +376,7 @@
       tumbleweed3X += tumbleweed3Speed;
       if (tumbleweed1X > canvas.width) {
         tumbleweed1X = -tumbleweed1.width;
-        if (Math.random() < 0.3) tumbleweedRollSound.play();
+        if (Math.random() < 0.3 && tumbleweedRollSound) tumbleweedRollSound.play();
       }
       if (tumbleweed2X > canvas.width) tumbleweed2X = -tumbleweed2.width;
       if (tumbleweed3X > canvas.width) tumbleweed3X = -tumbleweed3.width;
@@ -374,7 +416,6 @@
 
       if (eagle.complete && eagle.naturalWidth !== 0) {
         ctx.drawImage(eagle, eagleX, eagleY, 80, 80);
-        // Added eagle animation logic
         eagleX += eagleSpeedX;
         eagleY += eagleSpeedY;
         if (eagleX > canvas.width - 80 || eagleX < 0) eagleSpeedX *= -1;
@@ -385,24 +426,65 @@
     }
 
     Promise.all([
-      new Promise(resolve => background.onload = resolve),
-      new Promise(resolve => cloud1.onload = resolve),
-      new Promise(resolve => cloud2.onload = resolve),
-      new Promise(resolve => tumbleweed1.onload = resolve),
-      new Promise(resolve => tumbleweed2.onload = resolve),
-      new Promise(resolve => tumbleweed3.onload = resolve),
-      new Promise(resolve => bird1.onload = resolve),
-      new Promise(resolve => bird2.onload = resolve),
-      new Promise(resolve => crypto.onload = resolve),
-      new Promise(resolve => sawnOffSlim.onload = resolve),
-      new Promise(resolve => txseRider.onload = resolve),
-      new Promise(resolve => eagle.onload = resolve)
+      new Promise((resolve, reject) => {
+        background.onload = () => {
+          console.log("Background loaded successfully");
+          resolve();
+        };
+        background.onerror = () => reject("Background image failed to load");
+      }),
+      new Promise((resolve, reject) => {
+        cloud1.onload = resolve;
+        cloud1.onerror = () => reject("Cloud1 image failed to load");
+      }),
+      new Promise((resolve, reject) => {
+        cloud2.onload = resolve;
+        cloud2.onerror = () => reject("Cloud2 image failed to load");
+      }),
+      new Promise((resolve, reject) => {
+        tumbleweed1.onload = resolve;
+        tumbleweed1.onerror = () => reject("Tumbleweed1 image failed to load");
+      }),
+      new Promise((resolve, reject) => {
+        tumbleweed2.onload = resolve;
+        tumbleweed2.onerror = () => reject("Tumbleweed2 image failed to load");
+      }),
+      new Promise((resolve, reject) => {
+        tumbleweed3.onload = resolve;
+        tumbleweed3.onerror = () => reject("Tumbleweed3 image failed to load");
+      }),
+      new Promise((resolve, reject) => {
+        bird1.onload = resolve;
+        bird1.onerror = () => reject("Bird1 image failed to load");
+      }),
+      new Promise((resolve, reject) => {
+        bird2.onload = resolve;
+        bird2.onerror = () => reject("Bird2 image failed to load");
+      }),
+      new Promise((resolve, reject) => {
+        crypto.onload = resolve;
+        crypto.onerror = () => reject("Crypto image failed to load");
+      }),
+      new Promise((resolve, reject) => {
+        sawnOffSlim.onload = resolve;
+        sawnOffSlim.onerror = () => reject("SawnOffSlim image failed to load");
+      }),
+      new Promise((resolve, reject) => {
+        txseRider.onload = resolve;
+        txseRider.onerror = () => reject("TxseRider image failed to load");
+      }),
+      new Promise((resolve, reject) => {
+        eagle.onload = resolve;
+        eagle.onerror = () => reject("Eagle image failed to load");
+      })
     ]).then(() => {
       console.log("All assets loaded successfully");
+      document.getElementById('loadingScreen').style.display = 'none'; // Hide loading screen
       animate();
     }).catch(err => {
       console.error("Asset loading failed:", err);
-      animate();
+      document.getElementById('loadingScreen').style.display = 'none'; // Hide loading screen
+      document.getElementById('log').textContent = 'Error: Failed to load game assets. Please ensure all files are uploaded correctly.';
     });
 
     function updateLeaderboard() {
@@ -441,7 +523,6 @@
     }
 
     function shareTXSE() {
-      // Fixed typo: getElementOf -> getElementById
       const log = document.getElementById('log');
       const txseLink = 'https://moonshot.cc/buy/NY5E3h8uSMv7j5FuTq2pX5tT3qK2U3kVqL2K1vL5zAn';
       navigator.clipboard.writeText(txseLink).then(() => {
@@ -458,18 +539,16 @@
       log.textContent = 'Wallet Connected to 2vNp...5zAn (0.015 SOL Deducted - Placeholder)';
     }
 
-    // Added function to set bet amount dynamically
     function setBetAmount(amount) {
       betAmount = parseFloat(amount);
       document.getElementById('log').textContent = `Bet set to ${betAmount} SOL!`;
     }
 
-    // Added function for daily login rewards
     function dailyLoginReward() {
       loginStreak++;
       let reward = loginStreak >= 5 ? 10 : 5;
       document.getElementById('log').textContent = `Daily Login: Earned ${reward} $TXSE! Streak: ${loginStreak} days`;
-      if (loginStreak >= 5) loginStreak = 0; // Reset streak after bonus
+      if (loginStreak >= 5) loginStreak = 0;
     }
 
     function startDuel() {
@@ -491,7 +570,6 @@
       bang.style.display = 'none';
       canShoot = false;
       coyoteHowlTriggered = false;
-      // Updated log message to reflect dynamic bet amount
       log.textContent = `Get ready... Sawn-Off Slim is watchin’... Betting ${betAmount} SOL!`;
 
       const delay = Math.random() * 9000 + 1000;
@@ -564,12 +642,11 @@
           reactionWindow = Math.max(400, reactionWindow - 50);
           let bonus = Math.random() < 0.1 ? ' + Bonus 0.005 SOL!' : '';
           if (rewardType === 'sol') {
-            // Updated payout calculation based on betAmount
-            let payout = betAmount * 1.5; // Example: 50% profit on bet
+            let payout = betAmount * 1.5;
             log.textContent = `You beat Sawn-Off Slim! 💰 Draw time: ${reactionTime} ms. Won ${payout.toFixed(3)} SOL!${bonus}`;
           } else {
             bonus = Math.random() < 0.1 ? ' + Bonus 25 $TXSE!' : '';
-            let txsePayout = betAmount * 1000; // Example: 1000 $TXSE per SOL bet
+            let txsePayout = betAmount * 1000;
             log.textContent = `You beat Sawn-Off Slim! 💰 Draw time: ${reactionTime} ms. Won ${txsePayout} $TXSE!${bonus}`;
             cryptoScale = 1;
           }
@@ -577,10 +654,8 @@
           setTimeout(() => quickDraw.style.display = 'none', 1500);
           winSound.play();
           log.textContent += ' Another cowboy just won 100 $TXSE—can you do better?';
-          // Added NFT badge for fast reaction times
           if (reactionTime < 150) {
             log.textContent += ' 🏆 Earned "Lightning Draw" NFT!';
-            // Placeholder for Solana NFT minting
           }
         } else if (reactionTime < 250) {
           log.textContent = `So close! You’re gettin’ faster, cowboy! Draw time: ${reactionTime} ms. Won 0.005 SOL!`;
