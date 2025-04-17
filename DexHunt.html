@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DexHunt: Cowboy Reflex Showdown (Powered by $TXSE)</title>
+  <title>DexHunt: Cowboy Reflex Showdown</title>
   <style>
     html, body {
       margin: 0;
@@ -164,7 +164,6 @@
     .share-btn:hover {
       background-color: #cc7a00;
     }
-    /* Added loading screen styles */
     #loadingScreen {
       position: absolute;
       top: 0;
@@ -182,7 +181,6 @@
   </style>
 </head>
 <body>
-  <!-- Added loading screen -->
   <div id="loadingScreen">Loading...</div>
 
   <audio id="gunshot" src="assets/sounds/pistol-shot-233473.mp3" preload="auto"></audio>
@@ -205,7 +203,7 @@
       <button class="wallet-btn" onclick="connectWallet()">🔗 Connect Wallet</button>
       <select id="rewardType" style="padding: 12px; margin: 0 8px; border-radius: 8px;">
         <option value="sol">Win SOL</option>
-        <option value="txse">Win $TXSE</option>
+        <option value="dex">Win Dex Coins</option>
       </select>
       <select id="betAmount" onchange="setBetAmount(this.value)" style="padding: 12px; margin: 0 8px; border-radius: 8px;">
         <option value="0.01">Bet 0.01 SOL</option>
@@ -215,9 +213,6 @@
       <button class="start-btn" onclick="startDuel()">⚡ Start Duel</button>
       <button class="reset-btn" onclick="resetDuel()">🔄 Reset</button>
       <button class="links-leaderboard-btn" onclick="toggleLinksLeaderboard()">🏆 Links & Leaderboard</button>
-      <a href="https://moonshot.cc/buy/NY5E3h8uSMv7j5FuTq2pX5tT3qK2U3kVqL2K1vL5zAn" target="_blank">
-        <button class="wallet-btn">🪙 Buy $TXSE</button>
-      </a>
       <button class="login-btn" onclick="dailyLoginReward()">🎁 Daily Login Reward</button>
       <div class="log" id="log">Think you’re quick enough, cowboy? Sawn-Off Slim’s ready to take your SOL!</div>
     </div>
@@ -345,8 +340,7 @@
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
         console.log("Drawing background");
       } else {
-        // Fallback: Draw a colored rectangle if background fails to load
-        ctx.fillStyle = '#4a2c00'; // Desert-like color
+        ctx.fillStyle = '#4a2c00';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         console.log("Background not loaded, using fallback");
       }
@@ -479,12 +473,12 @@
       })
     ]).then(() => {
       console.log("All assets loaded successfully");
-      document.getElementById('loadingScreen').style.display = 'none'; // Hide loading screen
+      document.getElementById('loadingScreen').style.display = 'none';
       animate();
     }).catch(err => {
       console.error("Asset loading failed:", err);
-      document.getElementById('loadingScreen').style.display = 'none'; // Hide loading screen
-      document.getElementById('log').textContent = 'Error: Failed to load game assets. Please ensure all files are uploaded correctly.';
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('log').innerHTML = 'Error: Failed to load game assets. Please ensure all files are uploaded correctly. <button onclick="location.reload()" style="background-color: #ff9900; border: none; border-radius: 8px; padding: 8px 16px; cursor: pointer; color: #1a1a1a; font-weight: bold;">Reload</button>';
     });
 
     function updateLeaderboard() {
@@ -495,8 +489,7 @@
         <p>Duels Played: ${totalDuels}</p>
         <p>Title: ${title}</p>
         <div class="share-buttons">
-          <button class="share-btn" onclick="shareGame()">📢 Share DexHunt & Earn $TXSE</button>
-          <button class="share-btn" onclick="shareTXSE()">📈 Share $TXSE & Earn More!</button>
+          <button class="share-btn" onclick="shareGame()">📢 Share DexHunt & Earn Rewards</button>
         </div>
         <button onclick="toggleLinksLeaderboard()">Close</button>
       `;
@@ -514,21 +507,11 @@
 
     function shareGame() {
       const log = document.getElementById('log');
-      const gameLink = 'https://FifthGenHub.github.io/DexHunt.html';
+      const gameLink = 'https://fifthgenhub.github.io/tosecowboy.github.io/DexHunt.html';
       navigator.clipboard.writeText(gameLink).then(() => {
-        log.textContent = 'Thanks for sharing DexHunt! You earned 10 $TXSE!';
+        log.textContent = 'Thanks for sharing DexHunt! You earned 10 Dex Coins!';
       }).catch(() => {
         log.textContent = 'Failed to copy link. Please share manually: ' + gameLink;
-      });
-    }
-
-    function shareTXSE() {
-      const log = document.getElementById('log');
-      const txseLink = 'https://moonshot.cc/buy/NY5E3h8uSMv7j5FuTq2pX5tT3qK2U3kVqL2K1vL5zAn';
-      navigator.clipboard.writeText(txseLink).then(() => {
-        log.textContent = 'Thanks for sharing $TXSE! You earned 10 $TXSE!';
-      }).catch(() => {
-        log.textContent = 'Failed to copy link. Please share manually: ' + txseLink;
       });
     }
 
@@ -547,7 +530,7 @@
     function dailyLoginReward() {
       loginStreak++;
       let reward = loginStreak >= 5 ? 10 : 5;
-      document.getElementById('log').textContent = `Daily Login: Earned ${reward} $TXSE! Streak: ${loginStreak} days`;
+      document.getElementById('log').textContent = `Daily Login: Earned ${reward} Dex Coins! Streak: ${loginStreak} days`;
       if (loginStreak >= 5) loginStreak = 0;
     }
 
@@ -645,15 +628,15 @@
             let payout = betAmount * 1.5;
             log.textContent = `You beat Sawn-Off Slim! 💰 Draw time: ${reactionTime} ms. Won ${payout.toFixed(3)} SOL!${bonus}`;
           } else {
-            bonus = Math.random() < 0.1 ? ' + Bonus 25 $TXSE!' : '';
-            let txsePayout = betAmount * 1000;
-            log.textContent = `You beat Sawn-Off Slim! 💰 Draw time: ${reactionTime} ms. Won ${txsePayout} $TXSE!${bonus}`;
+            bonus = Math.random() < 0.1 ? ' + Bonus 25 Dex Coins!' : '';
+            let dexPayout = betAmount * 1000;
+            log.textContent = `You beat Sawn-Off Slim! 💰 Draw time: ${reactionTime} ms. Won ${dexPayout} Dex Coins!${bonus}`;
             cryptoScale = 1;
           }
           quickDraw.style.display = 'block';
           setTimeout(() => quickDraw.style.display = 'none', 1500);
           winSound.play();
-          log.textContent += ' Another cowboy just won 100 $TXSE—can you do better?';
+          log.textContent += ' Another cowboy just won 100 Dex Coins—can you do better?';
           if (reactionTime < 150) {
             log.textContent += ' 🏆 Earned "Lightning Draw" NFT!';
           }
@@ -688,10 +671,10 @@
     function checkStreak() {
       const log = document.getElementById('log');
       if (playStreak % 3 === 0) {
-        log.textContent += ' Nice streak! Earned 5 $TXSE for playin’!';
+        log.textContent += ' Nice streak! Earned 5 Dex Coins for playin’!';
       }
       if (playStreak % 5 === 0) {
-        log.textContent += ' Hot streak! Earned 10 $TXSE to HODL!';
+        log.textContent += ' Hot streak! Earned 10 Dex Coins to HODL!';
       }
     }
 
