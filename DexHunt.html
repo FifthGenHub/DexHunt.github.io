@@ -183,7 +183,7 @@
 <body>
   <div id="loadingScreen">Loading...</div>
 
-  <audio id="gunshot" src="assets/sounds/pistol-shot-233473.mp3" preload="auto"></audio>
+  <audio id="gunshot" src="assets/sounds/revovler-sound-328431.mp3" preload="auto"></audio>
   <audio id="toosoon" src="assets/sounds/clickmouse-266516.mp3" preload="auto"></audio>
   <audio id="winSound" src="assets/sounds/multi-coin-payout-14-213732.mp3" preload="auto"></audio>
   <audio id="loseSound" src="assets/sounds/8-bit-video-game-lose-sound-version-1-145828.mp3" preload="auto"></audio>
@@ -277,51 +277,39 @@
 
     const background = new Image();
     background.src = 'assets/DexHuntBackground.png';
-    background.onerror = () => console.error("Failed to load background image");
 
     const cloud1 = new Image();
     cloud1.src = 'assets/cloud1.png';
-    cloud1.onerror = () => console.error("Failed to load cloud1 image");
 
     const cloud2 = new Image();
     cloud2.src = 'assets/cloud2.png';
-    cloud2.onerror = () => console.error("Failed to load cloud2 image");
 
     const tumbleweed1 = new Image();
     tumbleweed1.src = 'assets/tumbleweed1.png';
-    tumbleweed1.onerror = () => console.error("Failed to load tumbleweed1 image");
 
     const tumbleweed2 = new Image();
     tumbleweed2.src = 'assets/tumbleweed2.png';
-    tumbleweed2.onerror = () => console.error("Failed to load tumbleweed2 image");
 
     const tumbleweed3 = new Image();
     tumbleweed3.src = 'assets/tumbleweed3.png';
-    tumbleweed3.onerror = () => console.error("Failed to load tumbleweed3 image");
 
     const bird1 = new Image();
     bird1.src = 'assets/bird1.png';
-    bird1.onerror = () => console.error("Failed to load bird1 image");
 
     const bird2 = new Image();
     bird2.src = 'assets/bird2.png';
-    bird2.onerror = () => console.error("Failed to load bird2 image");
 
     const crypto = new Image();
     crypto.src = 'assets/crypto.png';
-    crypto.onerror = () => console.error("Failed to load crypto image");
 
     const sawnOffSlim = new Image();
     sawnOffSlim.src = 'assets/sawn_off_slim.png';
-    sawnOffSlim.onerror = () => console.error("Failed to load sawnOffSlim image");
 
     const txseRider = new Image();
     txseRider.src = 'assets/txse_rider.png';
-    txseRider.onerror = () => console.error("Failed to load txseRider image");
 
     const eagle = new Image();
     eagle.src = 'assets/eagle.png';
-    eagle.onerror = () => console.error("Failed to load eagle image");
 
     let cloud1X = 0, cloud1Speed = 0.5;
     let cloud2X = 200, cloud2Speed = 0.3;
@@ -370,7 +358,7 @@
       tumbleweed3X += tumbleweed3Speed;
       if (tumbleweed1X > canvas.width) {
         tumbleweed1X = -tumbleweed1.width;
-        if (Math.random() < 0.3 && tumbleweedRollSound) tumbleweedRollSound.play();
+        if (Math.random() < 0.3 && tumbleweedRollSound && tumbleweedRollSound.readyState >= 2) tumbleweedRollSound.play();
       }
       if (tumbleweed2X > canvas.width) tumbleweed2X = -tumbleweed2.width;
       if (tumbleweed3X > canvas.width) tumbleweed3X = -tumbleweed3.width;
@@ -419,66 +407,68 @@
       requestAnimationFrame(animate);
     }
 
-    Promise.all([
-      new Promise((resolve, reject) => {
-        background.onload = () => {
-          console.log("Background loaded successfully");
+    // Load assets with better error handling
+    const assetsToLoad = [
+      { resource: background, name: 'Background' },
+      { resource: cloud1, name: 'Cloud1' },
+      { resource: cloud2, name: 'Cloud2' },
+      { resource: tumbleweed1, name: 'Tumbleweed1' },
+      { resource: tumbleweed2, name: 'Tumbleweed2' },
+      { resource: tumbleweed3, name: 'Tumbleweed3' },
+      { resource: bird1, name: 'Bird1' },
+      { resource: bird2, name: 'Bird2' },
+      { resource: crypto, name: 'Crypto' },
+      { resource: sawnOffSlim, name: 'SawnOffSlim' },
+      { resource: txseRider, name: 'TxseRider' },
+      { resource: eagle, name: 'Eagle' }
+    ];
+
+    const audioElements = [
+      gunshotSound, tooSoonSound, winSound, loseSound, resetSound,
+      startSound, walletSound, coyoteHowlSound, drawSound, backgroundMusic, tumbleweedRollSound
+    ];
+
+    Promise.all(
+      assetsToLoad.map(({ resource, name }) => new Promise((resolve, reject) => {
+        resource.onload = () => {
+          console.log(`${name} loaded successfully`);
           resolve();
         };
-        background.onerror = () => reject("Background image failed to load");
-      }),
-      new Promise((resolve, reject) => {
-        cloud1.onload = resolve;
-        cloud1.onerror = () => reject("Cloud1 image failed to load");
-      }),
-      new Promise((resolve, reject) => {
-        cloud2.onload = resolve;
-        cloud2.onerror = () => reject("Cloud2 image failed to load");
-      }),
-      new Promise((resolve, reject) => {
-        tumbleweed1.onload = resolve;
-        tumbleweed1.onerror = () => reject("Tumbleweed1 image failed to load");
-      }),
-      new Promise((resolve, reject) => {
-        tumbleweed2.onload = resolve;
-        tumbleweed2.onerror = () => reject("Tumbleweed2 image failed to load");
-      }),
-      new Promise((resolve, reject) => {
-        tumbleweed3.onload = resolve;
-        tumbleweed3.onerror = () => reject("Tumbleweed3 image failed to load");
-      }),
-      new Promise((resolve, reject) => {
-        bird1.onload = resolve;
-        bird1.onerror = () => reject("Bird1 image failed to load");
-      }),
-      new Promise((resolve, reject) => {
-        bird2.onload = resolve;
-        bird2.onerror = () => reject("Bird2 image failed to load");
-      }),
-      new Promise((resolve, reject) => {
-        crypto.onload = resolve;
-        crypto.onerror = () => reject("Crypto image failed to load");
-      }),
-      new Promise((resolve, reject) => {
-        sawnOffSlim.onload = resolve;
-        sawnOffSlim.onerror = () => reject("SawnOffSlim image failed to load");
-      }),
-      new Promise((resolve, reject) => {
-        txseRider.onload = resolve;
-        txseRider.onerror = () => reject("TxseRider image failed to load");
-      }),
-      new Promise((resolve, reject) => {
-        eagle.onload = resolve;
-        eagle.onerror = () => reject("Eagle image failed to load");
-      })
-    ]).then(() => {
-      console.log("All assets loaded successfully");
-      document.getElementById('loadingScreen').style.display = 'none';
-      animate();
+        resource.onerror = () => {
+          console.error(`Failed to load ${name} at ${resource.src}`);
+          resolve(); // Continue even if this asset fails
+        };
+      }))
+    ).then(() => {
+      console.log("All images processed (some may have failed)");
+      // Check audio readiness
+      Promise.all(
+        audioElements.map(audio => new Promise((resolve) => {
+          if (audio.readyState >= 2) {
+            console.log(`${audio.id} audio ready`);
+            resolve();
+          } else {
+            audio.oncanplaythrough = () => {
+              console.log(`${audio.id} audio loaded`);
+              resolve();
+            };
+            audio.onerror = () => {
+              console.error(`Failed to load audio ${audio.id} at ${audio.src}`);
+              resolve(); // Continue even if audio fails
+            };
+          }
+        }))
+      ).then(() => {
+        console.log("All audio processed (some may have failed)");
+        document.getElementById('loadingScreen').style.display = 'none';
+        animate();
+      }).catch(err => {
+        console.error("Audio loading error:", err);
+        document.getElementById('loadingScreen').innerHTML = 'Error loading audio files. Please try again. <button onclick="location.reload()">Reload</button>';
+      });
     }).catch(err => {
-      console.error("Asset loading failed:", err);
-      document.getElementById('loadingScreen').style.display = 'none';
-      document.getElementById('log').innerHTML = 'Error: Failed to load game assets. Please ensure all files are uploaded correctly. <button onclick="location.reload()" style="background-color: #ff9900; border: none; border-radius: 8px; padding: 8px 16px; cursor: pointer; color: #1a1a1a; font-weight: bold;">Reload</button>';
+      console.error("Image loading error:", err);
+      document.getElementById('loadingScreen').innerHTML = 'Error loading game assets. Please ensure all files are uploaded correctly. <button onclick="location.reload()">Reload</button>';
     });
 
     function updateLeaderboard() {
@@ -507,7 +497,7 @@
 
     function shareGame() {
       const log = document.getElementById('log');
-      const gameLink = 'https://fifthgenhub.github.io/tosecowboy.github.io/DexHunt.html';
+      const gameLink = 'https://fifthgenhub.github.io/txsecowboy.github.io/DexHunt.html';
       navigator.clipboard.writeText(gameLink).then(() => {
         log.textContent = 'Thanks for sharing DexHunt! You earned 10 Dex Coins!';
       }).catch(() => {
