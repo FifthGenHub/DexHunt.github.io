@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DexHunt: Cowboy Reflex Showdown</title>
+  <!-- Add Solana Web3.js for wallet integration -->
+  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
   <style>
     html, body {
       margin: 0;
@@ -44,7 +46,7 @@
       justify-content: center;
       gap: 10px;
     }
-    .wallet-btn, .start-btn, .reset-btn, .links-leaderboard-btn, .login-btn {
+    .wallet-btn, .start-btn, .reset-btn, .links-leaderboard-btn, .login-btn, .sound-toggle-btn {
       background-color: #ff9900;
       border: none;
       border-radius: 8px;
@@ -54,7 +56,7 @@
       color: #1a1a1a;
       font-weight: bold;
     }
-    .wallet-btn:hover, .start-btn:hover, .reset-btn:hover, .links-leaderboard-btn:hover, .login-btn:hover {
+    .wallet-btn:hover, .start-btn:hover, .reset-btn:hover, .links-leaderboard-btn:hover, .login-btn:hover, .sound-toggle-btn:hover {
       background-color: #cc7a00;
     }
     .log {
@@ -145,6 +147,21 @@
       max-width: 90%;
       text-align: center;
     }
+    .tutorial-popup {
+      display: none;
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 20px;
+      border-radius: 12px;
+      color: #ffc34d;
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      z-index: 999;
+      max-width: 90%;
+      text-align: center;
+    }
     .share-buttons {
       margin-top: 15px;
       display: flex;
@@ -177,6 +194,14 @@
       align-items: center;
       font-size: clamp(1.5rem, 3vw, 2rem);
       z-index: 1000;
+      flex-direction: column;
+    }
+    /* Mobile optimization for bang element */
+    @media (max-width: 600px) {
+      .bang {
+        width: 300px;
+        height: 300px;
+      }
     }
   </style>
 </head>
@@ -198,22 +223,23 @@
   <audio id="tumbleweedRoll" src="assets/sounds/tumbleweed_roll.mp3" preload="auto"></audio>
 
   <div class="game-container" id="game">
-    <h1><span class="emoji">🤠</span> DexHunt: Cowboy Reflex Showdown</h1>
+    <h1><span class="emoji"></span> DexHunt: Cowboy Reflex Showdown</h1>
     <div class="button-row" id="buttonRow">
-      <button class="wallet-btn" onclick="connectWallet()">🔗 Connect Wallet</button>
+      <button class="wallet-btn" onclick="connectWallet()"> Connect Wallet</button>
       <select id="rewardType" style="padding: 12px; margin: 0 8px; border-radius: 8px;">
         <option value="sol">Win SOL</option>
         <option value="dex">Win Dex Coins</option>
       </select>
       <select id="betAmount" onchange="setBetAmount(this.value)" style="padding: 12px; margin: 0 8px; border-radius: 8px;">
-        <option value="0.01">Bet 0.01 SOL</option>
-        <option value="0.015" selected>Bet 0.015 SOL</option>
-        <option value="0.02">Bet 0.02 SOL</option>
+        <option value="0.005">Bet 0.005 SOL (~$0.50 USD)</option>
+        <option value="0.0075" selected>Bet 0.0075 SOL (~$0.75 USD)</option>
+        <option value="0.01">Bet 0.01 SOL (~$1.00 USD)</option>
       </select>
-      <button class="start-btn" onclick="startDuel()">⚡ Start Duel</button>
-      <button class="reset-btn" onclick="resetDuel()">🔄 Reset</button>
-      <button class="links-leaderboard-btn" onclick="toggleLinksLeaderboard()">🏆 Links & Leaderboard</button>
-      <button class="login-btn" onclick="dailyLoginReward()">🎁 Daily Login Reward</button>
+      <button class="start-btn" onclick="startDuel()"> Start Duel</button>
+      <button class="reset-btn" onclick="resetDuel()"> Reset</button>
+      <button class="links-leaderboard-btn" onclick="toggleLinksLeaderboard()"> Links & Leaderboard</button>
+      <button class="login-btn" onclick="dailyLoginReward()"> Daily Login Reward</button>
+      <button class="sound-toggle-btn" onclick="toggleSound()">Mute Sound</button>
       <div class="log" id="log">Think you’re quick enough, cowboy? Sawn-Off Slim’s ready to take your SOL!</div>
     </div>
     <div class="duel-area" id="duel-area">
@@ -223,6 +249,14 @@
       <div id="quickDraw" class="quick-draw" style="display:none;">Quick Draw!</div>
     </div>
     <div class="leaderboard-popup" id="leaderboardPopup"></div>
+    <div class="tutorial-popup" id="tutorialPopup">
+      <h3>Welcome to DexHunt!</h3>
+      <p>1. Connect your wallet to start.</p>
+      <p>2. Choose your bet amount (low stakes, ~$0.50 USD).</p>
+      <p>3. Click "Start Duel" and wait for the "SHOOT NOW!" signal.</p>
+      <p>4. Click the "BANG!" target as fast as you can to win SOL or Dex Coins!</p>
+      <button onclick="closeTutorial()">Got It!</button>
+    </div>
   </div>
 
   <script>
@@ -236,8 +270,9 @@
     let consecutiveLosses = 0;
     let playStreak = 0;
     let reactionWindow = 500;
-    let betAmount = 0.015;
+    let betAmount = 0.0075; // Matches default selected option
     let loginStreak = 0;
+    let isMuted = false;
 
     const gunshotSound = document.getElementById('gunshot');
     const tooSoonSound = document.getElementById('toosoon');
@@ -251,6 +286,11 @@
     const backgroundMusic = document.getElementById('backgroundMusic');
     const tumbleweedRollSound = document.getElementById('tumbleweedRoll');
 
+    const audioElements = [
+      gunshotSound, tooSoonSound, winSound, loseSound, resetSound,
+      startSound, walletSound, coyoteHowlSound, drawSound, backgroundMusic, tumbleweedRollSound
+    ];
+
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const duelArea = document.getElementById('duel-area');
@@ -261,6 +301,8 @@
     let eagleY = 0;
     let eagleSpeedX = 0.6;
     let eagleSpeedY = 0.1;
+    let cryptoX = 500, cryptoY = 50; // Moved up to fix ReferenceError
+    let cryptoScale = 1, cryptoPulse = 0.05;
 
     function resizeCanvas() {
       canvas.width = duelArea.offsetWidth;
@@ -318,8 +360,6 @@
     let tumbleweed3X = 300, tumbleweed3Speed = 1.2;
     let bird1X = 50, bird1Y = 50, bird1SpeedX = 0.7, bird1SpeedY = 0.2;
     let bird2X = 150, bird2Y = 80, bird2SpeedX = 0.5, bird2SpeedY = -0.1;
-    let cryptoX = 500, cryptoY = 50;
-    let cryptoScale = 1, cryptoPulse = 0.05;
 
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -407,7 +447,6 @@
       requestAnimationFrame(animate);
     }
 
-    // Load assets with better error handling
     const assetsToLoad = [
       { resource: background, name: 'Background' },
       { resource: cloud1, name: 'Cloud1' },
@@ -423,11 +462,6 @@
       { resource: eagle, name: 'Eagle' }
     ];
 
-    const audioElements = [
-      gunshotSound, tooSoonSound, winSound, loseSound, resetSound,
-      startSound, walletSound, coyoteHowlSound, drawSound, backgroundMusic, tumbleweedRollSound
-    ];
-
     Promise.all(
       assetsToLoad.map(({ resource, name }) => new Promise((resolve, reject) => {
         resource.onload = () => {
@@ -436,12 +470,12 @@
         };
         resource.onerror = () => {
           console.error(`Failed to load ${name} at ${resource.src}`);
+          document.getElementById('loadingScreen').innerHTML += `<p>Failed to load ${name}. Please check your connection.</p>`;
           resolve(); // Continue even if this asset fails
         };
       }))
     ).then(() => {
       console.log("All images processed (some may have failed)");
-      // Check audio readiness
       Promise.all(
         audioElements.map(audio => new Promise((resolve) => {
           if (audio.readyState >= 2) {
@@ -454,7 +488,8 @@
             };
             audio.onerror = () => {
               console.error(`Failed to load audio ${audio.id} at ${audio.src}`);
-              resolve(); // Continue even if audio fails
+              document.getElementById('loadingScreen').innerHTML += `<p>Failed to load audio ${audio.id}. Please check your connection.</p>`;
+              resolve();
             };
           }
         }))
@@ -462,6 +497,7 @@
         console.log("All audio processed (some may have failed)");
         document.getElementById('loadingScreen').style.display = 'none';
         animate();
+        showTutorial();
       }).catch(err => {
         console.error("Audio loading error:", err);
         document.getElementById('loadingScreen').innerHTML = 'Error loading audio files. Please try again. <button onclick="location.reload()">Reload</button>';
@@ -471,15 +507,32 @@
       document.getElementById('loadingScreen').innerHTML = 'Error loading game assets. Please ensure all files are uploaded correctly. <button onclick="location.reload()">Reload</button>';
     });
 
+    function showTutorial() {
+      if (!localStorage.getItem('tutorialSeen')) {
+        document.getElementById('tutorialPopup').style.display = 'block';
+        localStorage.setItem('tutorialSeen', 'true');
+      }
+    }
+
+    function closeTutorial() {
+      document.getElementById('tutorialPopup').style.display = 'none';
+    }
+
+    function toggleSound() {
+      isMuted = !isMuted;
+      audioElements.forEach(audio => audio.muted = isMuted);
+      document.querySelector('.sound-toggle-btn').textContent = isMuted ? 'Unmute Sound' : 'Mute Sound';
+    }
+
     function updateLeaderboard() {
-      const title = bestDraw < 200 ? '⚡ Lightning Cowboy' : '--';
+      const title = bestDraw < 200 ? ' Lightning Cowboy' : '--';
       document.getElementById('leaderboardPopup').innerHTML = `
-        <h3>🏆 Session Leaderboard</h3>
+        <h3> Session Leaderboard</h3>
         <p>Fastest Draw: ${bestDraw || '--'} ms</p>
         <p>Duels Played: ${totalDuels}</p>
         <p>Title: ${title}</p>
         <div class="share-buttons">
-          <button class="share-btn" onclick="shareGame()">📢 Share DexHunt & Earn Rewards</button>
+          <button class="share-btn" onclick="shareGame()"> Share DexHunt & Earn Rewards</button>
         </div>
         <button onclick="toggleLinksLeaderboard()">Close</button>
       `;
@@ -497,19 +550,79 @@
 
     function shareGame() {
       const log = document.getElementById('log');
-      const gameLink = 'https://fifthgenhub.github.io/txsecowboy.github.io/DexHunt.html';
+      const gameLink = 'https://fifthgenhub.github.io/txsecowboy.github.io/DexHunt.html?ref=' + Math.random().toString(36).substr(2, 9);
       navigator.clipboard.writeText(gameLink).then(() => {
-        log.textContent = 'Thanks for sharing DexHunt! You earned 10 Dex Coins!';
+        log.textContent = 'Thanks for sharing DexHunt! You earned 10 Dex Coins! Share this link: ' + gameLink;
       }).catch(() => {
         log.textContent = 'Failed to copy link. Please share manually: ' + gameLink;
       });
     }
 
-    function connectWallet() {
-      walletSound.play();
+    // Placeholder for dynamic SOL price fetching (requires API access)
+    /*
+    async function fetchSolPrice() {
+      try {
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
+        const data = await response.json();
+        const solPrice = data.solana.usd;
+        return solPrice;
+      } catch (error) {
+        console.error('Failed to fetch SOL price:', error);
+        return 100; // Fallback price
+      }
+    }
+
+    async function updateBetOptions() {
+      const solPrice = await fetchSolPrice();
+      const betOptions = [0.005, 0.0075, 0.01];
+      const select = document.getElementById('betAmount');
+      select.innerHTML = betOptions.map(amount => {
+        const usdValue = (amount * solPrice).toFixed(2);
+        return `<option value="${amount}">Bet ${amount} SOL (~$${usdValue} USD)</option>`;
+      }).join('');
+      select.value = '0.0075';
+    }
+    window.addEventListener('load', updateBetOptions);
+    */
+
+    let userPublicKey = null;
+
+    async function connectWallet() {
       const log = document.getElementById('log');
-      walletConnected = true;
-      log.textContent = 'Wallet Connected to 2vNp...5zAn (0.015 SOL Deducted - Placeholder)';
+      log.textContent = 'Connecting wallet...';
+      try {
+        const { solana } = window;
+        if (!solana || !solana.isPhantom) {
+          log.textContent = 'Please install Phantom Wallet!';
+          return;
+        }
+
+        const provider = solana;
+        const response = await provider.connect();
+        userPublicKey = response.publicKey.toString();
+        walletConnected = true;
+
+        const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
+        const toPublicKey = new solanaWeb3.PublicKey('YOUR_WALLET_ADDRESS_HERE'); // Replace with your wallet address
+        const lamports = solanaWeb3.LAMPORTS_PER_SOL * betAmount;
+
+        const transaction = new solanaWeb3.Transaction().add(
+          solanaWeb3.SystemProgram.transfer({
+            fromPubkey: response.publicKey,
+            toPubkey: toPublicKey,
+            lamports: lamports,
+          })
+        );
+
+        const { signature } = await provider.signAndSendTransaction(transaction, { connection });
+        await connection.confirmTransaction(signature);
+
+        walletSound.play();
+        log.textContent = `Wallet Connected: ${userPublicKey.slice(0, 8)}... (${betAmount} SOL Deducted)`;
+      } catch (error) {
+        console.error('Wallet connection failed:', error);
+        log.textContent = 'Wallet connection failed. Please try again.';
+      }
     }
 
     function setBetAmount(amount) {
@@ -579,14 +692,14 @@
 
       canShoot = true;
       bangShownAt = performance.now();
-      log.textContent = 'SHOOT NOW! 💥';
+      log.textContent = 'SHOOT NOW! ';
       drawSound.play();
 
       reactionTimeout = setTimeout(() => {
         if (canShoot) {
           canShoot = false;
           bang.style.display = 'none';
-          log.textContent = 'Too slow, cowboy. Sawn-Off Slim wins! 💸';
+          log.textContent = 'Too slow, cowboy. Sawn-Off Slim wins! ';
           loseSound.play();
           consecutiveLosses++;
           playStreak++;
@@ -596,7 +709,7 @@
       }, coyoteHowlTriggered ? 750 : reactionWindow);
     }
 
-    function shoot() {
+    async function shoot() {
       const bang = document.getElementById('bang');
       const log = document.getElementById('log');
       const quickDraw = document.getElementById('quickDraw');
@@ -612,15 +725,31 @@
         playStreak++;
         if (reactionTime < 200) {
           consecutiveLosses = 0;
-          reactionWindow = Math.max(400, reactionWindow - 50);
+          reactionWindow = Math.max(300, reactionWindow - 50); // Dynamic difficulty
           let bonus = Math.random() < 0.1 ? ' + Bonus 0.005 SOL!' : '';
           if (rewardType === 'sol') {
             let payout = betAmount * 1.5;
-            log.textContent = `You beat Sawn-Off Slim! 💰 Draw time: ${reactionTime} ms. Won ${payout.toFixed(3)} SOL!${bonus}`;
+            log.textContent = `You beat Sawn-Off Slim! Draw time: ${reactionTime} ms. Won ${payout.toFixed(3)} SOL!${bonus}`;
+            // Placeholder for payout (should be handled server-side)
+            /*
+            const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
+            const fromPublicKey = new solanaWeb3.PublicKey('YOUR_WALLET_ADDRESS_HERE');
+            const toPublicKey = new solanaWeb3.PublicKey(userPublicKey);
+            const lamports = solanaWeb3.LAMPORTS_PER_SOL * payout;
+
+            const transaction = new solanaWeb3.Transaction().add(
+              solanaWeb3.SystemProgram.transfer({
+                fromPubkey: fromPublicKey,
+                toPubkey: toPublicKey,
+                lamports: lamports,
+              })
+            );
+            // Sign and send transaction via a secure backend
+            */
           } else {
             bonus = Math.random() < 0.1 ? ' + Bonus 25 Dex Coins!' : '';
             let dexPayout = betAmount * 1000;
-            log.textContent = `You beat Sawn-Off Slim! 💰 Draw time: ${reactionTime} ms. Won ${dexPayout} Dex Coins!${bonus}`;
+            log.textContent = `You beat Sawn-Off Slim! Draw time: ${reactionTime} ms. Won ${dexPayout} Dex Coins!${bonus}`;
             cryptoScale = 1;
           }
           quickDraw.style.display = 'block';
@@ -628,20 +757,20 @@
           winSound.play();
           log.textContent += ' Another cowboy just won 100 Dex Coins—can you do better?';
           if (reactionTime < 150) {
-            log.textContent += ' 🏆 Earned "Lightning Draw" NFT!';
+            log.textContent += ' Earned "Lightning Draw" NFT!';
           }
         } else if (reactionTime < 250) {
           log.textContent = `So close! You’re gettin’ faster, cowboy! Draw time: ${reactionTime} ms. Won 0.005 SOL!`;
           quickDraw.style.display = 'block';
           setTimeout(() => quickDraw.style.display = 'none', 1500);
           consecutiveLosses++;
-          reactionWindow = 500;
+          reactionWindow = Math.min(600, reactionWindow + 50); // Dynamic difficulty
           winSound.play();
         } else {
           log.textContent = `Nice try, but Sawn-Off Slim was faster! Draw time: ${reactionTime} ms.`;
           log.textContent += ` Sawn-Off Slim laughs: "Better luck next time, greenhorn!"`;
           consecutiveLosses++;
-          reactionWindow = 500;
+          reactionWindow = Math.min(600, reactionWindow + 50); // Dynamic difficulty
         }
         gunshotSound.play();
         if (bestDraw === null || reactionTime < bestDraw) bestDraw = reactionTime;
