@@ -325,7 +325,7 @@
     const cloud2 = new Image();
     cloud2.src = 'assets/cloud2.png';
 
-    const cloud3 = new Image(); // Added third cloud
+    const cloud3 = new Image();
     cloud3.src = 'assets/cloud3.png';
 
     const tumbleweed1 = new Image();
@@ -346,18 +346,12 @@
     const crypto = new Image();
     crypto.src = 'assets/crypto.png';
 
-    const sawnOffSlim = new Image();
-    sawnOffSlim.src = 'assets/sawn_off_slim.png';
-
-    const txseRider = new Image();
-    txseRider.src = 'assets/txse_rider.png';
-
     const eagle = new Image();
     eagle.src = 'assets/eagle.png';
 
     let cloud1X = 0, cloud1Speed = 0.5;
     let cloud2X = 200, cloud2Speed = 0.3;
-    let cloud3X = 400, cloud3Speed = 0.4; // Added third cloud variables
+    let cloud3X = 400, cloud3Speed = 0.4;
     let tumbleweed1X = 0, tumbleweed1Speed = 1;
     let tumbleweed2X = 100, tumbleweed2Speed = 0.8;
     let tumbleweed3X = 300, tumbleweed3Speed = 1.2;
@@ -382,15 +376,15 @@
       if (cloud2.complete && cloud2.naturalWidth !== 0) {
         ctx.drawImage(cloud2, cloud2X, 80, cloud2.width, cloud2.height);
       }
-      if (cloud3.complete && cloud3.naturalWidth !== 0) { // Draw third cloud
+      if (cloud3.complete && cloud3.naturalWidth !== 0) {
         ctx.drawImage(cloud3, cloud3X, 60, cloud3.width, cloud3.height);
       }
       cloud1X += cloud1Speed;
       cloud2X += cloud2Speed;
-      cloud3X += cloud3Speed; // Update third cloud position
+      cloud3X += cloud3Speed;
       if (cloud1X > canvas.width) cloud1X = -cloud1.width;
       if (cloud2X > canvas.width) cloud2X = -cloud2.width;
-      if (cloud3X > canvas.width) cloud3X = -cloud3.width; // Reset third cloud position
+      if (cloud3X > canvas.width) cloud3X = -cloud3.width;
 
       if (tumbleweed1.complete && tumbleweed1.naturalWidth !== 0) {
         ctx.drawImage(tumbleweed1, tumbleweed1X, canvas.height - 80, tumbleweed1.width, tumbleweed1.height);
@@ -419,7 +413,7 @@
       }
       bird1X += bird1SpeedX;
       bird1Y += bird1SpeedY;
-      bird2X += bird1SpeedX;
+      bird2X += bird2SpeedX;
       bird2Y += bird2SpeedY;
       if (bird1X > canvas.width || bird1X < 0) bird1SpeedX *= -1;
       if (bird1Y > 150 || bird1Y < 0) bird1SpeedY *= -1;
@@ -436,14 +430,6 @@
       cryptoScale += cryptoPulse;
       if (cryptoScale > 1.2 || cryptoScale < 1) cryptoPulse *= -1;
 
-      if (sawnOffSlim.complete && sawnOffSlim.naturalWidth !== 0) {
-        ctx.drawImage(sawnOffSlim, canvas.width - 150, canvas.height - 150, 100, 100);
-      }
-
-      if (txseRider.complete && txseRider.naturalWidth !== 0) {
-        ctx.drawImage(txseRider, 50, canvas.height - 150, 100, 100);
-      }
-
       if (eagle.complete && eagle.naturalWidth !== 0) {
         ctx.drawImage(eagle, eagleX, eagleY, 80, 80);
         eagleX += eagleSpeedX;
@@ -459,15 +445,13 @@
       { resource: background, name: 'Background' },
       { resource: cloud1, name: 'Cloud1' },
       { resource: cloud2, name: 'Cloud2' },
-      { resource: cloud3, name: 'Cloud3' }, // Added third cloud to assets
+      { resource: cloud3, name: 'Cloud3' },
       { resource: tumbleweed1, name: 'Tumbleweed1' },
       { resource: tumbleweed2, name: 'Tumbleweed2' },
       { resource: tumbleweed3, name: 'Tumbleweed3' },
       { resource: bird1, name: 'Bird1' },
       { resource: bird2, name: 'Bird2' },
       { resource: crypto, name: 'Crypto' },
-      { resource: sawnOffSlim, name: 'SawnOffSlim' },
-      { resource: txseRider, name: 'TxseRider' },
       { resource: eagle, name: 'Eagle' }
     ];
 
@@ -559,7 +543,7 @@
 
     function shareGame() {
       const log = document.getElementById('log');
-      const gameLink = 'https://fifthgenhub.github.io/txsecowboy.github.io/DexHunt.html?ref=' + Math.random().toString(36).substr(2, 9);
+      const gameLink = 'https://fifthgenhub.github.io/DexHunt.github.io/DexHunt.html?ref=' + Math.random().toString(36).substr(2, 9);
       navigator.clipboard.writeText(gameLink).then(() => {
         log.textContent = 'Thanks for sharing DexHunt! You earned 10 Dex Coins! Share this link: ' + gameLink;
       }).catch(() => {
