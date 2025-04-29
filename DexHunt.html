@@ -196,7 +196,6 @@
       z-index: 1000;
       flex-direction: column;
     }
-    /* Mobile optimization for bang element */
     @media (max-width: 600px) {
       .bang {
         width: 300px;
@@ -270,7 +269,7 @@
     let consecutiveLosses = 0;
     let playStreak = 0;
     let reactionWindow = 500;
-    let betAmount = 0.0075; // Matches default selected option
+    let betAmount = 0.0075;
     let loginStreak = 0;
     let isMuted = false;
 
@@ -301,7 +300,7 @@
     let eagleY = 0;
     let eagleSpeedX = 0.6;
     let eagleSpeedY = 0.1;
-    let cryptoX = 500, cryptoY = 50; // Moved up to fix ReferenceError
+    let cryptoX = 500, cryptoY = 50;
     let cryptoScale = 1, cryptoPulse = 0.05;
 
     function resizeCanvas() {
@@ -325,6 +324,9 @@
 
     const cloud2 = new Image();
     cloud2.src = 'assets/cloud2.png';
+
+    const cloud3 = new Image(); // Added third cloud
+    cloud3.src = 'assets/cloud3.png';
 
     const tumbleweed1 = new Image();
     tumbleweed1.src = 'assets/tumbleweed1.png';
@@ -355,6 +357,7 @@
 
     let cloud1X = 0, cloud1Speed = 0.5;
     let cloud2X = 200, cloud2Speed = 0.3;
+    let cloud3X = 400, cloud3Speed = 0.4; // Added third cloud variables
     let tumbleweed1X = 0, tumbleweed1Speed = 1;
     let tumbleweed2X = 100, tumbleweed2Speed = 0.8;
     let tumbleweed3X = 300, tumbleweed3Speed = 1.2;
@@ -379,10 +382,15 @@
       if (cloud2.complete && cloud2.naturalWidth !== 0) {
         ctx.drawImage(cloud2, cloud2X, 80, cloud2.width, cloud2.height);
       }
+      if (cloud3.complete && cloud3.naturalWidth !== 0) { // Draw third cloud
+        ctx.drawImage(cloud3, cloud3X, 60, cloud3.width, cloud3.height);
+      }
       cloud1X += cloud1Speed;
       cloud2X += cloud2Speed;
+      cloud3X += cloud3Speed; // Update third cloud position
       if (cloud1X > canvas.width) cloud1X = -cloud1.width;
       if (cloud2X > canvas.width) cloud2X = -cloud2.width;
+      if (cloud3X > canvas.width) cloud3X = -cloud3.width; // Reset third cloud position
 
       if (tumbleweed1.complete && tumbleweed1.naturalWidth !== 0) {
         ctx.drawImage(tumbleweed1, tumbleweed1X, canvas.height - 80, tumbleweed1.width, tumbleweed1.height);
@@ -411,7 +419,7 @@
       }
       bird1X += bird1SpeedX;
       bird1Y += bird1SpeedY;
-      bird2X += bird2SpeedX;
+      bird2X += bird1SpeedX;
       bird2Y += bird2SpeedY;
       if (bird1X > canvas.width || bird1X < 0) bird1SpeedX *= -1;
       if (bird1Y > 150 || bird1Y < 0) bird1SpeedY *= -1;
@@ -451,6 +459,7 @@
       { resource: background, name: 'Background' },
       { resource: cloud1, name: 'Cloud1' },
       { resource: cloud2, name: 'Cloud2' },
+      { resource: cloud3, name: 'Cloud3' }, // Added third cloud to assets
       { resource: tumbleweed1, name: 'Tumbleweed1' },
       { resource: tumbleweed2, name: 'Tumbleweed2' },
       { resource: tumbleweed3, name: 'Tumbleweed3' },
@@ -471,7 +480,7 @@
         resource.onerror = () => {
           console.error(`Failed to load ${name} at ${resource.src}`);
           document.getElementById('loadingScreen').innerHTML += `<p>Failed to load ${name}. Please check your connection.</p>`;
-          resolve(); // Continue even if this asset fails
+          resolve();
         };
       }))
     ).then(() => {
@@ -558,33 +567,6 @@
       });
     }
 
-    // Placeholder for dynamic SOL price fetching (requires API access)
-    /*
-    async function fetchSolPrice() {
-      try {
-        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
-        const data = await response.json();
-        const solPrice = data.solana.usd;
-        return solPrice;
-      } catch (error) {
-        console.error('Failed to fetch SOL price:', error);
-        return 100; // Fallback price
-      }
-    }
-
-    async function updateBetOptions() {
-      const solPrice = await fetchSolPrice();
-      const betOptions = [0.005, 0.0075, 0.01];
-      const select = document.getElementById('betAmount');
-      select.innerHTML = betOptions.map(amount => {
-        const usdValue = (amount * solPrice).toFixed(2);
-        return `<option value="${amount}">Bet ${amount} SOL (~$${usdValue} USD)</option>`;
-      }).join('');
-      select.value = '0.0075';
-    }
-    window.addEventListener('load', updateBetOptions);
-    */
-
     let userPublicKey = null;
 
     async function connectWallet() {
@@ -603,7 +585,7 @@
         walletConnected = true;
 
         const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
-        const toPublicKey = new solanaWeb3.PublicKey('9jMeoSnkQoHHhsRr4ri52PH6mUXYcsuPEYHBqgAntGyw'); // Replace with your wallet address
+        const toPublicKey = new solanaWeb3.PublicKey('YOUR_WALLET_ADDRESS_HERE');
         const lamports = solanaWeb3.LAMPORTS_PER_SOL * betAmount;
 
         const transaction = new solanaWeb3.Transaction().add(
@@ -725,27 +707,11 @@
         playStreak++;
         if (reactionTime < 200) {
           consecutiveLosses = 0;
-          reactionWindow = Math.max(300, reactionWindow - 50); // Dynamic difficulty
+          reactionWindow = Math.max(300, reactionWindow - 50);
           let bonus = Math.random() < 0.1 ? ' + Bonus 0.005 SOL!' : '';
           if (rewardType === 'sol') {
             let payout = betAmount * 1.5;
             log.textContent = `You beat Sawn-Off Slim! Draw time: ${reactionTime} ms. Won ${payout.toFixed(3)} SOL!${bonus}`;
-            // Placeholder for payout (should be handled server-side)
-            /*
-            const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
-            const fromPublicKey = new solanaWeb3.PublicKey('YOUR_WALLET_ADDRESS_HERE');
-            const toPublicKey = new solanaWeb3.PublicKey(userPublicKey);
-            const lamports = solanaWeb3.LAMPORTS_PER_SOL * payout;
-
-            const transaction = new solanaWeb3.Transaction().add(
-              solanaWeb3.SystemProgram.transfer({
-                fromPubkey: fromPublicKey,
-                toPubkey: toPublicKey,
-                lamports: lamports,
-              })
-            );
-            // Sign and send transaction via a secure backend
-            */
           } else {
             bonus = Math.random() < 0.1 ? ' + Bonus 25 Dex Coins!' : '';
             let dexPayout = betAmount * 1000;
@@ -764,13 +730,13 @@
           quickDraw.style.display = 'block';
           setTimeout(() => quickDraw.style.display = 'none', 1500);
           consecutiveLosses++;
-          reactionWindow = Math.min(600, reactionWindow + 50); // Dynamic difficulty
+          reactionWindow = Math.min(600, reactionWindow + 50);
           winSound.play();
         } else {
           log.textContent = `Nice try, but Sawn-Off Slim was faster! Draw time: ${reactionTime} ms.`;
           log.textContent += ` Sawn-Off Slim laughs: "Better luck next time, greenhorn!"`;
           consecutiveLosses++;
-          reactionWindow = Math.min(600, reactionWindow + 50); // Dynamic difficulty
+          reactionWindow = Math.min(600, reactionWindow + 50);
         }
         gunshotSound.play();
         if (bestDraw === null || reactionTime < bestDraw) bestDraw = reactionTime;
