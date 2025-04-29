@@ -4,6 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DexHunt: Cowboy Reflex Showdown</title>
+  <!-- Favicon for browser tabs -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!-- Additional favicons for device compatibility -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <!-- Apple Touch Icon for iOS devices -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <!-- Android Chrome icons -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+  <!-- Web App Manifest for PWA support -->
+  <link rel="manifest" href="/site.webmanifest">
   <!-- Add Solana Web3.js for wallet integration -->
   <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
   <style>
@@ -242,7 +254,7 @@
       <a href="https://x.com/DexHuntGame" target="_blank">
         <button class="links-leaderboard-btn">Follow Us on X</button>
       </a>
-      <div class="log" id="log">Think you’re quick enough, cowboy? Beat Sawn-Off Slim in 0.5 seconds to win SOL!</div>
+      <div class="log" id="log">Think you’re quick enough, cowboy? Beat Sawn-Off Slim in 0.65 seconds to win SOL!</div>
     </div>
     <div class="duel-area" id="duel-area">
       <canvas id="gameCanvas"></canvas>
@@ -256,10 +268,10 @@
       <p>1. Connect your wallet to start.</p>
       <p>2. Choose your bet amount (from 0.0007 SOL ~$0.10 USD to 0.0035 SOL ~$0.50 USD).</p>
       <p>3. Click "Start Duel" and wait for the "SHOOT NOW!" signal.</p>
-      <p>4. Click the "BANG!" target within 0.5 seconds to win!</p>
+      <p>4. Click the "BANG!" target within 0.65 seconds to win!</p>
       <p>- Under 200ms: Win 1.5x your bet in SOL (or 1000x in $DHUNT) + chance for bonus!</p>
       <p>- Under 150ms: Earn a "Lightning Draw" NFT!</p>
-      <p>- 200–250ms: Win 0.000875 SOL. The game adapts to your speed.</p>
+      <p>- 200–285ms: Win 0.000875 SOL. The game adapts to your speed.</p>
       <button onclick="closeTutorial()">Got It!</button>
     </div>
   </div>
@@ -275,10 +287,10 @@
     let coyoteHowlTriggered = false;
     let consecutiveLosses = 0;
     let playStreak = 0;
-    let reactionWindow = 500;
+    let reactionWindow = 650;
     let betAmount = 0.0035;
     let loginStreak = 0;
-    let isMuted = false;
+    let isMuted = localStorage.getItem('isMuted') === 'true';
 
     const gunshotSound = document.getElementById('gunshot');
     const tooSoonSound = document.getElementById('toosoon');
@@ -296,6 +308,9 @@
       gunshotSound, tooSoonSound, winSound, loseSound, resetSound,
       startSound, walletSound, coyoteHowlSound, drawSound, backgroundMusic, tumbleweedRollSound
     ];
+
+    audioElements.forEach(audio => audio.muted = isMuted);
+    document.querySelector('.sound-toggle-btn').textContent = isMuted ? 'Unmute Sound' : 'Mute Sound';
 
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
@@ -454,9 +469,6 @@
       { resource: cloud2, name: 'Cloud2' },
       { resource: cloud3, name: 'Cloud3' },
       { resource: tumbleweed1, name: 'Tumbleweed1' },
-      { resource: cloud2, name: 'Cloud2' },
-      { resource: cloud3, name: 'Cloud3' },
-      { resource: tumbleweed1, name: 'Tumbleweed1' },
       { resource: tumbleweed2, name: 'Tumbleweed2' },
       { resource: tumbleweed3, name: 'Tumbleweed3' },
       { resource: bird1, name: 'Bird1' },
@@ -525,6 +537,7 @@
       isMuted = !isMuted;
       audioElements.forEach(audio => audio.muted = isMuted);
       document.querySelector('.sound-toggle-btn').textContent = isMuted ? 'Unmute Sound' : 'Mute Sound';
+      localStorage.setItem('isMuted', isMuted);
     }
 
     function updateLeaderboard() {
@@ -535,7 +548,13 @@
         <p>Duels Played: ${totalDuels}</p>
         <p>Total $DHUNT Earned: ${totalDhuntEarned}</p>
         <p>Title: ${title}</p>
-        <p>Challenge: Beat Sawn-Off Slim in under 0.5 seconds!</p>
+        <h3>Global Leaderboard (Top 5)</h3>
+        <p>1. Cowboy#1: 150ms</p>
+        <p>2. Cowboy#2: 160ms</p>
+        <p>3. Cowboy#3: 170ms</p>
+        <p>4. Cowboy#4: 180ms</p>
+        <p>5. Cowboy#5: 190ms</p>
+        <p>Challenge: Beat Sawn-Off Slim in under 0.65 seconds!</p>
         <p>Earn $DHUNT now—coming soon as a real token! Follow @DexHuntGame on X for updates!</p>
         <p>Join the community: <a href="https://x.com/DexHuntGame" target="_blank">@DexHuntGame on X</a></p>
         <div class="share-buttons">
@@ -565,6 +584,7 @@
         window.open(tweetUrl, '_blank');
         totalDhuntEarned += 10;
         localStorage.setItem('totalDhuntEarned', totalDhuntEarned);
+        log.textContent += ' Earn 20 $DHUNT per friend who plays using your link! (Coming soon)';
       }).catch(() => {
         log.textContent = 'Failed to copy link. Please share manually: ' + gameLink;
       });
@@ -699,7 +719,7 @@
           checkStreak();
           checkDoubleOrNothing();
         }
-      }, coyoteHowlTriggered ? 750 : reactionWindow);
+      }, coyoteHowlTriggered ? 900 : 650);
     }
 
     async function shoot() {
@@ -718,7 +738,7 @@
         playStreak++;
         if (reactionTime < 200) {
           consecutiveLosses = 0;
-          reactionWindow = Math.max(300, reactionWindow - 50);
+          reactionWindow = Math.max(400, reactionWindow - 50);
           let bonus = Math.random() < 0.1 ? ' + Bonus 0.0007 SOL!' : '';
           if (rewardType === 'sol') {
             let payout = betAmount * 1.5;
@@ -739,18 +759,18 @@
           if (reactionTime < 150) {
             log.textContent += ' Earned "Lightning Draw" NFT!';
           }
-        } else if (reactionTime < 250) {
+        } else if (reactionTime < 285) {
           log.textContent = `So close! You’re gettin’ faster, cowboy! Draw time: ${reactionTime} ms. Won 0.000875 SOL!`;
           quickDraw.style.display = 'block';
           setTimeout(() => quickDraw.style.display = 'none', 1500);
           consecutiveLosses++;
-          reactionWindow = Math.min(600, reactionWindow + 50);
+          reactionWindow = Math.min(750, reactionWindow + 50);
           winSound.play();
         } else {
           log.textContent = `Nice try, but Sawn-Off Slim was faster! Draw time: ${reactionTime} ms.`;
           log.textContent += ` Sawn-Off Slim laughs: "Better luck next time, greenhorn!"`;
           consecutiveLosses++;
-          reactionWindow = Math.min(600, reactionWindow + 50);
+          reactionWindow = Math.min(750, reactionWindow + 50);
         }
         gunshotSound.play();
         if (bestDraw === null || reactionTime < bestDraw) bestDraw = reactionTime;
@@ -792,7 +812,7 @@
       clearTimeout(duelTimeout);
       clearTimeout(reactionTimeout);
       document.getElementById('bang').style.display = 'none';
-      document.getElementById('log').textContent = 'Think you’re quick enough, cowboy? Beat Sawn-Off Slim in 0.5 seconds to win SOL!';
+      document.getElementById('log').textContent = 'Think you’re quick enough, cowboy? Beat Sawn-Off Slim in 0.65 seconds to win SOL!';
       canShoot = false;
       resetSound.play();
 
