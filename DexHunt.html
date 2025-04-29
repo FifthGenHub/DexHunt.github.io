@@ -227,19 +227,22 @@
       <button class="wallet-btn" onclick="connectWallet()"> Connect Wallet</button>
       <select id="rewardType" style="padding: 12px; margin: 0 8px; border-radius: 8px;">
         <option value="sol">Win SOL</option>
-        <option value="dex">Win Dex Coins</option>
+        <option value="dex">Win $DHUNT</option>
       </select>
       <select id="betAmount" onchange="setBetAmount(this.value)" style="padding: 12px; margin: 0 8px; border-radius: 8px;">
-        <option value="0.005">Bet 0.005 SOL (~$0.50 USD)</option>
-        <option value="0.0075" selected>Bet 0.0075 SOL (~$0.75 USD)</option>
-        <option value="0.01">Bet 0.01 SOL (~$1.00 USD)</option>
+        <option value="0.0035">Bet 0.0035 SOL (~$0.50 USD)</option>
+        <option value="0.00525" selected>Bet 0.00525 SOL (~$0.75 USD)</option>
+        <option value="0.007">Bet 0.007 SOL (~$1.00 USD)</option>
       </select>
       <button class="start-btn" onclick="startDuel()"> Start Duel</button>
       <button class="reset-btn" onclick="resetDuel()"> Reset</button>
       <button class="links-leaderboard-btn" onclick="toggleLinksLeaderboard()"> Links & Leaderboard</button>
       <button class="login-btn" onclick="dailyLoginReward()"> Daily Login Reward</button>
       <button class="sound-toggle-btn" onclick="toggleSound()">Mute Sound</button>
-      <div class="log" id="log">Think you’re quick enough, cowboy? Sawn-Off Slim’s ready to take your SOL!</div>
+      <a href="https://x.com/DexHuntGame" target="_blank">
+        <button class="links-leaderboard-btn">Follow Us on X</button>
+      </a>
+      <div class="log" id="log">Think you’re quick enough, cowboy? Beat Sawn-Off Slim in 0.5 seconds to win SOL!</div>
     </div>
     <div class="duel-area" id="duel-area">
       <canvas id="gameCanvas"></canvas>
@@ -251,9 +254,12 @@
     <div class="tutorial-popup" id="tutorialPopup">
       <h3>Welcome to DexHunt!</h3>
       <p>1. Connect your wallet to start.</p>
-      <p>2. Choose your bet amount (low stakes, ~$0.50 USD).</p>
+      <p>2. Choose your bet amount (low stakes, 0.0035 SOL ~$0.50 USD).</p>
       <p>3. Click "Start Duel" and wait for the "SHOOT NOW!" signal.</p>
-      <p>4. Click the "BANG!" target as fast as you can to win SOL or Dex Coins!</p>
+      <p>4. Click the "BANG!" target within 0.5 seconds to win!</p>
+      <p>- Under 200ms: Win 1.5x your bet in SOL (or 1000x in $DHUNT) + chance for bonus!</p>
+      <p>- Under 150ms: Earn a "Lightning Draw" NFT!</p>
+      <p>- 200–250ms: Win 0.00175 SOL. The game adapts to your speed.</p>
       <button onclick="closeTutorial()">Got It!</button>
     </div>
   </div>
@@ -264,12 +270,13 @@
     let walletConnected = false;
     let bangShownAt = 0;
     let totalDuels = 0;
+    let totalDhuntEarned = parseInt(localStorage.getItem('totalDhuntEarned')) || 0;
     let bestDraw = null;
     let coyoteHowlTriggered = false;
     let consecutiveLosses = 0;
     let playStreak = 0;
     let reactionWindow = 500;
-    let betAmount = 0.0075;
+    let betAmount = 0.00525;
     let loginStreak = 0;
     let isMuted = false;
 
@@ -523,7 +530,11 @@
         <h3> Session Leaderboard</h3>
         <p>Fastest Draw: ${bestDraw || '--'} ms</p>
         <p>Duels Played: ${totalDuels}</p>
+        <p>Total $DHUNT Earned: ${totalDhuntEarned}</p>
         <p>Title: ${title}</p>
+        <p>Challenge: Beat Sawn-Off Slim in under 0.5 seconds!</p>
+        <p>Earn $DHUNT now—coming soon as a real token! Follow @DexHuntGame on X for updates!</p>
+        <p>Join the community: <a href="https://x.com/DexHuntGame" target="_blank">@DexHuntGame on X</a></p>
         <div class="share-buttons">
           <button class="share-btn" onclick="shareGame()"> Share DexHunt & Earn Rewards</button>
         </div>
@@ -544,8 +555,13 @@
     function shareGame() {
       const log = document.getElementById('log');
       const gameLink = 'https://fifthgenhub.github.io/DexHunt.github.io/DexHunt.html?ref=' + Math.random().toString(36).substr(2, 9);
+      const tweetText = encodeURIComponent(`I just played DexHunt: Cowboy Reflex Showdown! 🤠 My fastest draw: ${bestDraw || '--'} ms. Can you beat me? Play now: ${gameLink} @DexHuntGame`);
+      const tweetUrl = `https://x.com/intent/tweet?text=${tweetText}`;
       navigator.clipboard.writeText(gameLink).then(() => {
-        log.textContent = 'Thanks for sharing DexHunt! You earned 10 Dex Coins! Share this link: ' + gameLink;
+        log.textContent = 'Thanks for sharing DexHunt! You earned 10 $DHUNT! Share this link: ' + gameLink;
+        window.open(tweetUrl, '_blank');
+        totalDhuntEarned += 10;
+        localStorage.setItem('totalDhuntEarned', totalDhuntEarned);
       }).catch(() => {
         log.textContent = 'Failed to copy link. Please share manually: ' + gameLink;
       });
@@ -599,7 +615,15 @@
     function dailyLoginReward() {
       loginStreak++;
       let reward = loginStreak >= 5 ? 10 : 5;
-      document.getElementById('log').textContent = `Daily Login: Earned ${reward} Dex Coins! Streak: ${loginStreak} days`;
+      let extraReward = '';
+      if (!localStorage.getItem('xFollowReward')) {
+        extraReward = ' + 10 $DHUNT for following @DexHuntGame on X!';
+        localStorage.setItem('xFollowReward', 'true');
+        reward += 10;
+      }
+      totalDhuntEarned += reward;
+      localStorage.setItem('totalDhuntEarned', totalDhuntEarned);
+      document.getElementById('log').textContent = `Daily Login: Earned ${reward} $DHUNT! Streak: ${loginStreak} days${extraReward}`;
       if (loginStreak >= 5) loginStreak = 0;
     }
 
@@ -692,25 +716,28 @@
         if (reactionTime < 200) {
           consecutiveLosses = 0;
           reactionWindow = Math.max(300, reactionWindow - 50);
-          let bonus = Math.random() < 0.1 ? ' + Bonus 0.005 SOL!' : '';
+          let bonus = Math.random() < 0.1 ? ' + Bonus 0.0014 SOL!' : '';
           if (rewardType === 'sol') {
             let payout = betAmount * 1.5;
-            log.textContent = `You beat Sawn-Off Slim! Draw time: ${reactionTime} ms. Won ${payout.toFixed(3)} SOL!${bonus}`;
+            log.textContent = `You beat Sawn-Off Slim! Draw time: ${reactionTime} ms. Won ${payout.toFixed(4)} SOL!${bonus}`;
           } else {
-            bonus = Math.random() < 0.1 ? ' + Bonus 25 Dex Coins!' : '';
+            bonus = Math.random() < 0.1 ? ' + Bonus 25 $DHUNT!' : '';
             let dexPayout = betAmount * 1000;
-            log.textContent = `You beat Sawn-Off Slim! Draw time: ${reactionTime} ms. Won ${dexPayout} Dex Coins!${bonus}`;
+            totalDhuntEarned += dexPayout;
+            if (bonus) totalDhuntEarned += 25;
+            localStorage.setItem('totalDhuntEarned', totalDhuntEarned);
+            log.textContent = `You beat Sawn-Off Slim! Draw time: ${reactionTime} ms. Won ${dexPayout} $DHUNT!${bonus}`;
             cryptoScale = 1;
           }
           quickDraw.style.display = 'block';
           setTimeout(() => quickDraw.style.display = 'none', 1500);
           winSound.play();
-          log.textContent += ' Another cowboy just won 100 Dex Coins—can you do better?';
+          log.textContent += ' Another cowboy just won 100 $DHUNT—can you do better?';
           if (reactionTime < 150) {
             log.textContent += ' Earned "Lightning Draw" NFT!';
           }
         } else if (reactionTime < 250) {
-          log.textContent = `So close! You’re gettin’ faster, cowboy! Draw time: ${reactionTime} ms. Won 0.005 SOL!`;
+          log.textContent = `So close! You’re gettin’ faster, cowboy! Draw time: ${reactionTime} ms. Won 0.00175 SOL!`;
           quickDraw.style.display = 'block';
           setTimeout(() => quickDraw.style.display = 'none', 1500);
           consecutiveLosses++;
@@ -740,10 +767,14 @@
     function checkStreak() {
       const log = document.getElementById('log');
       if (playStreak % 3 === 0) {
-        log.textContent += ' Nice streak! Earned 5 Dex Coins for playin’!';
+        log.textContent += ' Nice streak! Earned 5 $DHUNT for playin’!';
+        totalDhuntEarned += 5;
+        localStorage.setItem('totalDhuntEarned', totalDhuntEarned);
       }
       if (playStreak % 5 === 0) {
-        log.textContent += ' Hot streak! Earned 10 Dex Coins to HODL!';
+        log.textContent += ' Hot streak! Earned 10 $DHUNT to HODL!';
+        totalDhuntEarned += 10;
+        localStorage.setItem('totalDhuntEarned', totalDhuntEarned);
       }
     }
 
@@ -758,7 +789,7 @@
       clearTimeout(duelTimeout);
       clearTimeout(reactionTimeout);
       document.getElementById('bang').style.display = 'none';
-      document.getElementById('log').textContent = 'Think you’re quick enough, cowboy? Sawn-Off Slim’s ready to take your SOL!';
+      document.getElementById('log').textContent = 'Think you’re quick enough, cowboy? Beat Sawn-Off Slim in 0.5 seconds to win SOL!';
       canShoot = false;
       resetSound.play();
 
