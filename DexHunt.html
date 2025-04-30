@@ -593,42 +593,27 @@
     let userPublicKey = null;
 
     async function connectWallet() {
-      const log = document.getElementById('log');
-      log.textContent = 'Connecting wallet...';
-      try {
-        const { solana } = window;
-        if (!solana || !solana.isPhantom) {
-          log.textContent = 'Please install Phantom Wallet!';
-          return;
-        }
-
-        const provider = solana;
-        const response = await provider.connect();
-        userPublicKey = response.publicKey.toString();
-        walletConnected = true;
-
-        const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'));
-        const toPublicKey = new solanaWeb3.PublicKey('9jMeoSnkQoHHhsRr4ri52PH6mUXYcsuPEYHBqgAntGyw');
-        const lamports = solanaWeb3.LAMPORTS_PER_SOL * betAmount;
-
-        const transaction = new solanaWeb3.Transaction().add(
-          solanaWeb3.SystemProgram.transfer({
-            fromPubkey: response.publicKey,
-            toPubkey: toPublicKey,
-            lamports: lamports,
-          })
-        );
-
-        const { signature } = await provider.signAndSendTransaction(transaction, { connection });
-        await connection.confirmTransaction(signature);
-
-        walletSound.play();
-        log.textContent = `Wallet Connected: ${userPublicKey.slice(0, 8)}... (${betAmount} SOL Deducted)`;
-      } catch (error) {
-        console.error('Wallet connection failed:', error);
-        log.textContent = 'Wallet connection failed. Please try again.';
-      }
+  const log = document.getElementById('log');
+  log.textContent = 'Connecting wallet...';
+  try {
+    const { solana } = window;
+    if (!solana || !solana.isPhantom) {
+      log.textContent = 'Please install Phantom Wallet!';
+      return;
     }
+
+    const provider = solana;
+    const response = await provider.connect();
+    userPublicKey = response.publicKey.toString();
+    walletConnected = true;
+
+    walletSound.play();
+    log.textContent = `Wallet Connected: ${userPublicKey.slice(0, 8)}...`;
+  } catch (error) {
+    console.error('Wallet connection failed:', error);
+    log.textContent = 'Wallet connection failed. Please try again.';
+  }
+}
 
     function setBetAmount(amount) {
       betAmount = parseFloat(amount);
