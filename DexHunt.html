@@ -713,17 +713,21 @@
     }
 
     async function shoot() {
-      const bang = document.getElementById('bang');
-      const log = document.getElementById('log');
-      const quickDraw = document.getElementById('quickDraw');
-      const rewardType = document.getElementById('rewardType').value;
-      const now = performance.now();
+  console.log("Shoot function triggered");
+  const bang = document.getElementById('bang');
+  const log = document.getElementById('log');
+  const quickDraw = document.getElementById('quickDraw');
+  const rewardType = document.getElementById('rewardType').value;
+  const now = performance.now();
+  // Rest of the function remains the same
 
-      if (canShoot) {
-        const reactionTime = Math.round(now - bangShownAt);
-        clearTimeout(reactionTimeout);
-        bang.style.display = 'none';
-        canShoot = false;
+  if (canShoot) {
+    const reactionTime = Math.round(now - bangShownAt);
+    console.log(`Reaction Time: ${reactionTime}ms, Reaction Window: ${reactionWindow}ms, Can Shoot: ${canShoot}`); // Add this line
+    clearTimeout(reactionTimeout);
+    bang.style.display = 'none';
+    canShoot = false;
+    // Rest of the function remains the same
 
         playStreak++;
         if (reactionTime < 200) {
