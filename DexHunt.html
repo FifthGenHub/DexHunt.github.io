@@ -258,7 +258,7 @@
     </div>
     <div class="duel-area" id="duel-area">
       <canvas id="gameCanvas"></canvas>
-      <img class="bang" id="bang" src="assets/pow_explosion.png" onclick="shoot()" style="display:none;" />
+      <img class="bang" id="bang" src="assets/pow_explosion.png" style="display:none;" />
       <div id="countdown" class="countdown" style="display:none;"></div>
       <div id="quickDraw" class="quick-draw" style="display:none;">Quick Draw!</div>
     </div>
@@ -712,6 +712,8 @@
       }, coyoteHowlTriggered ? 900 : 650);
     }
 
+    document.getElementById('bang').addEventListener('click', shoot);
+  
     async function shoot() {
   console.log("Shoot function triggered");
   const bang = document.getElementById('bang');
