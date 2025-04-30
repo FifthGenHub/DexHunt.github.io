@@ -607,8 +607,13 @@
     userPublicKey = response.publicKey.toString();
     walletConnected = true;
 
+    // Initialize Solana connection to devnet
+    const connection = new window.Solana.Connection('https://api.devnet.solana.com', 'confirmed');
+    const balance = await connection.getBalance(response.publicKey);
+    const solBalance = balance / 1000000000; // Convert lamports to SOL
+
     walletSound.play();
-    log.textContent = `Wallet Connected: ${userPublicKey.slice(0, 8)}...`;
+    log.textContent = `Wallet Connected: ${userPublicKey.slice(0, 8)}... | Balance: ${solBalance.toFixed(4)} SOL`;
   } catch (error) {
     console.error('Wallet connection failed:', error);
     log.textContent = 'Wallet connection failed. Please try again.';
