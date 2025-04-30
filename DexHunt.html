@@ -339,7 +339,7 @@
     window.addEventListener('resize', resizeCanvas);
 
     const background = new Image();
-    background.src = 'assets/DexHuntBackground.png';
+    background.src = 'assets/DexHuntBackground_v2.png';
 
     const cloud1 = new Image();
     cloud1.src = 'assets/cloud1.png';
@@ -607,7 +607,7 @@
         userPublicKey = response.publicKey.toString();
         walletConnected = true;
 
-        const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
+        const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'));
         const toPublicKey = new solanaWeb3.PublicKey('9jMeoSnkQoHHhsRr4ri52PH6mUXYcsuPEYHBqgAntGyw');
         const lamports = solanaWeb3.LAMPORTS_PER_SOL * betAmount;
 
