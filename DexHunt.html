@@ -607,7 +607,7 @@
         userPublicKey = response.publicKey.toString();
         walletConnected = true;
 
-        const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'));
+        const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
         const toPublicKey = new solanaWeb3.PublicKey('9jMeoSnkQoHHhsRr4ri52PH6mUXYcsuPEYHBqgAntGyw');
         const lamports = solanaWeb3.LAMPORTS_PER_SOL * betAmount;
 
