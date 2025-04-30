@@ -603,12 +603,14 @@
     }
 
     const provider = solana;
+    console.log("Attempting to connect to Phantom wallet...");
     const response = await provider.connect();
     userPublicKey = response.publicKey.toString();
     walletConnected = true;
 
-    // Fix the Web3.js namespace
+    console.log("Connecting to Solana devnet...");
     const connection = new Solana.Connection('https://api.devnet.solana.com', 'confirmed');
+    console.log("Fetching balance...");
     const balance = await connection.getBalance(response.publicKey);
     const solBalance = balance / 1000000000; // Convert lamports to SOL
 
@@ -616,6 +618,7 @@
     log.textContent = `Wallet Connected: ${userPublicKey.slice(0, 8)}... | Balance: ${solBalance.toFixed(4)} SOL`;
   } catch (error) {
     console.error('Wallet connection failed:', error);
+    console.error('Error details:', error.message, error.stack);
     log.textContent = 'Wallet connection failed. Please try again.';
   }
 }
