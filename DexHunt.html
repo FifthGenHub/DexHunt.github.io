@@ -607,8 +607,8 @@
     userPublicKey = response.publicKey.toString();
     walletConnected = true;
 
-    // Initialize Solana connection to devnet
-    const connection = new window.Solana.Connection('https://api.devnet.solana.com', 'confirmed');
+    // Fix the Web3.js namespace
+    const connection = new Solana.Connection('https://api.devnet.solana.com', 'confirmed');
     const balance = await connection.getBalance(response.publicKey);
     const solBalance = balance / 1000000000; // Convert lamports to SOL
 
