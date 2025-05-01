@@ -612,7 +612,7 @@
     walletConnected = true;
 
     console.log("Connecting to Solana devnet...");
-    const connection = new solanaWeb3.Connection('https://api.devnet.solana.com', 'confirmed');
+    const connection = new window.SolanaWeb3.Connection('https://api.devnet.solana.com', 'confirmed');
     console.log("Fetching balance...");
     const balance = await connection.getBalance(response.publicKey);
     const solBalance = balance / 1000000000; // Convert lamports to SOL
