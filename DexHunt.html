@@ -605,20 +605,17 @@
       return;
     }
 
+    console.log("Available window objects:", Object.keys(window).filter(key => key.toLowerCase().includes('solana')));
+    console.log("window.solanaWeb3:", window.solanaWeb3);
+
     const provider = solana;
     console.log("Attempting to connect to Phantom wallet...");
     const response = await provider.connect();
     userPublicKey = response.publicKey.toString();
     walletConnected = true;
 
-    console.log("Connecting to Solana devnet...");
-    const connection = new window.SolanaWeb3.Connection('https://api.devnet.solana.com', 'confirmed');
-    console.log("Fetching balance...");
-    const balance = await connection.getBalance(response.publicKey);
-    const solBalance = balance / 1000000000; // Convert lamports to SOL
-
     walletSound.play();
-    log.textContent = `Wallet Connected: ${userPublicKey.slice(0, 8)}... | Balance: ${solBalance.toFixed(4)} SOL`;
+    log.textContent = `Wallet Connected: ${userPublicKey.slice(0, 8)}...`;
   } catch (error) {
     console.error('Wallet connection failed:', error);
     console.error('Error details:', error.message, error.stack);
@@ -626,7 +623,7 @@
   }
 }
 
-    function setBetAmount(amount) {
+async function setBetAmount(amount) {
       betAmount = parseFloat(amount);
       document.getElementById('log').textContent = `Bet set to ${betAmount} SOL!`;
     }
