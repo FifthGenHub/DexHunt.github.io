@@ -240,7 +240,7 @@
       <a href="https://x.com/DexHuntGame" target="_blank">
         <button class="links-leaderboard-btn">Follow Us on X</button>
       </a>
-      <div class="log" id="log">Think you’re quick enough, cowboy? Beat Sawn-Off Slim in 0.75 seconds to win SOL!</div>
+      <div class="log" id="log">Think you’re quick enough, cowboy? Beat Sawn-Off Slim in under 0.5 seconds for the best rewards!</div>
     </div>
     <div class="duel-area" id="duel-area">
       <canvas id="gameCanvas"></canvas>
@@ -254,7 +254,7 @@
       <p>1. Connect your wallet to start.</p>
       <p>2. Choose your bet amount (from 0.0007 SOL ~$0.10 USD to 0.0035 SOL ~$0.50 USD).</p>
       <p>3. Click "Start Duel" and wait for the "SHOOT NOW!" signal.</p>
-      <p>4. Click the "BANG!" target within 0.75 seconds to win!</p>
+      <p>4. Click the "BANG!" target within 0.75 seconds to shoot—faster for better rewards!</p>
       <p>- Under 300ms: Win 1.5x your bet in SOL (or 1000x in $DHUNT) + chance for bonus!</p>
       <p>- Under 150ms: Earn a "Lightning Draw" NFT!</p>
       <p>- 300–450ms: Win 0.000875 SOL. The game adapts to your speed.</p>
@@ -354,7 +354,7 @@
       let reward = loginStreak >= 5 ? 10 : 5;
       let extraReward = '';
       if (!localStorage.getItem('xFollowReward')) {
-        extraReward = ' + 10 $DHUNT for following @DexHuntGame on X!';
+        extraReward = ' + 50 $DHUNT for following @DexHuntGame on X!'; // Updated reward
         localStorage.setItem('xFollowReward', 'true');
         reward += 10;
       }
@@ -458,7 +458,7 @@
         canShoot = false;
 
         playStreak++;
-        if (reactionTime < 300) { // Adjusted from 200ms to 300ms
+        if (reactionTime < 500) { // Adjusted from 200ms to 300ms
           consecutiveLosses = 0;
           reactionWindow = Math.max(400, reactionWindow - 50);
           let bonus = Math.random() < 0.1 ? ' + Bonus 0.0007 SOL!' : '';
@@ -485,7 +485,7 @@
           if (reactionTime < 150) {
             log.textContent += ' Earned "Lightning Draw" NFT!';
           }
-        } else if (reactionTime < 450) { // Adjusted from 285ms to 450ms
+        } else if (reactionTime < 600) { // Adjusted from 285ms to 450ms
           log.textContent = `So close! You’re gettin’ faster, cowboy! Draw time: ${reactionTime} ms. Won 0.000875 SOL!`;
           quickDraw.style.display = 'block';
           setTimeout(() => quickDraw.style.display = 'none', 1500);
