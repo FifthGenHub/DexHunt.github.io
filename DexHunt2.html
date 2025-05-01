@@ -605,8 +605,8 @@
       return;
     }
 
-    console.log("Available window objects:", Object.keys(window).filter(key => key.toLowerCase().includes('solana')));
-    console.log("window.solanaWeb3:", window.solanaWeb3);
+    console.log("Available window objects:", Object.keys(window).filter(key => key.toLowerCase().includes('solana') || key.toLowerCase().includes('web3')));
+    console.log("window.web3:", window.web3);
 
     const provider = solana;
     console.log("Attempting to connect to Phantom wallet...");
@@ -614,8 +614,14 @@
     userPublicKey = response.publicKey.toString();
     walletConnected = true;
 
+    console.log("Connecting to Solana devnet...");
+    const connection = new window.web3.Connection('https://api.devnet.solana.com', 'confirmed');
+    console.log("Fetching balance...");
+    const balance = await connection.getBalance(response.publicKey);
+    const solBalance = balance / 1000000000; // Convert lamports to SOL
+
     walletSound.play();
-    log.textContent = `Wallet Connected: ${userPublicKey.slice(0, 8)}...`;
+    log.textContent = `Wallet Connected: ${userPublicKey.slice(0, 8)}... | Balance: ${solBalance.toFixed(4)} SOL`;
   } catch (error) {
     console.error('Wallet connection failed:', error);
     console.error('Error details:', error.message, error.stack);
