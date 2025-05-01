@@ -145,22 +145,7 @@
       z-index: 1;
       pointer-events: none;
     }
-    .leaderboard-popup {
-      display: none;
-      position: absolute;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.85);
-      padding: 20px;
-      border-radius: 12px;
-      color: #ffc34d;
-      font-size: clamp(0.8rem, 2vw, 1rem);
-      z-index: 999;
-      max-width: 90%;
-      text-align: center;
-    }
-    .tutorial-popup {
+    .leaderboard-popup, .tutorial-popup, .double-or-nothing-popup {
       display: none;
       position: absolute;
       top: 20%;
@@ -265,6 +250,12 @@
     </div>
     <div class="leaderboard-popup" id="leaderboardPopup"></div>
     <div class="tutorial-popup" id="tutorialPopup">
+      <div class="double-or-nothing-popup" id="doubleOrNothingPopup">
+        <h3>Double or Nothing!</h3>
+        <p>5 losses in a row! Risk 0.015 SOL for a Double or Nothing shot?</p>
+        <button class="share-btn" onclick="startDoubleOrNothing()">Yes</button>
+        <button class="share-btn" onclick="declineDoubleOrNothing()">No</button>
+      </div>
       <h3>Welcome to DexHunt!</h3>
       <p>1. Connect your wallet to start.</p>
       <p>2. Choose your bet amount (from 0.0007 SOL ~$0.10 USD to 0.0035 SOL ~$0.50 USD).</p>
@@ -294,6 +285,7 @@
     let loginStreak = 0;
     let isMuted = localStorage.getItem('isMuted') === 'true';
     let userPublicKey = null;
+    let isDoubleOrNothing = false; // Flag to track if in Double or Nothing mode
   
     // Audio elements for sound toggle
     const gunshotSound = document.getElementById('gunshot');
@@ -391,7 +383,8 @@
       bang.style.display = 'none';
       canShoot = false;
       coyoteHowlTriggered = false;
-      log.textContent = `Get ready... Sawn-Off Slim is watchin’... Betting ${betAmount} SOL!`;
+      const currentBet = isDoubleOrNothing ? 0.015 : betAmount; // Use higher bet for Double or Nothing
+      log.textContent = `Get ready... Sawn-Off Slim is watchin’... Betting ${currentBet.toFixed(4)} SOL!`;
   
       const delay = Math.random() * 9000 + 1000;
       const additionalDelay = Math.random() * 2000;
@@ -440,6 +433,11 @@
           playStreak++;
           checkStreak();
           checkDoubleOrNothing();
+          if (isDoubleOrNothing) {
+            log.textContent += ' Double or Nothing failed! You lost 0.015 SOL!';
+            isDoubleOrNothing = false;
+            consecutiveLosses = 0; // Reset after Double or Nothing
+          }
         }
       }, coyoteHowlTriggered ? 900 : 650);
     }
@@ -464,7 +462,11 @@
           consecutiveLosses = 0;
           reactionWindow = Math.max(400, reactionWindow - 50);
           let bonus = Math.random() < 0.1 ? ' + Bonus 0.0007 SOL!' : '';
-          if (rewardType === 'sol') {
+          if (isDoubleOrNothing) {
+            let payout = 0.015 * 2; // Double the 0.015 SOL bet
+            log.textContent = `Double or Nothing Success! Draw time: ${reactionTime} ms. Won ${payout.toFixed(4)} SOL!`;
+            isDoubleOrNothing = false;
+          } else if (rewardType === 'sol') {
             let payout = betAmount * 1.5;
             log.textContent = `You beat Sawn-Off Slim! Draw time: ${reactionTime} ms. Won ${payout.toFixed(4)} SOL!${bonus}`;
           } else {
@@ -490,11 +492,21 @@
           consecutiveLosses++;
           reactionWindow = Math.min(750, reactionWindow + 50);
           winSound.play();
+          if (isDoubleOrNothing) {
+            log.textContent += ' Double or Nothing failed! You lost 0.015 SOL!';
+            isDoubleOrNothing = false;
+            consecutiveLosses = 0;
+          }
         } else {
           log.textContent = `Nice try, but Sawn-Off Slim was faster! Draw time: ${reactionTime} ms.`;
           log.textContent += ` Sawn-Off Slim laughs: "Better luck next time, greenhorn!"`;
           consecutiveLosses++;
           reactionWindow = Math.min(750, reactionWindow + 50);
+          if (isDoubleOrNothing) {
+            log.textContent += ' Double or Nothing failed! You lost 0.015 SOL!';
+            isDoubleOrNothing = false;
+            consecutiveLosses = 0;
+          }
         }
         gunshotSound.play();
         if (bestDraw === null || reactionTime < bestDraw) bestDraw = reactionTime;
@@ -508,6 +520,11 @@
         playStreak++;
         checkStreak();
         checkDoubleOrNothing();
+        if (isDoubleOrNothing) {
+          log.textContent += ' Double or Nothing failed! You lost 0.015 SOL!';
+          isDoubleOrNothing = false;
+          consecutiveLosses = 0;
+        }
       }
     }
   
@@ -526,10 +543,25 @@
     }
   
     function checkDoubleOrNothing() {
-      const log = document.getElementById('log');
-      if (consecutiveLosses >= 5) {
-        log.textContent += ' 5 losses in a row! Risk 0.015 SOL for a Double or Nothing shot?';
+      if (consecutiveLosses >= 5 && !isDoubleOrNothing) {
+        const popup = document.getElementById('doubleOrNothingPopup');
+        popup.style.display = 'block';
       }
+    }
+  
+    function startDoubleOrNothing() {
+      const popup = document.getElementById('doubleOrNothingPopup');
+      popup.style.display = 'none';
+      isDoubleOrNothing = true;
+      consecutiveLosses = 0; // Reset losses to prevent immediate re-trigger
+      startDuel(); // Start the Double or Nothing duel
+    }
+  
+    function declineDoubleOrNothing() {
+      const popup = document.getElementById('doubleOrNothingPopup');
+      popup.style.display = 'none';
+      consecutiveLosses = 0; // Reset losses
+      document.getElementById('log').textContent = 'Double or Nothing declined. Keep practicing, cowboy!';
     }
   
     function resetDuel() {
@@ -538,6 +570,7 @@
       document.getElementById('bang').style.display = 'none';
       document.getElementById('log').textContent = 'Think you’re quick enough, cowboy? Beat Sawn-Off Slim in 0.65 seconds to win SOL!';
       canShoot = false;
+      isDoubleOrNothing = false; // Reset Double or Nothing state
       resetSound.play();
   
       const countdownEl = document.getElementById('countdown');
@@ -860,6 +893,14 @@
     } catch (error) {
       console.error("Script execution failed:", error);
     }
+  
+    // Ensure wallet connection happens after page load
+    window.addEventListener('load', () => {
+      const connectButton = document.querySelector('.wallet-btn');
+      if (connectButton) {
+        connectButton.addEventListener('click', connectWallet);
+      }
+    });
   </script>
 </body>
 </html>
