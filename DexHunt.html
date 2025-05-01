@@ -609,7 +609,7 @@
     walletConnected = true;
 
     console.log("Connecting to Solana devnet...");
-    const connection = new Solana.Connection('https://api.devnet.solana.com', 'confirmed');
+    const connection = new solanaWeb3.Connection('https://api.devnet.solana.com', 'confirmed');
     console.log("Fetching balance...");
     const balance = await connection.getBalance(response.publicKey);
     const solBalance = balance / 1000000000; // Convert lamports to SOL
@@ -715,9 +715,24 @@
       }, coyoteHowlTriggered ? 900 : 650);
     }
 
-    document.getElementById('bang').addEventListener('click', shoot);
-  
-    async function shoot() {
+const bangElement = document.getElementById('bang');
+if (bangElement) {
+  console.log("Bang element found, adding click listener...");
+  bangElement.addEventListener('click', shoot);
+} else {
+  console.error("Bang element not found in DOM!");
+}
+
+if (duelArea) {
+  console.log("Duel area found, adding click listener...");
+  duelArea.addEventListener('click', (event) => {
+    console.log("Duel area clicked at:", event.clientX, event.clientY);
+    // Additional functionality can be added here if needed
+  });
+} else {
+  console.error("Duel area not found in DOM!");
+}
+   async function shoot() {
   console.log("Shoot function triggered");
   const bang = document.getElementById('bang');
   const log = document.getElementById('log');
