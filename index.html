@@ -7,157 +7,224 @@
   <meta name="keywords" content="Saloona Arcade, Wild West games, play-to-earn, NFT gaming, blockchain arcade, Solana, free-to-play, DeFi, cowboy games" />
   <meta name="author" content="Saloona Crew" />
   <title>Saloona Arcade - Wild West Blockchain Gaming</title>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Courier+Prime&display=swap" rel="stylesheet">
+  <!-- Pixel font for 8-bit style -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
-    body {
-      background: #2b1a0f url('saloon-wood-bg.jpg') center/cover no-repeat;
-      color: #ffd700;
-      font-family: 'Courier Prime', monospace;
-      text-align: center;
-      padding: 40px;
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #2b1a0f url('assets/saloon-wood-bg.jpg') center/cover no-repeat;
+      color: #ffd700;
+      font-family: 'Press Start 2P', cursive;
+      text-align: center;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      overflow-x: hidden;
+      -webkit-font-smoothing: none;
+      -moz-osx-font-smoothing: none;
     }
-    h1, h2 {
-      font-family: 'Press Start 2P', cursive;
-      text-shadow: 2px 2px #8b4513; /* Reduced shadow for clarity */
+    h1, h2, p {
+      text-shadow: 2px 2px #8b4513;
     }
     h1 {
-      font-size: clamp(2.5rem, 6vw, 3.5rem); /* Larger for better readability */
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
       line-height: 1.2;
+      padding: 20px;
     }
     h2 {
-      font-size: clamp(1.5rem, 4vw, 2rem); /* Adjusted for sharpness */
-      line-height: 1.3;
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      margin: 20px 0;
     }
+    p {
+      font-size: clamp(0.7rem, 2vw, 0.9rem);
+      line-height: 1.5;
+    }
+    /* Header/Hero Section */
     .hero {
       background: rgba(0, 0, 0, 0.75);
-      padding: 30px;
       border: 4px solid #8b4513;
-      border-radius: 15px;
-      margin-bottom: 30px;
+      border-radius: 10px;
+      margin: 20px auto;
+      max-width: 90%;
+      padding: 20px;
+      position: relative;
     }
     .join-btn {
+      display: inline-block;
       background: #ff4500;
       color: #fff;
-      padding: 15px 35px;
-      border-radius: 10px;
+      padding: 12px 30px;
+      border-radius: 8px;
       text-decoration: none;
-      font-size: clamp(1rem, 2.5vw, 1.3rem);
-      font-weight: bold;
+      font-size: clamp(0.8rem, 2vw, 1rem);
       transition: transform 0.2s, background 0.3s;
+      margin-top: 10px;
+      cursor: pointer;
     }
     .join-btn:hover {
       background: #cc3700;
       transform: scale(1.05);
     }
-    .legend {
-      background: url('parchment-bg.jpg') center/cover;
-      padding: 25px;
-      border: 4px solid #ffd700;
-      border-radius: 15px;
-      max-width: 900px;
-      margin: 30px auto;
-      color: #2b1a0f;
-      font-size: clamp(0.9rem, 2vw, 1.1rem);
-      line-height: 1.6;
-    }
-    .game-list a {
-      display: block;
-      color: #ffd700;
-      background: rgba(0, 0, 0, 0.8);
-      padding: 15px;
-      margin: 15px auto;
-      max-width: 450px;
+    .dhunt-counter {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px;
       border-radius: 8px;
-      font-size: clamp(1.1rem, 2vw, 1.3rem);
-      text-decoration: none;
-      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .game-list a:hover {
-      background: #ff4500;
-      color: #fff;
+    .dhunt-coin {
+      width: 24px;
+      height: 24px;
+      background: url('assets/dhunt-coin.png') no-repeat;
+      background-size: contain;
+      animation: spin 2s linear infinite;
     }
-    .game-preview img {
-      width: 100%;
-      max-width: 700px;
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    /* Game Grid */
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .game-card {
+      background: rgba(0, 0, 0, 0.8);
       border: 4px solid #ffd700;
       border-radius: 10px;
-      margin: 20px 0;
+      padding: 15px;
+      transition: transform 0.2s;
+      cursor: pointer;
+      position: relative;
     }
+    .game-card.locked {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .game-card:hover:not(.locked) {
+      transform: scale(1.05);
+    }
+    .game-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 2px solid #8b4513;
+    }
+    .game-card.locked::after {
+      content: '🔒 Coming Soon';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffd700;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: clamp(0.7rem, 2vw, 0.9rem);
+    }
+    /* Stats and Leaderboard */
     .stats {
       background: rgba(0, 0, 0, 0.85);
       padding: 20px;
       border-radius: 10px;
       max-width: 600px;
-      margin: 30px auto;
+      margin: 20px auto;
     }
     .leaderboard {
       background: #ff4500;
       color: #fff;
       padding: 10px;
       border-radius: 8px;
-      font-weight: bold;
+      margin-top: 10px;
     }
-    .roadmap, .posse {
+    /* Challenges */
+    .challenges {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+    .challenge-item {
+      background: rgba(255, 69, 0, 0.2);
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+    .challenge-item button {
+      background: #ff4500;
+      color: #fff;
+      padding: 8px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: clamp(0.7rem, 2vw, 0.9rem);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .challenge-item button:disabled {
+      background: #666;
+      cursor: not-allowed;
+    }
+    .challenge-item button:hover:not(:disabled) {
+      background: #cc3700;
+    }
+    /* Roadmap */
+    .roadmap {
       background: rgba(0, 0, 0, 0.8);
-      padding: 25px;
-      border-radius: 15px;
+      padding: 20px;
+      border-radius: 10px;
       max-width: 900px;
-      margin: 30px auto;
+      margin: 20px auto;
     }
     .roadmap ul {
       list-style: none;
       padding: 0;
       text-align: left;
     }
+    .roadmap li {
+      margin: 10px 0;
+    }
     .roadmap li:before {
       content: "🌵 ";
     }
-    .challenge {
-      background: rgba(0, 0, 0, 0.85);
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 500px;
-      margin: 30px auto;
+    /* Footer */
+    footer {
+      background: rgba(0, 0, 0, 0.75);
+      padding: 15px;
+      color: #a9a9a9;
+      font-size: clamp(0.7rem, 2vw, 0.9rem);
     }
-    .challenge button {
-      background: #ff4500;
-      color: #fff;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 8px;
-      font-size: clamp(0.9rem, 2vw, 1rem);
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .challenge button:hover {
-      background: #cc3700;
-    }
-    .social-links a {
+    .social-links a, .mute-btn {
       color: #ffd700;
       margin: 0 15px;
-      font-size: clamp(0.9rem, 2vw, 1rem);
       text-decoration: none;
+      cursor: pointer;
     }
-    .social-links a:hover {
+    .social-links a:hover, .mute-btn:hover {
       color: #ff4500;
     }
-    footer {
-      color: #a9a9a9;
-      font-size: clamp(0.8rem, 2vw, 0.9rem);
-      margin-top: 20px;
-    }
+    /* Animations */
     .tumbleweed {
       position: absolute;
       bottom: 20px;
       left: -120px;
-      width: 100px;
-      height: 100px;
-      background: url('pixel-tumbleweed.png') no-repeat;
+      width: 80px;
+      height: 80px;
+      background: url('assets/pixel-tumbleweed.png') no-repeat;
       background-size: contain;
       animation: tumble 8s linear infinite;
     }
@@ -165,56 +232,90 @@
       0% { left: -120px; transform: rotate(0deg); }
       100% { left: 100vw; transform: rotate(360deg); }
     }
-    /* Ensure pixel font renders sharply */
-    @media screen and (-webkit-min-device-pixel-ratio: 0) {
-      h1, h2 {
-        -webkit-font-smoothing: none;
-        -moz-osx-font-smoothing: none;
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      .hero {
+        padding: 15px;
+      }
+      .game-grid {
+        grid-template-columns: 1fr;
+      }
+      .game-card img {
+        height: 120px;
+      }
+      .dhunt-counter {
+        top: 10px;
+        right: 10px;
+        font-size: 0.8rem;
       }
     }
   </style>
 </head>
 <body>
+  <!-- Audio Elements -->
+  <audio id="bgMusic" loop>
+    <source src="assets/chiptune-saloon.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="clickSound" src="assets/click.wav" preload="auto"></audio>
+  <audio id="coinSound" src="assets/coin.wav" preload="auto"></audio>
+
+  <!-- Hero Section -->
   <div class="hero">
     <h1>🌵 Saloona Arcade</h1>
-    <p>Where Blockchain Meets the Wild West</p>
-    <a href="#" class="join-btn">Saddle Up - Play Now!</a>
-  </div>
-
-  <div class="legend">
-    <h2>The Saloona Saga</h2>
-    <p>Welcome to Saloona Arcade, partner—a dusty digital saloon born on the Solana blockchain. Here, gas fees are as rare as rain in the desert, and the rewards flow like whiskey on a Saturday night. Forged by Dynamite Dex, a cowboy coder with a dream, Saloona rose from the ashes of the 2025 tariff wars, when centralized exchanges bled folks dry. He built a decentralized frontier where every gunslinger can stake their claim.</p>
-    <p>This ain’t just an arcade—it’s a posse of play-to-earn games. Duel in DexHunt, mine riches in Thunder’s Gold Rush, or bluff your way through Saloon Poker Showdown. Free-to-play, packed with NFT loot, and running smooth on Solana, Saloona’s open to all—mobile, PC, you name it. Join the crew, stack your treasures, and ride into the blockchain sunset!</p>
-  </div>
-
-  <div>
-    <p>Pick Your Poison:</p>
-    <div class="game-list">
-      <a href="DexHunt.html">🔫 DexHunt: Quick-Draw Duel</a>
-    </div>
-    <div class="game-preview">
-      <img src="dexhunt-preview.jpg" alt="DexHunt Gameplay" />
-      <p>Test your reflexes against Shotgun Slim!</p>
+    <p>Wild West Blockchain Gaming</p>
+    <a href="#game-grid" class="join-btn">Saddle Up - Play Now!</a>
+    <div class="dhunt-counter">
+      <div class="dhunt-coin"></div>
+      <span id="dhuntBalance">0 $DHUNT</span>
     </div>
   </div>
 
+  <!-- Game Grid -->
+  <section id="game-grid" class="game-grid">
+    <div class="game-card" onclick="playGame('DexHunt2.html')">
+      <img src="assets/dexhunt-preview.jpg" alt="DexHunt Preview" />
+      <h2>🔫 DexHunt</h2>
+      <p>Quick-Draw Duel</p>
+    </div>
+    <div class="game-card locked">
+      <img src="assets/goldrush-preview.jpg" alt="Gold Rush Preview" />
+      <h2>⚡ Gold Rush</h2>
+      <p>Mine Riches</p>
+    </div>
+    <div class="game-card locked">
+      <img src="assets/poker-preview.jpg" alt="Poker Preview" />
+      <h2>🃏 Poker Showdown</h2>
+      <p>Outwit Wade</p>
+    </div>
+    <div class="game-card locked">
+      <img src="assets/derby-preview.jpg" alt="Derby Preview" />
+      <h2>🏇 Degen Derby</h2>
+      <p>Race the Plains</p>
+    </div>
+  </section>
+
+  <!-- Stats and Leaderboard -->
   <div class="stats">
     <h2>Saloon Stats</h2>
-    <p>Top Draw: 145ms (Player: 2vNp...5zAn)</p>
-    <p>Posse Size: 300 Rough Riders</p>
-    <div class="leaderboard">Leader: 2vNp...5zAn - 145ms</div>
-    <p>"Faster than a rattlesnake’s strike!" - Shotgun Slim</p>
+    <p id="topDraw">Top Draw: --ms</p>
+    <p id="posseSize">Posse Size: 0 Rough Riders</p>
+    <div class="leaderboard" id="leaderboard">Leader: --</div>
   </div>
 
-  <div class="posse">
-    <h2>The Saloona Crew</h2>
-    <p>🤠 Dynamite Dex: The brains, coding DeFi with a six-shooter’s precision.</p>
-    <p>🔫 Shotgun Slim: Outlaw duelist, sly as his coyote sidekick.</p>
-    <p>⚡ Thunder Dex: Treasure miner, steady as his stallion Stormy.</p>
-    <p>🎴 Wildcard Wade: Poker shark, rattler Ace at his side.</p>
-    <p>🌵 Iron Jess: Frontier queen, rustling up NFT gold.</p>
+  <!-- Challenges -->
+  <div class="challenges">
+    <h2>Gunslinger’s Challenges</h2>
+    <div class="challenge-item">
+      <p id="dailyChallengeText">Play 3 duels in DexHunt today! (0/3)</p>
+      <button id="dailyChallengeBtn" onclick="claimChallengeReward('daily')">Claim 10 $DHUNT</button>
+    </div>
+    <div class="challenge-item">
+      <p id="shareChallengeText">Share your fastest draw on X!</p>
+      <button id="shareChallengeBtn" onclick="shareScore()">Tweet & Earn 5 $DHUNT</button>
+    </div>
   </div>
 
+  <!-- Roadmap -->
   <div class="roadmap">
     <h2>Horizon Ahead</h2>
     <ul>
@@ -226,29 +327,158 @@
     </ul>
   </div>
 
-  <div class="challenge">
-    <h2>Gunslinger’s Challenge</h2>
-    <p>Outdraw Slim in DexHunt—brag about it!</p>
-    <button onclick="shareScore()">Tweet Your Draw</button>
-  </div>
-
+  <!-- Footer -->
   <footer>
     <div class="social-links">
       <a href="https://twitter.com/SaloonaArcade" target="_blank">🐦 Twitter</a>
       <a href="https://discord.gg/Saloona" target="_blank">💬 Discord</a>
       <a href="blog.html">📜 Saloon Chronicles</a>
+      <span class="mute-btn" onclick="toggleMute()">🔊 Mute</span>
     </div>
     <p>Saloona Arcade - Powered by Solana 🌵</p>
   </footer>
 
+  <!-- Tumbleweed Animation -->
   <div class="tumbleweed"></div>
 
   <script>
+    // Audio Elements
+    const bgMusic = document.getElementById('bgMusic');
+    const clickSound = document.getElementById('clickSound');
+    const coinSound = document.getElementById('coinSound');
+    let isMuted = localStorage.getItem('isMuted') === 'true';
+
+    // Apply mute state on load
+    [bgMusic, clickSound, coinSound].forEach(audio => audio.muted = isMuted);
+    document.querySelector('.mute-btn').textContent = isMuted ? '🔇 Unmute' : '🔊 Mute';
+
+    // Play background music on page load
+    window.addEventListener('load', () => {
+      if (!isMuted) {
+        bgMusic.play().catch(err => console.log("Music play failed:", err));
+      }
+    });
+
+    // Play click sound on button clicks
+    document.querySelectorAll('button, .join-btn, .game-card:not(.locked)').forEach(el => {
+      el.addEventListener('click', () => {
+        if (!isMuted) clickSound.play();
+      });
+    });
+
+    // Mute/Unmute Toggle
+    function toggleMute() {
+      isMuted = !isMuted;
+      [bgMusic, clickSound, coinSound].forEach(audio => audio.muted = isMuted);
+      document.querySelector('.mute-btn').textContent = isMuted ? '🔇 Unmute' : '🔊 Mute';
+      localStorage.setItem('isMuted', isMuted);
+      if (!isMuted) bgMusic.play();
+    }
+
+    // Game Navigation
+    function playGame(url) {
+      window.location.href = url;
+    }
+
+    // Dynamic Stats
+    let stats = JSON.parse(localStorage.getItem('saloonaStats')) || {
+      topDraw: Infinity,
+      topDrawPlayer: 'Unknown',
+      posseSize: 0
+    };
+    let globalLeaderboard = JSON.parse(localStorage.getItem('globalLeaderboard')) || [];
+
+    function updateStats() {
+      // Update top draw and leaderboard from DexHunt2.html
+      if (globalLeaderboard.length > 0) {
+        const topEntry = globalLeaderboard[0];
+        stats.topDraw = topEntry.time;
+        stats.topDrawPlayer = topEntry.name;
+      }
+      stats.posseSize = globalLeaderboard.length || 300;
+      localStorage.setItem('saloonaStats', JSON.stringify(stats));
+
+      document.getElementById('topDraw').textContent = `Top Draw: ${stats.topDraw === Infinity ? '--' : stats.topDraw}ms`;
+      document.getElementById('posseSize').textContent = `Posse Size: ${stats.posseSize} Rough Riders`;
+      document.getElementById('leaderboard').textContent = `Leader: ${stats.topDrawPlayer} - ${stats.topDraw === Infinity ? '--' : stats.topDraw}ms`;
+    }
+    updateStats();
+
+    // Challenges and $DHUNT
+    let challenges = JSON.parse(localStorage.getItem('challenges')) || {
+      dailyDuels: { count: 0, claimed: false, lastReset: new Date().toDateString() },
+      shareChallenge: { claimed: false, lastReset: new Date().toDateString() },
+      totalDhunt: 0
+    };
+
+    // Sync $DHUNT with DexHunt2.html
+    const dexHuntDhunt = parseInt(localStorage.getItem('totalDhuntEarned')) || 0;
+    challenges.totalDhunt = Math.max(challenges.totalDhunt, dexHuntDhunt);
+    localStorage.setItem('challenges', JSON.stringify(challenges));
+    localStorage.setItem('totalDhuntEarned', challenges.totalDhunt);
+
+    // Update $DHUNT display
+    function updateDhuntDisplay() {
+      document.getElementById('dhuntBalance').textContent = `${challenges.totalDhunt} $DHUNT`;
+    }
+    updateDhuntDisplay();
+
+    // Daily Challenge Progress
+    function updateChallenges() {
+      const today = new Date().toDateString();
+      if (challenges.dailyDuels.lastReset !== today) {
+        challenges.dailyDuels = { count: 0, claimed: false, lastReset: today };
+      }
+      if (challenges.shareChallenge.lastReset !== today) {
+        challenges.shareChallenge = { claimed: false, lastReset: today };
+      }
+
+      // Sync daily duels with DexHunt2.html
+      const dexHuntDuels = parseInt(localStorage.getItem('totalDuels')) || 0;
+      const dexHuntDailyWins = JSON.parse(localStorage.getItem('dailyChallenge')) || { winsToday: 0, lastReset: today };
+      if (dexHuntDailyWins.lastReset === today) {
+        challenges.dailyDuels.count = dexHuntDailyWins.winsToday;
+      }
+
+      // Update UI
+      document.getElementById('dailyChallengeText').textContent = `Play 3 duels in DexHunt today! (${challenges.dailyDuels.count}/3)`;
+      document.getElementById('dailyChallengeBtn').disabled = challenges.dailyDuels.count < 3 || challenges.dailyDuels.claimed;
+      document.getElementById('shareChallengeBtn').disabled = challenges.shareChallenge.claimed;
+
+      localStorage.setItem('challenges', JSON.stringify(challenges));
+    }
+    updateChallenges();
+
+    function claimChallengeReward(type) {
+      if (type === 'daily' && challenges.dailyDuels.count >= 3 && !challenges.dailyDuels.claimed) {
+        challenges.dailyDuels.claimed = true;
+        challenges.totalDhunt += 10;
+        localStorage.setItem('challenges', JSON.stringify(challenges));
+        localStorage.setItem('totalDhuntEarned', challenges.totalDhunt);
+        updateDhuntDisplay();
+        if (!isMuted) coinSound.play();
+        alert('Claimed 10 $DHUNT for daily challenge!');
+        updateChallenges();
+      } else if (type === 'daily') {
+        alert('Complete 3 duels in DexHunt to claim this reward!');
+      }
+    }
+
     function shareScore() {
-      const score = "145ms"; // Replace with dynamic score later
+      const score = stats.topDraw === Infinity ? '145ms' : stats.topDraw + 'ms';
       const text = `🤠 Outdrew Shotgun Slim in DexHunt with a ${score} shot! Think you’re faster? Hit up Saloona Arcade! https://saloonaarcade.io #SaloonaDuel`;
       window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+      if (!challenges.shareChallenge.claimed) {
+        challenges.shareChallenge.claimed = true;
+        challenges.totalDhunt += 5;
+        localStorage.setItem('challenges', JSON.stringify(challenges));
+        localStorage.setItem('totalDhuntEarned', challenges.totalDhunt);
+        updateDhuntDisplay();
+        if (!isMuted) coinSound.play();
+        updateChallenges();
+      }
     }
+
     console.log("Saloona Arcade: Locked and Loaded");
   </script>
 </body>
