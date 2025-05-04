@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Saloona Arcade: Step into the Wild West of blockchain gaming. Duel, mine, and stake your claim with free-to-play thrills and NFT rewards on Solana!" />
-  <meta name="keywords" content="Saloona Arcade, Wild West games, play-to-earn, NFT gaming, blockchain arcade, Solana, free-to-play, DeFi, cowboy games" />
+  <meta name="description"
+    content="Saloona Arcade: Step into the Wild West of blockchain gaming. Duel, mine, and stake your claim with free-to-play thrills and NFT rewards on Solana!" />
+  <meta name="keywords"
+    content="Saloona Arcade, Wild West games, play-to-earn, NFT gaming, blockchain arcade, Solana, free-to-play, DeFi, cowboy games" />
   <meta name="author" content="Saloona Crew" />
   <title>Saloona Arcade - Wild West Blockchain Gaming</title>
-  <!-- Pixel font for 8-bit style -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     * {
@@ -15,8 +17,9 @@
       padding: 0;
       box-sizing: border-box;
     }
+
     body {
-      background: #2b1a0f url('assets/saloon-wood-bg.jpg') center/cover no-repeat;
+      background: #000 url('/DexHunt.github.io/assets/SaloonaArcadeBG.png') center top / cover no-repeat fixed;
       color: #ffd700;
       font-family: 'Press Start 2P', cursive;
       text-align: center;
@@ -28,22 +31,29 @@
       -webkit-font-smoothing: none;
       -moz-osx-font-smoothing: none;
     }
-    h1, h2, p {
+
+    h1,
+    h2,
+    p {
       text-shadow: 2px 2px #8b4513;
     }
+
     h1 {
       font-size: clamp(1.8rem, 5vw, 2.5rem);
       line-height: 1.2;
       padding: 20px;
     }
+
     h2 {
       font-size: clamp(1rem, 3vw, 1.5rem);
       margin: 20px 0;
     }
+
     p {
       font-size: clamp(0.7rem, 2vw, 0.9rem);
       line-height: 1.5;
     }
+
     /* Header/Hero Section */
     .hero {
       background: rgba(0, 0, 0, 0.75);
@@ -54,6 +64,7 @@
       padding: 20px;
       position: relative;
     }
+
     .join-btn {
       display: inline-block;
       background: #ff4500;
@@ -66,10 +77,12 @@
       margin-top: 10px;
       cursor: pointer;
     }
+
     .join-btn:hover {
       background: #cc3700;
       transform: scale(1.05);
     }
+
     .dhunt-counter {
       position: absolute;
       top: 20px;
@@ -81,18 +94,27 @@
       align-items: center;
       gap: 10px;
     }
+
     .dhunt-coin {
       width: 24px;
       height: 24px;
-      background: url('assets/dhunt-coin-sheet.png') 0 0;
+      background: url('/DexHunt.github.io/assets/dhunt-coin-sheet.png') 0 0;
       animation: spin 0.6s steps(6) infinite;
-      image-rendering: pixelated; /* Ensures sharp pixels */
-      image-rendering: -moz-crisp-edges; /* For Firefox */
-      image-rendering: crisp-edges; /* For older browsers */
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
     }
+
     @keyframes spin {
-      …      100% { background-position: -144px 0; }
+      0% {
+        background-position: 0 0;
+      }
+
+      100% {
+        background-position: -144px 0;
+      }
     }
+
     /* Game Grid */
     .game-grid {
       display: grid;
@@ -102,6 +124,7 @@
       max-width: 1200px;
       margin: 0 auto;
     }
+
     .game-card {
       background: rgba(0, 0, 0, 0.8);
       border: 4px solid #ffd700;
@@ -111,13 +134,16 @@
       cursor: pointer;
       position: relative;
     }
+
     .game-card.locked {
       opacity: 0.5;
       cursor: not-allowed;
     }
+
     .game-card:hover:not(.locked) {
       transform: scale(1.05);
     }
+
     .game-card img {
       width: 100%;
       height: 150px;
@@ -125,6 +151,7 @@
       border-radius: 8px;
       border: 2px solid #8b4513;
     }
+
     .game-card.locked::after {
       content: '🔒 Coming Soon';
       position: absolute;
@@ -137,6 +164,7 @@
       border-radius: 5px;
       font-size: clamp(0.7rem, 2vw, 0.9rem);
     }
+
     /* Stats and Leaderboard */
     .stats {
       background: rgba(0, 0, 0, 0.85);
@@ -145,6 +173,7 @@
       max-width: 600px;
       margin: 20px auto;
     }
+
     .leaderboard {
       background: #ff4500;
       color: #fff;
@@ -152,6 +181,7 @@
       border-radius: 8px;
       margin-top: 10px;
     }
+
     /* Challenges */
     .challenges {
       background: rgba(0, 0, 0, 0.85);
@@ -160,12 +190,14 @@
       max-width: 600px;
       margin: 20px auto;
     }
+
     .challenge-item {
       background: rgba(255, 69, 0, 0.2);
       padding: 10px;
       border-radius: 8px;
       margin: 10px 0;
     }
+
     .challenge-item button {
       background: #ff4500;
       color: #fff;
@@ -176,13 +208,16 @@
       cursor: pointer;
       transition: background 0.3s;
     }
+
     .challenge-item button:disabled {
       background: #666;
       cursor: not-allowed;
     }
+
     .challenge-item button:hover:not(:disabled) {
       background: #cc3700;
     }
+
     /* Roadmap */
     .roadmap {
       background: rgba(0, 0, 0, 0.8);
@@ -191,17 +226,21 @@
       max-width: 900px;
       margin: 20px auto;
     }
+
     .roadmap ul {
       list-style: none;
       padding: 0;
       text-align: left;
     }
+
     .roadmap li {
       margin: 10px 0;
     }
+
     .roadmap li:before {
       content: "🌵 ";
     }
+
     /* Footer */
     footer {
       background: rgba(0, 0, 0, 0.75);
@@ -209,15 +248,20 @@
       color: #a9a9a9;
       font-size: clamp(0.7rem, 2vw, 0.9rem);
     }
-    .social-links a, .mute-btn {
+
+    .social-links a,
+    .mute-btn {
       color: #ffd700;
       margin: 0 15px;
       text-decoration: none;
       cursor: pointer;
     }
-    .social-links a:hover, .mute-btn:hover {
+
+    .social-links a:hover,
+    .mute-btn:hover {
       color: #ff4500;
     }
+
     /* Animations */
     .tumbleweed {
       position: absolute;
@@ -225,25 +269,53 @@
       left: -120px;
       width: 80px;
       height: 80px;
-      background: url('assets/pixel-tumbleweed.png') no-repeat;
+      background: url('/DexHunt.github.io/assets/pixel-tumbleweed.png') no-repeat;
       background-size: contain;
       animation: tumble 8s linear infinite;
     }
+
     @keyframes tumble {
-      0% { left: -120px; transform: rotate(0deg); }
-      100% { left: 100vw; transform: rotate(360deg); }
+      0% {
+        left: -120px;
+        transform: rotate(0deg);
+      }
+
+      100% {
+        left: 100vw;
+        transform: rotate(360deg);
+      }
     }
+
+    /* Loading Screen */
+    #loadingScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      color: #ffd700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+    }
+
     /* Responsive Design */
     @media (max-width: 600px) {
       .hero {
         padding: 15px;
       }
+
       .game-grid {
         grid-template-columns: 1fr;
       }
+
       .game-card img {
         height: 120px;
       }
+
       .dhunt-counter {
         top: 10px;
         right: 10px;
@@ -252,13 +324,17 @@
     }
   </style>
 </head>
+
 <body>
+  <!-- Loading Screen -->
+  <div id="loadingScreen">Loading Saloona Arcade...</div>
+
   <!-- Audio Elements -->
   <audio id="bgMusic" loop>
-    <source src="assets/chiptune-saloon.mp3" type="audio/mpeg">
+    <source src="/DexHunt.github.io/assets/saloona_bg_music.mp3" type="audio/mpeg">
   </audio>
-  <audio id="clickSound" src="assets/click.wav" preload="auto"></audio>
-  <audio id="coinSound" src="assets/coin.wav" preload="auto"></audio>
+  <audio id="clickSound" src="/DexHunt.github.io/assets/click_sound.mp3"></audio>
+  <audio id="coinSound" src="/DexHunt.github.io/assets/coin_sound.mp3"></audio>
 
   <!-- Hero Section -->
   <div class="hero">
@@ -274,22 +350,22 @@
   <!-- Game Grid -->
   <section id="game-grid" class="game-grid">
     <div class="game-card" onclick="playGame('DexHunt2.html')">
-      <img src="assets/dexhunt-preview.jpg" alt="DexHunt Preview" />
+      <img src="/DexHunt.github.io/assets/dexhunt-preview.jpg" alt="DexHunt Preview" />
       <h2>🔫 DexHunt</h2>
       <p>Quick-Draw Duel</p>
     </div>
     <div class="game-card locked">
-      <img src="assets/goldrush-preview.jpg" alt="Gold Rush Preview" />
+      <img src="/DexHunt.github.io/assets/goldrush-preview.jpg" alt="Gold Rush Preview" />
       <h2>⚡ Gold Rush</h2>
       <p>Mine Riches</p>
     </div>
     <div class="game-card locked">
-      <img src="assets/poker-preview.jpg" alt="Poker Preview" />
+      <img src="/DexHunt.github.io/assets/poker-preview.jpg" alt="Poker Preview" />
       <h2>🃏 Poker Showdown</h2>
       <p>Outwit Wade</p>
     </div>
     <div class="game-card locked">
-      <img src="assets/derby-preview.jpg" alt="Derby Preview" />
+      <img src="/DexHunt.github.io/assets/derby-preview.jpg" alt="Derby Preview" />
       <h2>🏇 Degen Derby</h2>
       <p>Race the Plains</p>
     </div>
@@ -331,8 +407,8 @@
   <!-- Footer -->
   <footer>
     <div class="social-links">
-      <a href="https://twitter.com/SaloonaArcade" target="_blank">🐦 Twitter</a>
-      <a href="https://discord.gg/Saloona" target="_blank">💬 Discord</a>
+      <a href="https://x.com/SaloonaArcade" target="_blank" rel="noopener noreferrer">🐦 X</a>
+      <a href="https://discord.gg/Saloona" target="_blank" rel="noopener noreferrer">💬 Discord</a>
       <a href="blog.html">📜 Saloon Chronicles</a>
       <span class="mute-btn" onclick="toggleMute()">🔊 Mute</span>
     </div>
@@ -343,6 +419,8 @@
   <div class="tumbleweed"></div>
 
   <script>
+    console.log("Saloona Arcade: Locked and Loaded");
+
     // Audio Elements
     const bgMusic = document.getElementById('bgMusic');
     const clickSound = document.getElementById('clickSound');
@@ -353,8 +431,9 @@
     [bgMusic, clickSound, coinSound].forEach(audio => audio.muted = isMuted);
     document.querySelector('.mute-btn').textContent = isMuted ? '🔇 Unmute' : '🔊 Mute';
 
-    // Play background music on page load
+    // Hide loading screen and play background music on load
     window.addEventListener('load', () => {
+      document.getElementById('loadingScreen').style.display = 'none';
       if (!isMuted) {
         bgMusic.play().catch(err => console.log("Music play failed:", err));
       }
@@ -381,44 +460,58 @@
       window.location.href = url;
     }
 
+    // LocalStorage Validation
+    function validateLocalStorage(key, defaultValue) {
+      try {
+        const value = JSON.parse(localStorage.getItem(key));
+        return value !== null && value !== undefined ? value : defaultValue;
+      } catch {
+        return defaultValue;
+      }
+    }
+
+    // Update $DHUNT
+    function updateDhunt(amount) {
+      let totalDhuntEarned = parseInt(localStorage.getItem('totalDhuntEarned')) || 0;
+      totalDhuntEarned += amount;
+      localStorage.setItem('totalDhuntEarned', totalDhuntEarned);
+      return totalDhuntEarned;
+    }
+
     // Dynamic Stats
-    let stats = JSON.parse(localStorage.getItem('saloonaStats')) || {
+    let stats = validateLocalStorage('saloonaStats', {
       topDraw: Infinity,
       topDrawPlayer: 'Unknown',
       posseSize: 0
-    };
-    let globalLeaderboard = JSON.parse(localStorage.getItem('globalLeaderboard')) || [];
+    });
+    let globalLeaderboard = validateLocalStorage('globalLeaderboard', []);
 
     function updateStats() {
-      // Update top draw and leaderboard from DexHunt2.html
       if (globalLeaderboard.length > 0) {
         const topEntry = globalLeaderboard[0];
         stats.topDraw = topEntry.time;
         stats.topDrawPlayer = topEntry.name;
       }
-      stats.posseSize = globalLeaderboard.length || 300;
+      stats.posseSize = Math.max(globalLeaderboard.length, parseInt(localStorage.getItem('totalDuels')) || 0, 300);
       localStorage.setItem('saloonaStats', JSON.stringify(stats));
 
       document.getElementById('topDraw').textContent = `Top Draw: ${stats.topDraw === Infinity ? '--' : stats.topDraw}ms`;
       document.getElementById('posseSize').textContent = `Posse Size: ${stats.posseSize} Rough Riders`;
       document.getElementById('leaderboard').textContent = `Leader: ${stats.topDrawPlayer} - ${stats.topDraw === Infinity ? '--' : stats.topDraw}ms`;
     }
-    updateStats();
 
     // Challenges and $DHUNT
-    let challenges = JSON.parse(localStorage.getItem('challenges')) || {
+    let challenges = validateLocalStorage('challenges', {
       dailyDuels: { count: 0, claimed: false, lastReset: new Date().toDateString() },
       shareChallenge: { claimed: false, lastReset: new Date().toDateString() },
       totalDhunt: 0
-    };
+    });
 
     // Sync $DHUNT with DexHunt2.html
     const dexHuntDhunt = parseInt(localStorage.getItem('totalDhuntEarned')) || 0;
     challenges.totalDhunt = Math.max(challenges.totalDhunt, dexHuntDhunt);
-    localStorage.setItem('challenges', JSON.stringify(challenges));
     localStorage.setItem('totalDhuntEarned', challenges.totalDhunt);
 
-    // Update $DHUNT display
     function updateDhuntDisplay() {
       document.getElementById('dhuntBalance').textContent = `${challenges.totalDhunt} $DHUNT`;
     }
@@ -434,12 +527,13 @@
         challenges.shareChallenge = { claimed: false, lastReset: today };
       }
 
-      // Sync daily duels with DexHunt2.html
+      // Sync with DexHunt2.html
       const dexHuntDuels = parseInt(localStorage.getItem('totalDuels')) || 0;
-      const dexHuntDailyWins = JSON.parse(localStorage.getItem('dailyChallenge')) || { winsToday: 0, lastReset: today };
+      const dexHuntDailyWins = validateLocalStorage('dailyChallenge', { winsToday: 0, lastReset: today });
       if (dexHuntDailyWins.lastReset === today) {
-        challenges.dailyDuels.count = dexHuntDailyWins.winsToday;
+        challenges.dailyDuels.count = Math.max(challenges.dailyDuels.count, dexHuntDailyWins.winsToday);
       }
+      challenges.dailyDuels.count = Math.min(challenges.dailyDuels.count, dexHuntDuels);
 
       // Update UI
       document.getElementById('dailyChallengeText').textContent = `Play 3 duels in DexHunt today! (${challenges.dailyDuels.count}/3)`;
@@ -453,9 +547,8 @@
     function claimChallengeReward(type) {
       if (type === 'daily' && challenges.dailyDuels.count >= 3 && !challenges.dailyDuels.claimed) {
         challenges.dailyDuels.claimed = true;
-        challenges.totalDhunt += 10;
+        challenges.totalDhunt = updateDhunt(10);
         localStorage.setItem('challenges', JSON.stringify(challenges));
-        localStorage.setItem('totalDhuntEarned', challenges.totalDhunt);
         updateDhuntDisplay();
         if (!isMuted) coinSound.play();
         alert('Claimed 10 $DHUNT for daily challenge!');
@@ -468,19 +561,25 @@
     function shareScore() {
       const score = stats.topDraw === Infinity ? '145ms' : stats.topDraw + 'ms';
       const text = `🤠 Outdrew Shotgun Slim in DexHunt with a ${score} shot! Think you’re faster? Hit up Saloona Arcade! https://saloonaarcade.io #SaloonaDuel`;
-      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+      window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
       if (!challenges.shareChallenge.claimed) {
         challenges.shareChallenge.claimed = true;
-        challenges.totalDhunt += 5;
+        challenges.totalDhunt = updateDhunt(5);
         localStorage.setItem('challenges', JSON.stringify(challenges));
-        localStorage.setItem('totalDhuntEarned', challenges.totalDhunt);
         updateDhuntDisplay();
         if (!isMuted) coinSound.play();
         updateChallenges();
       }
     }
 
-    console.log("Saloona Arcade: Locked and Loaded");
+    // Sync stats on load
+    function syncStats() {
+      globalLeaderboard = validateLocalStorage('globalLeaderboard', []);
+      updateStats();
+      updateChallenges();
+    }
+    window.addEventListener('load', syncStats);
   </script>
 </body>
+
 </html>
