@@ -84,13 +84,14 @@
     .dhunt-coin {
       width: 24px;
       height: 24px;
-      background: url('assets/dhunt-coin.png') no-repeat;
-      background-size: contain;
-      animation: spin 2s linear infinite;
+      background: url('assets/dhunt-coin-sheet.png') 0 0;
+      animation: spin 0.6s steps(6) infinite;
+      image-rendering: pixelated; /* Ensures sharp pixels */
+      image-rendering: -moz-crisp-edges; /* For Firefox */
+      image-rendering: crisp-edges; /* For older browsers */
     }
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      …      100% { background-position: -144px 0; }
     }
     /* Game Grid */
     .game-grid {
