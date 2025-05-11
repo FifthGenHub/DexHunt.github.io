@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DexHunt: Cowboy Reflex Showdown</title>
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-  <link rel="manifest" href="/site.webmanifest">
-  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.95.3/lib/index.iife.min.js"></script>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="DexHunt: Cowboy Reflex Showdown - Test your reflexes in a Wild West showdown on Saloona Arcade!" name="description"/>
+  <meta content="DexHunt, quick-draw duel, Saloona Arcade, Wild West game, blockchain gaming, Solana" name="keywords"/>
+  <meta content="Saloona Crew" name="author"/>
+  <title>DexHunt: Cowboy Reflex Showdown | Saloona Arcade</title>
+  <link href="assets/favicon.png" rel="icon" type="image/png"/>
+  <link as="audio" href="assets/sounds/background_music.mp3" rel="preload"/>
+  <link href="/site.webmanifest" rel="manifest"/>
+
   <style>
     html,
     body {
@@ -24,6 +22,54 @@
       background: #000;
       color: #ffc34d;
       text-align: center;
+      transition: background-color 0.3s, color 0.3s;
+      position: relative;
+    }
+
+    body {
+      background-image: url('assets/DexHuntBackground.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-color: #111;
+      background-attachment: fixed;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.5) 100%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    body.dark-mode {
+      background: #1a1a1a;
+      color: #d3d3d3;
+    }
+
+    body.dark-mode .game-container,
+    body.dark-mode .top-bar,
+    body.dark-mode .log,
+    body.dark-mode .leaderboard-popup,
+    body.dark-mode .tutorial-popup,
+    body.dark-mode .double-or-nothing-popup,
+    body.dark-mode .settings-popup {
+      background: rgba(40, 40, 40, 0.85);
+    }
+
+    body.dark-mode .wallet-btn,
+    body.dark-mode .start-btn,
+    body.dark-mode .links-leaderboard-btn,
+    body.dark-mode .settings-btn,
+    body.dark-mode .share-btn,
+    body.dark-mode .sound-toggle-btn,
+    body.dark-mode .reset-btn {
+      background: #b33c00;
     }
 
     .game-container {
@@ -33,74 +79,107 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      z-index: 1;
     }
 
-    h1 {
-      font-size: clamp(1.5rem, 5vw, 2.2rem);
-      background: rgba(0, 0, 0, 0.9);
-      padding: 1rem;
-      margin: 0;
+    .top-bar {
       width: 100%;
-      z-index: 2;
-      text-shadow: 2px 2px #ff9900;
-    }
-
-    .button-row {
-      margin-top: 1rem;
-      background: rgba(0, 0, 0, 0.8);
-      padding: 1rem;
-      width: 100%;
-      z-index: 2;
+      background: rgba(0, 0, 0, 0.75);
+      padding: 5px 10px;
       display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 10;
+      border-bottom: 3px solid #ffcc00;
+      box-shadow: 0 0 10px rgba(255, 204, 0, 0.6);
       flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
+      gap: 10px;
     }
 
-    .wallet-btn,
-    .start-btn,
-    .links-leaderboard-btn,
-    .settings-btn {
-      background-color: #ff9900;
-      border: none;
+    .top-bar h1 {
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      margin: 0;
+      color: #ffc34d;
+      text-shadow: 2px 2px #000, 0 0 10px #ffcc00;
+      font-family: 'Courier New', monospace;
+      flex: 1;
+      text-align: left;
+    }
+
+    .top-bar .button-row {
+      display: flex;
+      gap: 5px;
+      margin: 0;
+      padding: 0;
+      background: none;
+      box-shadow: none;
+      flex-wrap: nowrap;
+    }
+
+    .top-bar .wallet-hud {
+      font-size: clamp(0.8rem, 1.5vw, 1rem);
+      color: #00ffff;
+      padding: 5px 10px;
+      border-left: 2px solid #00ffff;
+      border-bottom: 2px solid #00ffff;
+      border-bottom-left-radius: 8px;
+    }
+
+    .top-bar .beta-label {
+      font-size: clamp(0.8rem, 1.5vw, 1rem);
+      color: #ff00ff;
+      padding: 5px 10px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 5px;
+      margin-left: 10px;
+    }
+
+    .button-row button {
+      background: #1a1a1a;
+      border: 2px solid #ff9900;
       border-radius: 8px;
-      padding: 14px 24px;
-      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+      padding: 5px 10px;
+      font-size: clamp(0.8rem, 1.5vw, 1rem);
       cursor: pointer;
-      color: #1a1a1a;
+      color: #f0c420;
       font-weight: bold;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s, background-color 0.3s;
     }
 
-    .wallet-btn:hover,
-    .start-btn:hover,
-    .links-leaderboard-btn:hover,
-    .settings-btn:hover {
-      background-color: #cc7a00;
+    .start-btn {
+      animation: pulse 1s infinite;
     }
 
-    select {
-      padding: 14px;
-      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-      border-radius: 8px;
-      background: #fff;
-      color: #1a1a1a;
+    .start-btn.clicked {
+      animation: none;
+    }
+
+    .button-row button:hover {
+      background-color: #e6d7a8;
+      transform: scale(1.05);
     }
 
     .log {
-      margin-top: 20px;
-      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: clamp(0.9rem, 1.8vw, 1.2rem);
       color: #fff;
       background: rgba(0, 0, 0, 0.6);
-      padding: 12px 24px;
+      padding: 5px 10px;
       border-radius: 10px;
-      width: 80%;
-      max-width: 600px;
+      border: 2px solid #ff9900;
+      max-width: 90%;
       z-index: 2;
+      font-family: 'Chalkduster', 'Courier New', monospace;
+      text-shadow: 1px 1px #000;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
 
     .countdown {
-      font-size: clamp(2rem, 5vw, 4rem);
+      font-size: clamp(2.2rem, 5.5vw, 4.4rem);
       font-weight: bold;
       color: #ffc34d;
       position: absolute;
@@ -109,7 +188,7 @@
       transform: translate(-50%, -50%);
       z-index: 20;
       background: rgba(0, 0, 0, 0.7);
-      padding: 1rem 2rem;
+      padding: 1.2rem 2.4rem;
       border-radius: 12px;
     }
 
@@ -119,27 +198,31 @@
       z-index: 10;
       cursor: pointer;
       animation: pulse 0.3s infinite;
-      width: 200px;
-      height: 200px;
+      width: 220px;
+      height: 220px;
       object-fit: contain;
+    }
+
+    .bang:active {
+      transform: scale(1.2);
+      filter: brightness(1.5);
+      transition: transform 0.1s, filter 0.1s;
     }
 
     @keyframes pulse {
       0% {
         transform: scale(1);
       }
-
       50% {
         transform: scale(1.05);
       }
-
       100% {
         transform: scale(1);
       }
     }
 
     .quick-draw {
-      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-size: clamp(1.8rem, 3.3vw, 2.2rem);
       color: #ffcc00;
       position: absolute;
       top: 30%;
@@ -150,29 +233,17 @@
     }
 
     @keyframes flash {
-
       0%,
       100% {
         opacity: 1;
       }
-
       50% {
         opacity: 0;
       }
     }
 
     .emoji {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-    }
-
-    .duel-area {
-      flex-grow: 1;
-      width: 100%;
-      position: relative;
-      border-top: 5px solid #ff9900;
-      border-bottom: 5px solid #ff9900;
-      overflow: hidden;
-      height: calc(100vh - 150px);
+      font-size: clamp(1.8rem, 3.3vw, 2.2rem);
     }
 
     #gameCanvas {
@@ -182,24 +253,26 @@
       width: 100%;
       height: 100%;
       z-index: 1;
-      pointer-events: none;
     }
 
     .leaderboard-popup,
     .tutorial-popup,
     .double-or-nothing-popup,
-    .settings-popup {
+    .settings-popup,
+    .rewards-popup,
+    .notification-popup {
       display: none;
-      position: absolute;
-      top: 20%;
+      position: fixed;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translate(-50%, -50%);
       background: rgba(0, 0, 0, 0.85);
-      padding: 20px;
+      color: #f0c420;
+      border: 2px solid #ff9900;
       border-radius: 12px;
-      color: #ffc34d;
-      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-      z-index: 1000;
+      padding: 25px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      z-index: 100;
       max-width: 90%;
       text-align: center;
     }
@@ -214,20 +287,21 @@
     .share-btn,
     .sound-toggle-btn,
     .reset-btn {
-      background-color: #ff9900;
-      border: none;
+      background: #1a1a1a;
+      border: 2px solid #ff9900;
       border-radius: 8px;
-      padding: 12px 18px;
-      font-size: clamp(0.8rem, 2vw, 1rem);
+      padding: 14px 20px;
+      font-size: clamp(0.9rem, 2.2vw, 1.1rem);
       cursor: pointer;
-      color: #1a1a1a;
+      color: #f0c420;
       font-weight: bold;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
     }
 
     .share-btn:hover,
     .sound-toggle-btn:hover,
     .reset-btn:hover {
-      background-color: #cc7a00;
+      background-color: #e6d7a8;
     }
 
     #loadingScreen {
@@ -241,860 +315,713 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-size: clamp(1.8rem, 3.3vw, 2.2rem);
       z-index: 1000;
       flex-direction: column;
     }
 
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid #ff9900;
+      border-top: 4px solid #cc7a00;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-top: 10px;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 5px;
+      color: #a9a9a9;
+      font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+      width: 100%;
+      border-top: 4px solid #ffcc00;
+      z-index: 10;
+    }
+
+    footer a {
+      color: #00ffff;
+      font-weight: bold;
+      text-decoration: underline;
+      margin: 0 5px;
+    }
+
+    .dark-mode-btn {
+      color: #ffc34d;
+      margin: 0 15px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .dark-mode-btn:hover {
+      color: #ff9900;
+    }
+
+    .ambient-lantern {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 40px;
+      height: 40px;
+      background: radial-gradient(circle, rgba(255, 204, 0, 0.5) 0%, transparent 70%);
+      animation: flicker 3s infinite;
+      z-index: 0;
+    }
+
+    @keyframes flicker {
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.7;
+        transform: scale(0.9);
+      }
+    }
+
+    @keyframes moveEagle {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100vw); }
+    }
+
+    @keyframes eagleFlap {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(30px); }
+    }
+
+    @keyframes moveCloud {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100vw); }
+    }
+
+    @keyframes moveBird {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100vw); }
+    }
+
     @media (max-width: 600px) {
       .bang {
-        width: 150px;
-        height: 150px;
+        width: 165px;
+        height: 165px;
       }
 
-      .button-row {
-        gap: 10px;
+      .top-bar {
+        flex-direction: column;
+        align-items: center;
       }
 
-      .wallet-btn,
-      .start-btn,
-      .links-leaderboard-btn,
-      .settings-btn,
-      select {
-        padding: 10px 18px;
-        font-size: clamp(0.8rem, 2vw, 1rem);
+      .top-bar h1 {
+        text-align: center;
+      }
+
+      .top-bar .button-row {
+        justify-content: center;
+      }
+
+      .top-bar .wallet-hud {
+        text-align: center;
       }
     }
   </style>
 </head>
-
 <body>
-  <div id="loadingScreen">Loading...</div>
+  <div class="loading-screen" id="loadingScreen">
+    <div style="text-align:center; margin-top:40px;">
+      ⏳ Loading DexHunt...
+      <div class="spinner" style="margin: 20px auto;"></div>
+    </div>
+  </div>
 
-  <audio id="gunshot" src="assets/sounds/revovler-sound-328431.mp3" preload="auto"></audio>
-  <audio id="toosoon" src="assets/sounds/clickmouse-266516.mp3" preload="auto"></audio>
-  <audio id="winSound" src="assets/sounds/multi-coin-payout-14-213732.mp3" preload="auto"></audio>
-  <audio id="loseSound" src="assets/sounds/8-bit-video-game-lose-sound-version-1-145828.mp3" preload="auto"></audio>
-  <audio id="resetSound" src="assets/sounds/clean-revolver-reload-6889.mp3" preload="auto"></audio>
-  <audio id="startSound" src="assets/sounds/coin-donation-1-180437.mp3" preload="auto"></audio>
-  <audio id="walletSound" src="assets/sounds/yeehaw-13229.mp3" preload="auto"></audio>
-  <audio id="coyoteHowl" src="assets/sounds/coyote-howl.mp3" preload="auto"></audio>
-  <audio id="drawSound" src="assets/sounds/draw-sound.mp3" preload="auto"></audio>
-  <audio id="backgroundMusic" loop>
-    <source src="assets/sounds/background_music.mp3" type="audio/mpeg">
+  <!-- Audio Elements -->
+  <audio id="gunshot" preload="auto" src="assets/sounds/revovler-sound-328431.mp3">
+    Your browser does not support the audio element.
   </audio>
-  <audio id="tumbleweedRoll" src="assets/sounds/tumbleweed_roll.mp3" preload="auto"></audio>
+  <audio id="toosoon" preload="auto" src="assets/sounds/click_sound.mp3">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="winSound" preload="auto" src="assets/sounds/multi-coin-payout-14-213732.mp3">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="loseSound" preload="auto" src="assets/sounds/8-bit-video-game-lose-sound-version-1-145828.mp3">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="resetSound" preload="auto" src="assets/sounds/clean-revolver-reload-6889.mp3">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="startSound" preload="auto" src="assets/sounds/coin-donation-1-180437.mp3">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="walletSound" preload="auto" src="assets/sounds/yeehaw-13229.mp3">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="coyoteHowl" preload="auto" src="assets/sounds/coyote-howl.mp3">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="drawSound" preload="auto" src="assets/sounds/draw-sound.mp3">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="backgroundMusic" loop="">
+    <source src="assets/sounds/background_music.mp3" type="audio/mpeg"/>
+    Your browser does not support the audio element.
+  </audio>
 
   <div class="game-container" id="game">
-    <h1><span class="emoji">🤠</span> DexHunt: Cowboy Reflex Showdown</h1>
-    <div class="button-row" id="buttonRow">
-      <button class="wallet-btn" onclick="connectWallet()">Connect Wallet</button>
-      <select id="rewardType" style="padding: 14px; margin: 0 8px; border-radius: 8px;">
-        <option value="sol">Win SOL</option>
-        <option value="dex">Win $DHUNT</option>
-      </select>
-      <select id="betAmount" onchange="setBetAmount(this.value)"
-        style="padding: 14px; margin: 0 8px; border-radius: 8px;">
-        <option value="0.0007">Bet 0.0007 SOL (~$0.10 USD)</option>
-        <option value="0.00175">Bet 0.00175 SOL (~$0.25 USD)</option>
-        <option value="0.0035" selected>Bet 0.0035 SOL (~$0.50 USD)</option>
-        <option value="0.01">Bet 0.01 SOL (~$1.50 USD)</option>
-      </select>
-      <button class="start-btn" onclick="startDuel()">Start Duel</button>
-      <button class="links-leaderboard-btn" onclick="toggleLinksLeaderboard()">Leaderboard & Stats</button>
-      <button class="settings-btn" onclick="toggleSettings()">Settings</button>
+    <div class="top-bar">
+      <h1><span class="emoji">🤠</span> DexHunt: Cowboy Reflex Showdown</h1>
+      <div class="button-row">
+        <button class="start-btn" onclick="startDuel()">Start Duel</button>
+        <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
+        <button class="links-leaderboard-btn" onclick="toggleLinksLeaderboard()">📊</button>
+        <button class="tutorial-btn" onclick="toggleTutorial()">❓</button>
+        <button class="wallet-btn" onclick="connectWallet()" id="connectWalletBtn">💼</button>
+      </div>
+      <div class="wallet-hud" id="walletHUD">
+        💰 $SALOONA: 0 | ⚡ Best Draw: --ms | 🔥 Streak: 0
+      </div>
+      <div class="beta-label">Beta Testing</div>
     </div>
-    <div class="log" id="log">Think you’re quick enough, cowboy? Beat Sawn-Off Slim in under 0.5 seconds!</div>
+
     <div class="duel-area" id="duel-area">
       <canvas id="gameCanvas"></canvas>
-      <img class="bang" id="bang" src="assets/pow_explosion.png" style="display:none;" onclick="shoot();" />
-      <div id="countdown" class="countdown" style="display:none;"></div>
-      <div id="quickDraw" class="quick-draw" style="display:none;">Quick Draw!</div>
+      <img alt="Shoot target" class="bang" id="bang" onclick="shoot();" src="assets/pow_explosion.png" style="display:none;"/>
+      <div class="countdown" id="countdown" style="display:none;"></div>
+      <div class="quick-draw" id="quickDraw" style="display:none;">Quick Draw!</div>
     </div>
+
+    <div class="log" id="log">Think you’re quick enough, cowboy? Beat Sawn-Off Slim in under 0.5 seconds!</div>
+
+    <!-- Popups -->
     <div class="leaderboard-popup" id="leaderboardPopup"></div>
     <div class="tutorial-popup" id="tutorialPopup">
       <h3>Welcome to DexHunt!</h3>
-      <p>1. Connect your wallet to start.</p>
-      <p>2. Choose your bet (0.0007–0.01 SOL).</p>
-      <p>3. Click "Start Duel" and wait for "SHOOT NOW!"</p>
-      <p>4. Click "BANG!" fast to win:</p>
+      <p>1. Click "Start Duel" and wait for the countdown.</p>
+      <p>2. Click "BANG!" fast to win:</p>
       <p>- Under 500ms: 1.5x SOL or 1000x $DHUNT + bonus chance!</p>
       <p>- Under 250ms: Earn a "Lightning Draw" NFT!</p>
       <p>- 500–600ms: 0.000875 SOL.</p>
-      <button onclick="closeTutorial()">Got It!</button>
+      <p>Connect your wallet to earn rewards (optional in beta)!</p>
+      <button aria-label="Close tutorial" onclick="closeTutorial()">Got It!</button>
     </div>
     <div class="double-or-nothing-popup" id="doubleOrNothingPopup">
       <h3>Double or Nothing!</h3>
       <p>5 losses in a row! Risk 0.015 SOL to win 0.03 SOL?</p>
-      <button class="share-btn" onclick="startDoubleOrNothing()">Yes</button>
-      <button class="share-btn" onclick="declineDoubleOrNothing()">No</button>
+      <button aria-label="Accept Double or Nothing challenge" class="share-btn" onclick="startDoubleOrNothing()">Yes</button>
+      <button aria-label="Decline Double or Nothing challenge" class="share-btn" onclick="declineDoubleOrNothing()">No</button>
     </div>
     <div class="settings-popup" id="settingsPopup">
       <h3>Settings</h3>
-      <button class="sound-toggle-btn" onclick="toggleSound()">Mute Sound</button>
-      <button class="reset-btn" onclick="resetDuel()">Reset Duel</button>
-      <button class="share-btn" onclick="toggleSettings()">Close</button>
+      <button aria-label="Toggle game sound" class="sound-toggle-btn" onclick="toggleSound()">Mute Sound</button>
+      <button aria-label="Toggle background music" class="sound-toggle-btn" onclick="toggleBackgroundMusic()">Mute Music</button>
+      <button aria-label="Reset stats" class="reset-btn" onclick="resetStats()">Reset Stats</button>
+      <button aria-label="Reset the duel" class="reset-btn" onclick="resetDuel()">Reset Duel</button>
+      <button aria-label="Close settings" class="share-btn" onclick="toggleSettings()">Close</button>
+      <button aria-label="View legal information" class="share-btn" onclick="window.open('legal/index.html', '_blank')">Legal</button>
+    </div>
+    <div class="rewards-popup" id="rewardsPopup">
+      <h3>Rewards & NFTs</h3>
+      <p>Check out your rewards and NFTs!</p>
+      <p>Phantom Rider NFT: <span id="phantomRiderStatus">Unclaimed</span></p>
+      <button aria-label="Close rewards popup" class="share-btn" onclick="toggleRewardsPopup()">Close</button>
+    </div>
+    <div class="notification-popup" id="notificationPopup">
+      <p>Enjoying the beta? Let us know your feedback!</p>
+      <button class="share-btn" onclick="closeNotification()">Close</button>
+    </div>
+    <div class="wallet-popup" id="walletPopup" style="display: none;">
+      <h3>Connect Wallet (Devnet)</h3>
+      <p>Connect your Solana wallet to earn $SALOONA rewards.</p>
+      <button class="share-btn" onclick="connectSolanaWallet()">Connect Wallet</button>
+      <button class="share-btn" onclick="toggleWalletPopup()">Skip</button>
+      <div id="jupiterSwapWidget" style="margin-top: 15px;"></div>
     </div>
   </div>
 
+  <footer>
+    <p>
+      <a href="./legal/disclaimer.html">Disclaimer</a> |
+      <a href="./legal/privacy_policy.html">Privacy Policy</a> |
+      <a href="./legal/terms_and_conditions.html">Terms & Conditions</a>
+    </p>
+    <p>© 2025 Saloona Arcade - Powered by Solana 👾</p>
+  </footer>
+
+  <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
   <script>
-    let duelTimeout, reactionTimeout, countdownInterval;
-    let canShoot = false;
-    let walletConnected = false;
-    let bangShownAt = 0;
-    let totalDuels = parseInt(localStorage.getItem('totalDuels')) || 0;
-    let totalDhuntEarned = parseInt(localStorage.getItem('totalDhuntEarned')) || 0;
-    let bestDraw = parseInt(localStorage.getItem('bestDraw')) || null;
-    let coyoteHowlTriggered = false;
-    let consecutiveLosses = 0;
-    let playStreak = 0;
-    let reactionWindow = 750;
-    let betAmount = 0.0035;
-    let loginStreak = parseInt(localStorage.getItem('loginStreak')) || 0;
-    let isMuted = localStorage.getItem('isMuted') === 'true';
-    let userPublicKey = null;
-    let isDoubleOrNothing = false;
-    let reactionTimes = JSON.parse(localStorage.getItem('reactionTimes')) || [];
-    let reactionStats = JSON.parse(localStorage.getItem('reactionStats')) || { fullWins: 0, smallerPrizes: 0, losses: 0 };
-    let solStats = JSON.parse(localStorage.getItem('solStats')) || { totalWagered: 0, netWon: 0 };
-    let dailyChallenge = JSON.parse(localStorage.getItem('dailyChallenge')) || { winsToday: 0, lastReset: new Date().toDateString(), rewardClaimed: false };
-    let weeklyChallenge = JSON.parse(localStorage.getItem('weeklyChallenge')) || { duelsPlayed: 0, weekStart: getWeekNumber(), rewardClaimed: false };
-    let playerLevel = JSON.parse(localStorage.getItem('playerLevel')) || { level: 1, duelsForNextLevel: 10 };
-    let globalLeaderboard = JSON.parse(localStorage.getItem('globalLeaderboard')) || [
-      { name: 'Cowboy#1', time: 250 }, { name: 'Cowboy#2', time: 260 }, { name: 'Cowboy#3', time: 270 },
-      { name: 'Cowboy#4', time: 280 }, { name: 'Cowboy#5', time: 290 }
+    let duelStarted = false;
+    let drawTime = 0;
+    let duelTimeout = null;
+    let saloona = parseInt(localStorage.getItem("saloonaBalance")) || 0;
+    let bestDraw = parseInt(localStorage.getItem("bestDraw")) || null;
+    let lossStreak = 0;
+    let winStreak = 0;
+    let isConnected = false;
+    let gameStarted = false;
+    let walletPublicKey = null;
+    let hasInteracted = false; // Track user interaction
+
+    // Animation elements
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    let eagle, cloud1, cloud2, bird1, bird2;
+
+    // Load animation images
+    function preloadImages() {
+      eagle = new Image();
+      eagle.src = "assets/eagle.png";
+      eagle.onload = () => console.log("Eagle image loaded successfully.");
+      eagle.onerror = () => {
+        console.error("Failed to load eagle.png. Check the file path or ensure the image exists.");
+        log.textContent = "Error: Could not load eagle image.";
+      };
+
+      cloud1 = new Image();
+      cloud1.src = "assets/cloud1.png";
+      cloud1.onload = () => console.log("Cloud1 image loaded successfully.");
+      cloud1.onerror = () => {
+        console.error("Failed to load cloud1.png. Check the file path or ensure the image exists.");
+        log.textContent = "Error: Could not load cloud1 image.";
+      };
+
+      cloud2 = new Image();
+      cloud2.src = "assets/cloud2.png";
+      cloud2.onload = () => console.log("Cloud2 image loaded successfully.");
+      cloud2.onerror = () => {
+        console.error("Failed to load cloud2.png. Check the file path or ensure the image exists.");
+        log.textContent = "Error: Could not load cloud2 image.";
+      };
+
+      bird1 = new Image();
+      bird1.src = "assets/bird1.png";
+      bird1.onload = () => console.log("Bird1 image loaded successfully.");
+      bird1.onerror = () => console.error("Failed to load bird1.png.");
+
+      bird2 = new Image();
+      bird2.src = "assets/bird2.png";
+      bird2.onload = () => console.log("Bird2 image loaded successfully.");
+      bird2.onerror = () => console.error("Failed to load bird2.png.");
+    }
+
+    // Animation state (removed tumbleweed)
+    let animations = [
+      { img: null, x: -150, y: 80, width: 60, height: 45, speed: 1, animation: "moveEagle", duration: 20000, lastUpdate: 0, loop: true, zIndex: 3 }, // Eagle
+      { img: null, x: -300, y: 50, width: 500, height: 250, speed: 0.5, animation: "moveCloud", duration: 30000, lastUpdate: 0, loop: true, zIndex: 1 }, // Cloud 1
+      { img: null, x: -400, y: 90, width: 600, height: 300, speed: 0.4, animation: "moveCloud", duration: 35000, lastUpdate: 0, loop: true, zIndex: 2 }, // Cloud 2
+      { img: null, x: -70, y: 110, width: 50, height: 40, speed: 1.2, animation: "moveBird", duration: 15000, lastUpdate: 0, loop: true, zIndex: 3 }, // Bird 1
+      { img: null, x: -90, y: 130, width: 50, height: 40, speed: 1.5, animation: "moveBird", duration: 12000, lastUpdate: 0, loop: true, zIndex: 3 }  // Bird 2
     ];
 
-    const audioElements = [
-      document.getElementById('gunshot'),
-      document.getElementById('toosoon'),
-      document.getElementById('winSound'),
-      document.getElementById('loseSound'),
-      document.getElementById('resetSound'),
-      document.getElementById('startSound'),
-      document.getElementById('walletSound'),
-      document.getElementById('coyoteHowl'),
-      document.getElementById('drawSound'),
-      document.getElementById('backgroundMusic'),
-      document.getElementById('tumbleweedRoll')
-    ];
+    // Initialize canvas size
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
 
-    audioElements.forEach(audio => audio.muted = isMuted);
-    document.querySelector('.sound-toggle-btn').textContent = isMuted ? 'Unmute Sound' : 'Mute Sound';
-
-    function getWeekNumber() {
-      const now = new Date();
-      const start = new Date(now.getFullYear(), 0, 1);
-      const diff = now - start;
-      const oneWeek = 1000 * 60 * 60 * 24 * 7;
-      return Math.floor(diff / oneWeek) + 1;
-    }
-
-    async function connectWallet() {
-      const log = document.getElementById('log');
-      console.log('Attempting wallet connection...');
-      log.textContent = 'Connecting wallet...';
-      try {
-        console.log('Checking for window.solana:', !!window.solana);
-        const solana = window.solana;
-        if (!solana || !solana.isPhantom) {
-          console.log('Phantom Wallet not detected');
-          log.textContent = 'Please install Phantom Wallet or another Solana-compatible wallet!';
-          return;
+      // Adjust animation positions to stay within the "sky" area
+      animations.forEach(anim => {
+        if (anim.animation !== "moveTumbleweed") {
+          if (anim.y < 150) anim.y = 150;
+          if (anim.y > canvas.height / 2) anim.y = canvas.height / 2 - anim.height;
         }
-        console.log('Connecting to Phantom Wallet...');
-        const provider = solana;
-        const response = await provider.connect();
-        console.log('Connected, public key:', response.publicKey.toString());
-        userPublicKey = response.publicKey.toString();
-        walletConnected = true;
-        const connection = new window.solanaWeb3.Connection('https://api.devnet.solana.com', 'confirmed');
-        console.log('Fetching balance...');
-        const balance = await connection.getBalance(response.publicKey);
-        const solBalance = balance / 1000000000;
-        console.log('Balance fetched:', solBalance);
-        audioElements[6].play();
-        log.textContent = `Wallet Connected: ${userPublicKey.slice(0, 8)}... | Balance: ${solBalance.toFixed(4)} SOL`;
-      } catch (error) {
-        console.error('Wallet connection failed:', error);
-        log.textContent = `Wallet connection failed: ${error.message || 'Unknown error'}. Please try again.`;
-      }
-    }
-
-    const connection = new window.solanaWeb3.Connection(
-      'https://api.devnet.solana.com' || 'https://api.mainnet-beta.solana.com',
-      'confirmed'
-    );
-
-    function setBetAmount(amount) {
-      betAmount = parseFloat(amount);
-      document.getElementById('log').textContent = `Bet set to ${betAmount} SOL!`;
-    }
-
-    function dailyLoginReward() {
-      const today = new Date().toDateString();
-      const lastLogin = localStorage.getItem('lastLogin');
-      if (lastLogin !== today) {
-        loginStreak++;
-        let reward = loginStreak >= 5 ? 20 : 10;
-        let extraReward = '';
-        if (!localStorage.getItem('xFollowReward')) {
-          extraReward = ' + 50 $DHUNT for following @DexHuntGame on X!';
-          localStorage.setItem('xFollowReward', 'true');
-          reward += 50;
-        }
-        totalDhuntEarned += reward;
-        localStorage.setItem('totalDhuntEarned', totalDhuntEarned);
-        localStorage.setItem('lastLogin', today);
-        localStorage.setItem('loginStreak', loginStreak);
-        document.getElementById('log').textContent = `Daily Login: Earned ${reward} $DHUNT! Streak: ${loginStreak} days${extraReward}`;
-        if (loginStreak >= 5) loginStreak = 0;
-      } else {
-        document.getElementById('log').textContent = 'Already claimed today’s login reward!';
-      }
-    }
-
-    function toggleSettings() {
-      const popup = document.getElementById('settingsPopup');
-      popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function startDuel() {
-      function startDuel() {
-        audioElements[5].play();
-        if (!isMuted) {
-          audioElements[9].play().catch(err => console.error("Failed to play background music:", err));
-
-          console.error("Error playing background music:", err);
-        }
-        const log = document.getElementById('log');
-        const bang = document.getElementById('bang');
-        if (!walletConnected) {
-          log.textContent = 'Please connect wallet first!';
-          return;
-        }
-        bang.style.display = 'none';
-        canShoot = false;
-        coyoteHowlTriggered = false;
-        const currentBet = isDoubleOrNothing ? 0.015 : betAmount;
-        log.textContent = `Get ready... Sawn-Off Slim is watchin’... Betting ${currentBet.toFixed(4)} SOL!`;
-        const delay = Math.random() * 9000 + 1000;
-        const additionalDelay = Math.random() * 2000;
-        duelTimeout = setTimeout(() => {
-          showBang();
-        }, delay + additionalDelay);
-        if (Math.random() < 0.1) {
-          setTimeout(() => {
-            if (canShoot) return;
-            audioElements[7].play();
-            log.textContent = 'Sly the Coyote howls! Wait a bit longer...';
-            coyoteHowlTriggered = true;
-          }, delay + additionalDelay - 1000);
-        }
-      }
-  </script>
-</body>
-
-</html>
-}
-<script>
-    function showBang() {
-      const bang = document.getElementById('bang');
-      const duelArea = document.getElementById('duel-area');
-      const log = document.getElementById('log');
-      const bangWidth = window.innerWidth <= 600 ? 150 : 200;
-      const bangHeight = bangWidth;
-      const padding = 50;
-      const maxX = duelArea.clientWidth - bangWidth - padding;
-      const maxY = duelArea.clientHeight - bangHeight - padding;
-      const x = Math.random() * maxX + padding / 2;
-      const y = Math.random() * maxY + padding / 2;
-      bang.style.left = `${x}px`;
-      bang.style.top = `${y}px`;
-      bang.style.display = 'block';
-      canShoot = true;
-      bangShownAt = performance.now();
-      log.textContent = 'SHOOT NOW! 🤠';
-      audioElements[8].play();
-      reactionTimeout = setTimeout(() => {
-        if (canShoot) {
-          canShoot = false;
-          bang.style.display = 'none';
-          log.textContent = '<span style="color: red;">Too slow, cowboy! Sawn-Off Slim wins!</span>';
-          reactionTimes.push(Math.round(performance.now() - bangShownAt));
-          reactionStats.losses++;
-          solStats.totalWagered += isDoubleOrNothing ? 0.015 : betAmount;
-          localStorage.setItem('reactionTimes', JSON.stringify(reactionTimes));
-          localStorage.setItem('reactionStats', JSON.stringify(reactionStats));
-          localStorage.setItem('solStats', JSON.stringify(solStats));
-          audioElements[3].play();
-          consecutiveLosses++;
-          playStreak++;
-          checkStreak();
-          checkDoubleOrNothing();
-          if (isDoubleOrNothing) {
-            log.textContent += ' Double or Nothing failed! Lost 0.015 SOL!';
-            isDoubleOrNothing = false;
-            consecutiveLosses = 0;
-          }
-        }
-      }, coyoteHowlTriggered ? 1000 : 750);
-    }
-
-    async function shoot() {
-      console.log("Shoot function triggered");
-      const bang = document.getElementById('bang');
-      const log = document.getElementById('log');
-      const quickDraw = document.getElementById('quickDraw');
-      const rewardType = document.getElementById('rewardType').value;
-      const now = performance.now();
-      const reactionTime = Math.round(now - bangShownAt);
-      const avgReactionTime = reactionTimes.length > 0 ? reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length : 600;
-
-      if (canShoot) {
-        clearTimeout(reactionTimeout);
-        bang.style.display = 'none';
-        canShoot = false;
-        playStreak++;
-        reactionTimes.push(reactionTime);
-        audioElements[0].play();
-
-        if (reactionTime < 500) {
-          consecutiveLosses = 0;
-          reactionWindow = Math.max(600, reactionWindow - 50);
-          reactionStats.fullWins++;
-          let bonus = Math.random() < 0.15 ? ' + Bonus 0.001 SOL!' : '';
-          let payout, message;
-          if (isDoubleOrNothing) {
-            payout = 0.015 * 2;
-            message = `<span style="color: green;">Double or Nothing Success! Draw time: ${reactionTime}ms. Won ${payout.toFixed(4)} SOL! Keep it under 500ms!</span>`;
-            isDoubleOrNothing = false;
-          } else if (rewardType === 'sol') {
-            payout = betAmount * 1.5 * (playerLevel.level >= 3 ? 2 : 1);
-            message = `<span style="color: green;">Blazing fast, cowboy! Draw time: ${reactionTime}ms. Won ${payout.toFixed(4)} SOL!${bonus} Keep it under 500ms!</span>`;
-            solStats.netWon += payout - betAmount;
-          } else {
-            bonus = Math.random() < 0.15 ? ' + Bonus 50 $DHUNT!' : '';
-            payout = betAmount * 1000;
-            totalDhuntEarned += payout + (bonus ? 50 : 0);
-            message = `<span style="color: green;">Blazing fast, cowboy! Draw time: ${reactionTime}ms. Won ${payout} $DHUNT!${bonus} Keep it under 500ms!</span>`;
-          }
-          log.textContent = message;
-          quickDraw.style.display = 'block';
-          setTimeout(() => quickDraw.style.display = 'none', 1500);
-          audioElements[2].play();
-          if (reactionTime < 250) {
-            log.textContent += ' Earned "Lightning Draw" NFT!';
-          }
-          dailyChallenge.winsToday += dailyChallenge.lastReset === new Date().toDateString() ? 1 : (dailyChallenge.winsToday = 1, 1);
-          dailyChallenge.lastReset = new Date().toDateString();
-          updateGlobalLeaderboard(reactionTime);
-        } else if (reactionTime < 600) {
-          reactionStats.smallerPrizes++;
-          log.textContent = `<span style="color: yellow;">So close! Draw time: ${reactionTime}ms. Won 0.000875 SOL! Just ${500 - reactionTime}ms from a full win!</span>`;
-          quickDraw.style.display = 'block';
-          setTimeout(() => quickDraw.style.display = 'none', 1500);
-          consecutiveLosses++;
-          reactionWindow = Math.min(750, reactionWindow + 50);
-          audioElements[2].play();
-          solStats.netWon += 0.000875 - betAmount;
-          if (isDoubleOrNothing) {
-            log.textContent += ' Double or Nothing failed! Lost 0.015 SOL!';
-            isDoubleOrNothing = false;
-            consecutiveLosses = 0;
-          }
-        } else {
-          reactionStats.losses++;
-          log.textContent = `<span style="color: red;">Not quick enough! Draw time: ${reactionTime}ms. Aim for under 600ms! You’re ${reactionTime - 600}ms too slow.</span>`;
-          consecutiveLosses++;
-          reactionWindow = Math.min(750, reactionWindow + 50);
-          audioElements[3].play();
-          if (isDoubleOrNothing) {
-            log.textContent += ' Double or Nothing failed! Lost 0.015 SOL!';
-            isDoubleOrNothing = false;
-            consecutiveLosses = 0;
-          }
-        }
-        solStats.totalWagered += isDoubleOrNothing ? 0.015 : betAmount;
-        localStorage.setItem('reactionTimes', JSON.stringify(reactionTimes));
-        localStorage.setItem('reactionStats', JSON.stringify(reactionStats));
-        localStorage.setItem('solStats', JSON.stringify(solStats));
-        localStorage.setItem('totalDhuntEarned', totalDhuntEarned);
-        localStorage.setItem('dailyChallenge', JSON.stringify(dailyChallenge));
-        if (bestDraw === null || reactionTime < bestDraw) {
-          bestDraw = reactionTime;
-          localStorage.setItem('bestDraw', bestDraw);
-        }
-        totalDuels++;
-        weeklyChallenge.duelsPlayed++;
-        playerLevel.duelsForNextLevel--;
-        if (playerLevel.duelsForNextLevel <= 0) {
-          playerLevel.level++;
-          playerLevel.duelsForNextLevel = 10 + playerLevel.level * 2;
-          log.textContent += ` Leveled up to ${playerLevel.level}! ${playerLevel.level >= 3 ? 'Jackpot Duel Unlocked!' : ''}`;
-          localStorage.setItem('playerLevel', JSON.stringify(playerLevel));
-        }
-        localStorage.setItem('totalDuels', totalDuels);
-        localStorage.setItem('weeklyChallenge', JSON.stringify(weeklyChallenge));
-        checkStreak();
-        checkDoubleOrNothing();
-      } else {
-        clearTimeout(reactionTimeout);
-        bang.style.display = 'none';
-        log.textContent = '<span style="color: red;">YEE-HAW! Too Soon, Cowboy! Sawn-Off Slim smirks...</span>';
-        reactionTimes.push(0);
-        reactionStats.losses++;
-        solStats.totalWagered += isDoubleOrNothing ? 0.015 : betAmount;
-        localStorage.setItem('reactionTimes', JSON.stringify(reactionTimes));
-        localStorage.setItem('reactionStats', JSON.stringify(reactionStats));
-        localStorage.setItem('solStats', JSON.stringify(solStats));
-        audioElements[1].play();
-        consecutiveLosses++;
-        playStreak++;
-        checkStreak();
-        checkDoubleOrNothing();
-        if (isDoubleOrNothing) {
-          log.textContent += ' Double or Nothing failed! Lost 0.015 SOL!';
-          isDoubleOrNothing = false;
-          consecutiveLosses = 0;
-        }
-      }
-    }
-
-    function updateGlobalLeaderboard(reactionTime) {
-      if (reactionTime >= 500) return;
-      const playerName = userPublicKey ? `Cowboy#${userPublicKey.slice(0, 4)}` : `Cowboy#${Math.random().toString(36).substr(2, 4)}`;
-      globalLeaderboard.push({ name: playerName, time: reactionTime });
-      globalLeaderboard.sort((a, b) => a.time - b.time);
-      globalLeaderboard = globalLeaderboard.slice(0, 5);
-      localStorage.setItem('globalLeaderboard', JSON.stringify(globalLeaderboard));
-    }
-
-    function exportReactionData() {
-      let csvContent = "Duel,ReactionTime(ms),Outcome\n";
-      reactionTimes.forEach((rt, index) => {
-        let outcome = rt === 0 ? "Too Soon" : rt < 500 ? "Full Win" : rt < 600 ? "Smaller Prize" : "Loss";
-        csvContent += `${index + 1},${rt},${outcome}\n`;
       });
-      csvContent += `\nStats,Value\nFull Wins,${reactionStats.fullWins}\nSmaller Prizes,${reactionStats.smallerPrizes}\nLosses,${reactionStats.losses}\nAverage Reaction Time,${reactionTimes.length > 0 ? Math.round(reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length) : 'N/A'}`;
-      const blob = new Blob([csvContent], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'DexHunt_ReactionData.csv';
-      a.click();
-      URL.revokeObjectURL(url);
-      document.getElementById('log').textContent = 'Reaction data exported as CSV!';
     }
 
-    function checkStreak() {
-      const log = document.getElementById('log');
-      if (playStreak % 3 === 0) {
-        log.textContent += ' Nice streak! Earned 10 $DHUNT!';
-        totalDhuntEarned += 10;
-        localStorage.setItem('totalDhuntEarned', totalDhuntEarned);
+    // Animate elements on the canvas
+    function animateElements(timestamp) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Sort animations by zIndex for layering
+      animations.sort((a, b) => a.zIndex - b.zIndex);
+
+      animations.forEach((anim, index) => {
+        if (!anim.img) {
+          if (index === 0) anim.img = eagle;
+          if (index === 1) anim.img = cloud1;
+          if (index === 2) anim.img = cloud2;
+          if (index === 3) anim.img = bird1;
+          if (index === 4) anim.img = bird2;
+        }
+
+        // Only draw if the image is loaded and not "broken"
+        if (anim.img && anim.img.complete && anim.img.naturalWidth !== 0) {
+          // Calculate progress based on time
+          if (!anim.lastUpdate) anim.lastUpdate = timestamp;
+          const elapsed = timestamp - anim.lastUpdate;
+          const progress = (elapsed % anim.duration) / anim.duration;
+
+          // Update position based on animation type
+          if (anim.animation === "moveEagle") {
+            anim.x = -anim.width + (canvas.width + anim.width) * progress;
+            anim.y = 150 + Math.sin(progress * Math.PI * 2) * 30; // Smooth flapping
+          } else if (anim.animation === "moveCloud" || anim.animation === "moveBird") {
+            anim.x = -anim.width + (canvas.width + anim.width) * progress;
+            if (anim.animation === "moveBird") {
+              anim.y = 150 + Math.sin(progress * Math.PI * 2) * 20;
+            }
+          }
+
+          ctx.drawImage(anim.img, anim.x, anim.y, anim.width, anim.height);
+        }
+      });
+
+      requestAnimationFrame(animateElements);
+    }
+
+    // DOM elements
+    const bang = document.getElementById("bang");
+    const countdown = document.getElementById("countdown");
+    const quickDraw = document.getElementById("quickDraw");
+    const log = document.getElementById("log");
+
+    // Function to hide loading screen and show main content
+    function showGameContent() {
+      const loadingScreen = document.getElementById('loadingScreen');
+      if (loadingScreen) {
+        loadingScreen.style.display = 'none';
+        console.log("Game content displayed successfully.");
+      } else {
+        console.error("Error: Could not find #loadingScreen element.");
       }
-      if (playStreak % 5 === 0) {
-        log.textContent += ' Hot streak! Earned 20 $DHUNT!';
-        totalDhuntEarned += 20;
-        localStorage.setItem('totalDhuntEarned', totalDhuntEarned);
+    }
+
+    // Function to play background music after user interaction
+    function playBackgroundMusic() {
+      if (!hasInteracted) {
+        const bgMusic = document.getElementById("backgroundMusic");
+        bgMusic.play().catch(err => console.error("Error playing background music:", err));
+        hasInteracted = true;
       }
     }
 
-    function checkDoubleOrNothing() {
-      if (consecutiveLosses >= 5 && !isDoubleOrNothing) {
-        const popup = document.getElementById('doubleOrNothingPopup');
-        popup.style.display = 'block';
-      }
+    // Function to update the wallet HUD
+    function updateWalletHUD() {
+      const hud = document.getElementById("walletHUD");
+      hud.innerHTML = `💰 $SALOONA: ${saloona} | ⚡ Best Draw: ${bestDraw || '--'}ms | 🔥 Streak: ${winStreak}`;
     }
 
-    function startDoubleOrNothing() {
-      const popup = document.getElementById('doubleOrNothingPopup');
-      popup.style.display = 'none';
-      isDoubleOrNothing = true;
-      consecutiveLosses = 0;
-      startDuel();
-    }
+    // Function to start the 3-second countdown
+    function startCountdown(callback) {
+      let count = 3;
+      countdown.style.display = "block";
+      countdown.innerText = count;
 
-    function declineDoubleOrNothing() {
-      const popup = document.getElementById('doubleOrNothingPopup');
-      popup.style.display = 'none';
-      consecutiveLosses = 0;
-      document.getElementById('log').textContent = 'Double or Nothing declined. Keep practicing, cowboy!';
-    }
-
-    function resetDuel() {
-      clearTimeout(duelTimeout);
-      clearTimeout(reactionTimeout);
-      document.getElementById('bang').style.display = 'none';
-      document.getElementById('log').textContent = 'Think you’re quick enough, cowboy? Beat Sawn-Off Slim in under 0.5 seconds!';
-      canShoot = false;
-      isDoubleOrNothing = false;
-      audioElements[4].play();
-      const countdownEl = document.getElementById('countdown');
-      let timeLeft = 3;
-      countdownEl.style.display = 'block';
-      countdownEl.textContent = timeLeft;
-      countdownInterval = setInterval(() => {
-        timeLeft--;
-        if (timeLeft > 0) {
-          countdownEl.textContent = timeLeft;
+      const ticker = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countdown.innerText = count;
         } else {
-          clearInterval(countdownInterval);
-          countdownEl.style.display = 'none';
-          startDuel();
+          clearInterval(ticker);
+          countdown.style.display = "none";
+          callback();
         }
       }, 1000);
     }
 
-    function showTutorial() {
-      if (!localStorage.getItem('tutorialSeen')) {
-        document.getElementById('tutorialPopup').style.display = 'block';
-        localStorage.setItem('tutorialSeen', 'true');
-      }
-    }
+    // Function to start the duel
+    function startDuel() {
+      if (duelStarted) return;
+      duelStarted = true;
+      gameStarted = true;
 
-    function closeTutorial() {
-      document.getElementById('tutorialPopup').style.display = 'none';
-    }
+      // Play background music on first interaction
+      playBackgroundMusic();
 
-    function toggleSound() {
-      isMuted = !isMuted;
-      audioElements.forEach(audio => audio.muted = isMuted);
-      document.querySelector('.sound-toggle-btn').textContent = isMuted ? 'Unmute Sound' : 'Mute Sound';
-      localStorage.setItem('isMuted', isMuted);
-    }
+      const startDuelBtn = document.querySelector(".button-row .start-btn");
+      startDuelBtn.classList.add("clicked");
 
-    function updateLeaderboard() {
-      const avgReactionTime = reactionTimes.length > 0 ? Math.round(reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length) : 'N/A';
-      const title = bestDraw < 250 ? 'Lightning Cowboy' : bestDraw < 500 ? 'Quick Draw' : 'Greenhorn';
-      const recent10 = reactionTimes.slice(-10);
-      const prev10 = reactionTimes.slice(-20, -10);
-      const recentAvg = recent10.length > 0 ? recent10.reduce((a, b) => a + b, 0) / recent10.length : null;
-      const prevAvg = prev10.length > 0 ? prev10.reduce((a, b) => a + b, 0) / prev10.length : null;
-      const improvement = prevAvg && recentAvg ? Math.round(prevAvg - recentAvg) : null;
-      const progressText = improvement ? (improvement > 0 ? `Progress: Improved by ${improvement}ms!` : `Progress: Reaction time up by ${-improvement}ms. Practice more!`) : 'Play more to track progress!';
-      const challengeTarget = Math.max(avgReactionTime - 50, 350);
-      const dailyChallengeText = dailyChallenge.winsToday >= 3 && dailyChallenge.lastReset === new Date().toDateString() ?
-        (dailyChallenge.rewardClaimed ? 'Daily Challenge Completed!' : `<button class="share-btn" onclick="claimDailyReward()">Claim 50 $DHUNT!</button>`) :
-        `Daily Challenge: Win ${3 - dailyChallenge.winsToday} duels under ${challengeTarget}ms today!`;
-      const weeklyChallengeText = weeklyChallenge.duelsPlayed >= 10 && weeklyChallenge.weekStart === getWeekNumber() ?
-        (weeklyChallenge.rewardClaimed ? 'Weekly Challenge Completed!' : `<button class="share-btn" onclick="claimWeeklyReward()">Claim 100 $DHUNT!</button>`) :
-        `Weekly Challenge: Play ${10 - weeklyChallenge.duelsPlayed} more duels this week!`;
+      bang.style.display = "none";
+      quickDraw.style.display = "none";
+      log.textContent = "Get ready to draw...";
 
-      let leaderboardHTML = '<h3>Global Leaderboard (Top 5)</h3>';
-      globalLeaderboard.forEach((entry, index) => {
-        leaderboardHTML += `<p>${index + 1}. ${entry.name}: ${entry.time}ms</p>`;
+      startCountdown(() => {
+        drawTime = performance.now();
+        document.getElementById("drawSound").play();
+        bang.style.display = "block";
+        quickDraw.style.display = "block";
+
+        const topBarHeight = document.querySelector('.top-bar').offsetHeight;
+        const canvasRect = canvas.getBoundingClientRect();
+        const minX = 50;
+        const maxX = canvasRect.width - 50 - 220;
+        const minY = topBarHeight + 20;
+        const maxY = (canvasRect.height / 2) - 220;
+        const randX = Math.random() * (maxX - minX) + minX;
+        const randY = Math.random() * (maxY - minY) + minY;
+
+        bang.style.left = `${randX}px`;
+        bang.style.top = `${randY}px`;
+        quickDraw.innerText = "🔥 DRAW!";
       });
-
-      document.getElementById('leaderboardPopup').innerHTML = `
-      <h3>Your Stats</h3>
-      <p>Level: ${playerLevel.level} (Next level in ${playerLevel.duelsForNextLevel} duels)</p>
-      <p>Fastest Draw: ${bestDraw || '--'}ms</p>
-      <p>Average Reaction Time: ${avgReactionTime}ms</p>
-      <p>Duels Played: ${totalDuels}</p>
-      <p>Full Wins (<500ms): ${reactionStats.fullWins}</p>
-      <p>Smaller Prizes (500–600ms): ${reactionStats.smallerPrizes}</p>
-      <p>Losses (>600ms or too soon): ${reactionStats.losses}</p>
-      <p>Win Rate: ${totalDuels > 0 ? Math.round((reactionStats.fullWins + reactionStats.smallerPrizes) / totalDuels * 100) : 0}%</p>
-      <p>Total $DHUNT Earned: ${totalDhuntEarned}</p>
-      <p>SOL Wagered: ${solStats.totalWagered.toFixed(4)} SOL</p>
-      <p>Net SOL Won: ${solStats.netWon.toFixed(4)} SOL</p>
-      <p>${progressText}</p>
-      <p>Title: ${title}</p>
-      <h3>Challenges</h3>
-      <p>${dailyChallengeText}</p>
-      <p>${weeklyChallengeText}</p>
-      ${leaderboardHTML}
-      <p>Follow <a href="https://x.com/DexHuntGame" target="_blank">@DexHuntGame</a> for updates!</p>
-      <div class="share-buttons">
-        <button class="share-btn" onclick="dailyLoginReward()">Claim Daily Login</button>
-        <button class="share-btn" onclick="exportReactionData()">Export Reaction Data</button>
-        <button class="share-btn" onclick="shareAchievement()">Share on X</button>
-        ${playerLevel.level >= 3 ? '<button class="share-btn" onclick="startJackpotDuel()">Jackpot Duel (0.01 SOL)</button>' : ''}
-        <button class="share-btn" onclick="alert('Multi-Target Mode coming in Version 2.0! Follow @DexHuntGame on X!')" disabled>Multi-Target Mode (Soon!)</button>
-      </div>
-      <button onclick="toggleLinksLeaderboard()">Close</button>
-    `;
     }
 
-    function claimDailyReward() {
-      if (dailyChallenge.winsToday >= 3 && !dailyChallenge.rewardClaimed && dailyChallenge.lastReset === new Date().toDateString()) {
-        totalDhuntEarned += 50;
-        dailyChallenge.rewardClaimed = true;
-        localStorage.setItem('totalDhuntEarned', totalDhuntEarned);
-        localStorage.setItem('dailyChallenge', JSON.stringify(dailyChallenge));
-        document.getElementById('log').textContent = 'Claimed 50 $DHUNT for daily challenge!';
-        updateLeaderboard();
-      }
-    }
+    // Function to handle shooting
+    function shoot() {
+      const now = performance.now();
+      if (!duelStarted) return;
 
-    function claimWeeklyReward() {
-      if (weeklyChallenge.duelsPlayed >= 10 && !weeklyChallenge.rewardClaimed && weeklyChallenge.weekStart === getWeekNumber()) {
-        totalDhuntEarned += 100;
-        weeklyChallenge.rewardClaimed = true;
-        localStorage.setItem('totalDhuntEarned', totalDhuntEarned);
-        localStorage.setItem('weeklyChallenge', JSON.stringify(weeklyChallenge));
-        document.getElementById('log').textContent = 'Claimed 100 $DHUNT for weekly challenge!';
-        updateLeaderboard();
-      }
-    }
+      document.getElementById("gunshot").play();
+      document.getElementById("resetSound").play();
 
-    function startJackpotDuel() {
-      if (playerLevel.level < 3) {
-        document.getElementById('log').textContent = 'Reach Level 3 to unlock Jackpot Duel!';
+      if (drawTime === 0) {
+        document.getElementById("toosoon").play();
+        log.textContent = "Too soon! You fired before the signal.";
+        resetDuel();
         return;
       }
-      betAmount = 0.01;
-      document.getElementById('log').textContent = 'Jackpot Duel! Betting 0.01 SOL for a 10x payout!';
+
+      const reaction = Math.floor(now - drawTime);
+      drawTime = 0;
+      bang.style.display = "none";
+      quickDraw.style.display = "none";
+
+      if (reaction <= 600) {
+        const reward = 5 + Math.floor(Math.max(0, 300 - reaction) / 25);
+        saloona += reward;
+        winStreak++;
+        localStorage.setItem("saloonaBalance", saloona);
+        if (!bestDraw || reaction < bestDraw) {
+          bestDraw = reaction;
+          localStorage.setItem("bestDraw", bestDraw);
+        }
+        document.getElementById("winSound").play();
+        log.textContent = `🎯 Shot in ${reaction}ms! You earned ${reward} $SALOONA. Streak: ${winStreak}!`;
+        lossStreak = 0;
+
+        // If wallet is connected, simulate a Jupiter swap
+        if (isConnected) {
+          performJupiterSwap(reward);
+        }
+
+        // Show streak milestone messages
+        if (winStreak === 3) {
+          log.textContent += " 🤠 Nice streak! Keep it up!";
+        } else if (winStreak === 5) {
+          log.textContent += " 🔥 Hot shot! 5 wins in a row!";
+        }
+      } else {
+        document.getElementById("loseSound").play();
+        log.textContent = `Too slow! Your draw was ${reaction}ms. Streak ended.`;
+        lossStreak++;
+        winStreak = 0;
+        if (lossStreak >= 5) {
+          showDoubleOrNothing();
+        }
+      }
+
+      updateWalletHUD();
+      resetDuel();
+
+      setTimeout(() => {
+        startDuel();
+      }, 2000);
+
+      if (gameStarted && (lossStreak + saloona / 5) % 3 === 0) {
+        showNotification();
+      }
+    }
+
+    // Function to reset the duel
+    function resetDuel() {
+      duelStarted = false;
+      drawTime = 0;
+      clearTimeout(duelTimeout);
+      bang.style.display = "none";
+      quickDraw.style.display = "none";
+    }
+
+    // Function to show the double or nothing popup
+    function showDoubleOrNothing() {
+      const doubleOrNothingPopup = document.getElementById("doubleOrNothingPopup");
+      doubleOrNothingPopup.style.display = "block";
+    }
+
+    // Function to handle double or nothing challenge
+    function startDoubleOrNothing() {
+      const doubleOrNothingPopup = document.getElementById("doubleOrNothingPopup");
+      doubleOrNothingPopup.style.display = "none";
+      log.textContent = "Double or Nothing challenge started! Win to double your SOL!";
       startDuel();
     }
 
+    function declineDoubleOrNothing() {
+      const doubleOrNothingPopup = document.getElementById("doubleOrNothingPopup");
+      doubleOrNothingPopup.style.display = "none";
+      lossStreak = 0;
+      log.textContent = "Double or Nothing declined. Keep dueling!";
+    }
+
+    // Popup toggle functions
+    function toggleSettings() {
+      const settingsPopup = document.getElementById("settingsPopup");
+      settingsPopup.style.display = settingsPopup.style.display === "block" ? "none" : "block";
+    }
+
+    function toggleSound() {
+      const sounds = document.querySelectorAll("audio:not(#backgroundMusic)");
+      const isMuted = sounds[0].muted;
+      sounds.forEach(s => s.muted = !isMuted);
+      document.querySelector(".sound-toggle-btn").textContent = isMuted ? "Mute Sound" : "Unmute Sound";
+    }
+
+    function toggleBackgroundMusic() {
+      const bgMusic = document.getElementById("backgroundMusic");
+      bgMusic.muted = !bgMusic.muted;
+      const btn = document.querySelector(".settings-popup button:nth-child(2)");
+      btn.textContent = bgMusic.muted ? "Unmute Music" : "Mute Music";
+    }
+
+    function resetStats() {
+      saloona = 0;
+      bestDraw = null;
+      winStreak = 0;
+      localStorage.setItem("saloonaBalance", saloona);
+      localStorage.setItem("bestDraw", bestDraw);
+      updateWalletHUD();
+      log.textContent = "Stats reset! Start dueling to earn rewards.";
+    }
+
     function toggleLinksLeaderboard() {
-      const popup = document.getElementById('leaderboardPopup');
-      if (popup.style.display === 'block') {
-        popup.style.display = 'none';
-      } else {
-        updateLeaderboard();
-        popup.style.display = 'block';
-      }
+      const leaderboardPopup = document.getElementById("leaderboardPopup");
+      leaderboardPopup.style.display = leaderboardPopup.style.display === "block" ? "none" : "block";
+      leaderboardPopup.innerHTML = `
+        <h3>Stats</h3>
+        <p>Best Draw: ${bestDraw || '--'}ms</p>
+        <p>$SALOONA Balance: ${saloona}</p>
+        <p>Win Streak: ${winStreak}</p>
+        <button class="share-btn" onclick="toggleLinksLeaderboard()">Close</button>
+      `;
     }
 
-    function shareAchievement() {
-      const gameLink = 'https://fifthgenhub.github.io/DexHunt.github.io/DexHunt2.html?ref=' + Math.random().toString(36).substr(2, 9);
-      const tweetText = encodeURIComponent(`I’m Level ${playerLevel.level} in DexHunt! 🤠 Fastest draw: ${bestDraw || '--'}ms, ${totalDhuntEarned} $DHUNT earned. Can you beat me? ${gameLink} @DexHuntGame #DexHunt`);
-      const tweetUrl = `https://x.com/intent/tweet?text=${tweetText}`;
-      navigator.clipboard.writeText(gameLink).then(() => {
-        window.open(tweetUrl, '_blank');
-        totalDhuntEarned += 10;
-        localStorage.setItem('totalDhuntEarned', totalDhuntEarned);
-        document.getElementById('log').textContent = 'Shared on X! Earned 10 $DHUNT!';
-      }).catch(() => {
-        document.getElementById('log').textContent = 'Failed to copy link. Share manually: ' + gameLink;
-      });
+    function toggleTutorial() {
+      const tutorialPopup = document.getElementById("tutorialPopup");
+      tutorialPopup.style.display = tutorialPopup.style.display === "block" ? "none" : "block";
     }
 
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-    const duelArea = document.getElementById('duel-area');
-    let eagleTargetX = 0, eagleTargetY = 100, eagleX = 0, eagleY = 0, eagleSpeedX = 0.6, eagleSpeedY = 0.1;
-    let cryptoX = 500, cryptoY = 50, cryptoScale = 1, cryptoPulse = 0.05;
-
-    function resizeCanvas() {
-      canvas.width = duelArea.offsetWidth;
-      canvas.height = duelArea.offsetHeight;
-      eagleTargetX = canvas.width * 0.5 + 20;
-      eagleTargetY = 50;
-      eagleX = eagleTargetX;
-      eagleY = eagleTargetY - 50;
-      cryptoX = canvas.width * 0.5 - 50;
+    function closeTutorial() {
+      const tutorialPopup = document.getElementById("tutorialPopup");
+      tutorialPopup.style.display = "none";
     }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
 
-    const background = new Image();
-    background.src = 'assets/DexHuntBackground_v2.png';
-    const cloud1 = new Image();
-    cloud1.src = 'assets/cloud1.png';
-    const cloud2 = new Image();
-    cloud2.src = 'assets/cloud2.png';
-    const cloud3 = new Image();
-    cloud3.src = 'assets/cloud3.png';
-    const tumbleweed1 = new Image();
-    tumbleweed1.src = 'assets/tumbleweed1.png';
-    const tumbleweed2 = new Image();
-    tumbleweed2.src = 'assets/tumbleweed2.png';
-    const tumbleweed3 = new Image();
-    tumbleweed3.src = 'assets/tumbleweed3.png';
-    const bird1 = new Image();
-    bird1.src = 'assets/bird1.png';
-    const bird2 = new Image();
-    bird2.src = 'assets/bird2.png';
-    const crypto = new Image();
-    crypto.src = 'assets/crypto.png';
-    const eagle = new Image();
-    eagle.src = 'assets/eagle.png';
+    function toggleRewardsPopup() {
+      const rewardsPopup = document.getElementById("rewardsPopup");
+      rewardsPopup.style.display = rewardsPopup.style.display === "block" ? "none" : "block";
+      document.getElementById("phantomRiderStatus").textContent = "Unclaimed";
+    }
 
-    let cloud1X = 0, cloud1Speed = 0.5;
-    let cloud2X = 200, cloud2Speed = 0.3;
-    let cloud3X = 400, cloud3Speed = 0.4;
-    let tumbleweed1X = 0, tumbleweed1Speed = 1;
-    let tumbleweed2X = 100, tumbleweed2Speed = 0.8;
-    let tumbleweed3X = 300, tumbleweed3Speed = 1.2;
-    let bird1X = 50, bird1Y = 50, bird1SpeedX = 0.7, bird1SpeedY = 0.2;
-    let bird2X = 150, bird2Y = 80, bird2SpeedX = 0.5, bird2SpeedY = -0.1;
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(resizeCanvas, 100);
-    });
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      if (background.complete && background.naturalWidth !== 0) {
-        ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-      } else {
-        ctx.fillStyle = '#4a2c00';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-      }
-      if (cloud1.complete) ctx.drawImage(cloud1, cloud1X, 50, cloud1.width, cloud1.height);
-      if (cloud2.complete) ctx.drawImage(cloud2, cloud2X, 80, cloud2.width, cloud2.height);
-      if (cloud3.complete) ctx.drawImage(cloud3, cloud3X, 60, cloud3.width, cloud3.height);
-      cloud1X += cloud1Speed;
-      cloud2X += cloud2Speed;
-      cloud3X += cloud3Speed;
-      if (cloud1X > canvas.width) cloud1X = -cloud1.width;
-      if (cloud2X > canvas.width) cloud2X = -cloud2.width;
-      if (cloud3X > canvas.width) cloud3X = -cloud3.width;
+    function showNotification() {
+      const notificationPopup = document.getElementById("notificationPopup");
+      notificationPopup.style.display = "block";
+    }
 
-      if (tumbleweed1.complete) ctx.drawImage(tumbleweed1, tumbleweed1X, canvas.height - 80, tumbleweed1.width, tumbleweed1.height);
-      if (tumbleweed2.complete) ctx.drawImage(tumbleweed2, tumbleweed2X, canvas.height - 60, tumbleweed2.width, tumbleweed2.height);
-      if (tumbleweed3.complete) ctx.drawImage(tumbleweed3, tumbleweed3X, canvas.height - 100, tumbleweed3.width, tumbleweed3.height);
-      tumbleweed1X += tumbleweed1Speed;
-      tumbleweed2X += tumbleweed2Speed;
-      tumbleweed3X += tumbleweed3Speed;
-      if (tumbleweed1X > canvas.width) {
-        tumbleweed1X = -tumbleweed1.width;
-        if (Math.random() < 0.3) audioElements[10].play();
-      }
-      if (tumbleweed2X > canvas.width) tumbleweed2X = -tumbleweed2.width;
-      if (tumbleweed3X > canvas.width) tumbleweed3X = -tumbleweed3.width;
+    function closeNotification() {
+      const notificationPopup = document.getElementById("notificationPopup");
+      notificationPopup.style.display = "none";
+    }
 
-      if (bird1.complete) ctx.drawImage(bird1, bird1X, bird1Y, bird1.width, bird1.height);
-      if (bird2.complete) ctx.drawImage(bird2, bird2X, bird2Y, bird2.width, bird2.height);
-      bird1X += bird1SpeedX;
-      bird1Y += bird1SpeedY;
-      bird2X += bird2SpeedX;
-      bird2Y += bird2SpeedY;
-      if (bird1X > canvas.width || bird1X < 0) bird1SpeedX *= -1;
-      if (bird1Y > 150 || bird1Y < 0) bird1SpeedY *= -1;
-      if (bird2X > canvas.width || bird2X < 0) bird2SpeedX *= -1;
-      if (bird2Y > 150 || bird2Y < 0) bird2SpeedY *= -1;
+    // Wallet connection and Jupiter Swap
+    function toggleWalletPopup() {
+      const walletPopup = document.getElementById("walletPopup");
+      walletPopup.style.display = walletPopup.style.display === "block" ? "none" : "block";
+    }
 
-      if (crypto.complete) {
-        ctx.save();
-        ctx.translate(cryptoX + crypto.width / 2, cryptoY + crypto.height / 2);
-        ctx.scale(cryptoScale, cryptoScale);
-        ctx.drawImage(crypto, -crypto.width / 2, -crypto.height / 2, crypto.width, crypto.height);
-        ctx.restore();
-      }
-      cryptoScale += cryptoPulse;
-      if (cryptoScale > 1.2 || cryptoScale < 1) cryptoPulse *= -1;
-
-      if (eagle.complete) {
-        ctx.drawImage(eagle, eagleX, eagleY, 80, 80);
-        eagleX += eagleSpeedX;
-        eagleY += eagleSpeedY;
-        if (eagleX > canvas.width - 80 || eagleX < 0) eagleSpeedX *= -1;
-        if (eagleY > 150 || eagleY < 0) eagleSpeedY *= -1;
-      }
-
-      if (canShoot && bangShownAt) {
-        const elapsed = performance.now() - bangShownAt;
-        const chambers = Math.min(Math.floor((elapsed / 750) * 6), 6);
-        const color = elapsed < 500 ? 'green' : elapsed < 600 ? 'yellow' : 'red';
-        ctx.save();
-        ctx.translate(canvas.width - 50, 30);
-        ctx.beginPath();
-        ctx.arc(0, 0, 20, 0, Math.PI * 2);
-        ctx.fillStyle = '#8b5a2b';
-        ctx.fill();
-        for (let i = 0; i < 6; i++) {
-          ctx.save();
-          ctx.rotate((Math.PI / 3) * i);
-          ctx.beginPath();
-          ctx.arc(0, -12, 4, 0, Math.PI * 2);
-          ctx.fillStyle = i < chambers ? color : '#333';
-          ctx.fill();
-          ctx.restore();
+    async function connectSolanaWallet() {
+      try {
+        if (!window.solana || !window.solana.isPhantom) {
+          log.textContent = "Please install Phantom Wallet to connect!";
+          return;
         }
-        ctx.restore();
+
+        // Connect to Solana Devnet
+        const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'), 'confirmed');
+        const response = await window.solana.connect();
+        walletPublicKey = response.publicKey.toString();
+        isConnected = true;
+
+        document.getElementById("connectWalletBtn").textContent = "💼";
+        document.getElementById("connectWalletBtn").onclick = disconnectWallet;
+        document.getElementById("walletSound").play();
+        log.textContent = "Wallet connected! Rewards will be swapped via Jupiter.";
+        toggleWalletPopup();
+        updateWalletHUD();
+
+        // Initialize Jupiter Swap widget
+        initJupiterSwapWidget();
+      } catch (err) {
+        console.error("Wallet connection failed:", err);
+        log.textContent = "Failed to connect wallet. Try again.";
+      }
+    }
+
+    function disconnectWallet() {
+      if (window.solana) {
+        window.solana.disconnect();
+      }
+      isConnected = false;
+      walletPublicKey = null;
+      document.getElementById("connectWalletBtn").textContent = "💼";
+      document.getElementById("connectWalletBtn").onclick = connectWallet;
+      log.textContent = "Wallet disconnected.";
+      updateWalletHUD();
+      toggleWalletPopup();
+    }
+
+    function connectWallet() {
+      toggleWalletPopup();
+    }
+
+    function initJupiterSwapWidget() {
+      const widgetContainer = document.getElementById("jupiterSwapWidget");
+      widgetContainer.innerHTML = `
+        <iframe
+          src="https://jup.ag/swap/SOL-SALOONA?network=devnet"
+          width="100%"
+          height="400px"
+          style="border: none; border-radius: 10px;"
+        ></iframe>
+      `;
+    }
+
+    async function performJupiterSwap(amount) {
+      if (!isConnected || !walletPublicKey) {
+        log.textContent = "Wallet not connected. Rewards saved locally.";
+        return;
       }
 
-      requestAnimationFrame(animate);
+      log.textContent = `Swapping ${amount} $SALOONA to SOL on Devnet... (simulated)`;
+      // In a real implementation, you would use Jupiter's API to perform the swap
+      // For beta, this is a placeholder simulation
+      setTimeout(() => {
+        log.textContent = `Successfully swapped ${amount} $SALOONA to SOL on Devnet!`;
+      }, 2000);
     }
 
-    const assetsToLoad = [
-      { resource: background, name: 'Background' },
-      { resource: cloud1, name: 'Cloud1' },
-      { resource: cloud2, name: 'Cloud2' },
-      { resource: cloud3, name: 'Cloud3' },
-      { resource: tumbleweed1, name: 'Tumbleweed1' },
-      { resource: tumbleweed2, name: 'Tumbleweed2' },
-      { resource: tumbleweed3, name: 'Tumbleweed3' },
-      { resource: bird1, name: 'Bird1' },
-      { resource: bird2, name: 'Bird2' },
-      { resource: crypto, name: 'Crypto' },
-      { resource: eagle, name: 'Eagle' }
-    ];
+    // Initialize the game
+    window.onload = function () {
+      console.log("window.onload triggered.");
+      preloadImages();
+      resizeCanvas();
+      requestAnimationFrame(animateElements);
+      updateWalletHUD();
 
-    Promise.all(
-      assetsToLoad.map(({ resource, name }) => new Promise((resolve, reject) => {
-        resource.onload = () => {
-          console.log(`${name} loaded successfully`);
-          resolve();
-        };
-        resource.onerror = () => {
-          console.error(`Failed to load ${name} at ${resource.src}`);
-          document.getElementById('loadingScreen').innerHTML += `<p>Failed to load ${name}. Please check your connection.</p>`;
-          resolve();
-        };
-      }))
-    ).then(() => {
-      Promise.all(
-        audioElements.map(audio => new Promise((resolve) => {
-          if (audio.readyState >= 2) {
-            console.log(`${audio.id} audio ready`);
-            resolve();
-          } else {
-            audio.oncanplaythrough = () => {
-              console.log(`${audio.id} audio loaded`);
-              resolve();
-            };
-            audio.onerror = () => {
-              console.error(`Failed to load audio ${audio.id} at ${audio.src}`);
-              document.getElementById('loadingScreen').innerHTML += `<p>Failed to load audio ${audio.id}. Please check your connection.</p>`;
-              resolve();
-            };
-          }
-        }))
-      ).then(() => {
-        document.getElementById('loadingScreen').style.display = 'none';
-        animate();
-        showTutorial();
-      }).catch(err => {
-        console.error("Audio loading error:", err);
-        document.getElementById('loadingScreen').innerHTML = 'Error loading audio files. Please try again. <button onclick="location.reload()">Reload</button>';
-      });
-    }).catch(err => {
-      console.error("Image loading error:", err);
-      document.getElementById('loadingScreen').innerHTML = 'Error loading game assets. Please try again. <button onclick="location.reload()">Reload</button>';
-    });
+      setTimeout(() => {
+        showGameContent();
+      }, 2000);
+    };
 
-    const bangElement = document.getElementById('bang');
-    if (bangElement) {
-      bangElement.addEventListener('click', shoot);
-    } else {
-      console.error("Bang element not found in DOM!");
-    }
-
-    if (duelArea) {
-      duelArea.addEventListener('click', (event) => {
-        console.log("Duel area clicked at:", event.clientX, event.clientY);
-        event.stopPropagation();
-      });
-    } else {
-      console.error("Duel area not found in DOM!");
-    }
-
-    window.addEventListener('load', () => {
-      document.querySelector('.wallet-btn').addEventListener('click', connectWallet);
-      if (connectButton) {
-        connectButton.addEventListener('click', connectWallet);
-      }
-    });
-  }
-
-</script>
+    // Resize canvas on window resize
+    window.addEventListener("resize", resizeCanvas);
+  </script>
 </body>
-
 </html>
