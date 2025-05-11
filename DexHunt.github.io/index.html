@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Saloona Arcade: Step into the Wild West of blockchain gaming. Duel, mine, and stake your claim with free-to-play thrills and NFT rewards on Solana!" />
+  <meta name="keywords"
+    content="Saloona Arcade, Wild West games, play-to-earn, NFT gaming, blockchain arcade, Solana, free-to-play, DeFi, cowboy games" />
+  <meta name="author" content="Saloona Crew" />
+  <title>Saloona Arcade - Wild West Blockchain Gaming</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <!-- Preload Critical Assets -->
+  <link rel="preload" href="assets/SaloonaArcadeBackground.png" as="image">
+  <link rel="preload" href="assets/sounds/saloona_bg_music.mp3" as="audio">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #1a0033;
+      background-image: url('assets/SaloonaArcadeBackground.png');
+      background-position: center top;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: scroll;
+      color: #ffd700;
+      font-family: 'Press Start 2P', cursive;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color 0.3s, color 0.3s;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: -1;
+    }
+
+    body.dark-mode {
+      background: #0d001a;
+      color: #d3d3d3;
+    }
+
+    body.dark-mode .hero,
+    body.dark-mode .game-card,
+    body.dark-mode .stats,
+    body.dark-mode .challenges,
+    body.dark-mode .roadmap,
+    body.dark-mode .community,
+    body.dark-mode footer {
+      background: rgba(40, 40, 40, 0.85);
+    }
+
+    body.dark-mode .join-btn,
+    body.dark-mode .leaderboard,
+    body.dark-mode .challenge-item {
+      background: #b33c00;
+    }
+
+    h1,
+    h2 {
+      text-shadow: 1px 1px 3px #ff00ff, -1px -1px 3px #00ffff;
+    }
+
+    p {
+      text-shadow: none;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 3rem);
+      line-height: 1.2;
+      padding: 20px;
+      color: #ff00ff;
+      animation: neonGlow 1.5s ease-in-out infinite alternate;
+    }
+
+    h2 {
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      margin: 20px 0;
+    }
+
+    p {
+      font-size: clamp(0.7rem, 2vw, 0.9rem);
+      line-height: 1.5;
+    }
+
+    @keyframes neonGlow {
+      from {
+        text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 15px #00ffff;
+      }
+
+      to {
+        text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #00ffff;
+      }
+    }
+
+    @keyframes neonFlicker {
+
+      0%,
+      100% {
+        border-color: #00FF00;
+        box-shadow: 0 0 20px #00FF00, 0 0 30px #00FF00;
+      }
+
+      50% {
+        border-color: #00CC00;
+        box-shadow: 0 0 10px #00CC00, 0 0 15px #00CC00;
+      }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero {
+      margin: 20px auto;
+      max-width: 90%;
+      padding: 20px;
+      position: relative;
+      background: rgba(0, 0, 0, 0.85);
+      border: 4px solid #ff00ff;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #ff00ff;
+      animation: neonFlicker 4s infinite;
+    }
+
+    #saloonaCounter {
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      color: #00FFFF;
+      text-shadow: 0 0 5px #00FFFF;
+    }
+
+    .join-btn {
+      display: inline-block;
+      background: #ff00ff;
+      color: #00ffff;
+      padding: 12px 30px;
+      border: 2px solid #00ffff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
+      margin-top: 10px;
+      cursor: pointer;
+      animation: pulse 1s infinite;
+    }
+
+    .join-btn:hover {
+      background: #cc00cc;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #00ffff;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .game-card .join-btn {
+      display: block;
+      margin: 10px auto;
+      width: fit-content;
+    }
+
+    .content-wrapper {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 50px;
+      min-height: 100vh;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1200px;
+      padding: 20px;
+      padding-top: 150px;
+      margin: 20px auto;
+      position: relative;
+    }
+
+    .stats {
+      background: rgba(0, 0, 0, 0.9);
+      padding: 15px;
+      border: 4px solid #ff00ff;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #ff00ff;
+      width: 20%;
+      position: absolute;
+      left: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      animation: neonFlicker 4s infinite;
+      transition: transform 0.3s ease;
+    }
+
+    .stats:hover {
+      transform: translateY(-55%) scale(1.02);
+    }
+
+    .game-card.featured {
+      background: rgba(0, 0, 0, 0.9);
+      border: 4px solid #00ffff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 0 15px #00ffff;
+      width: 30%;
+      margin: 0 auto;
+      animation: featuredGlow 2s ease-in-out infinite alternate;
+      transition: transform 0.3s ease;
+    }
+
+    .game-card.featured:hover {
+      transform: scale(1.05);
+    }
+
+    .hot-streak-badge {
+      background: #FF4500;
+      color: #FFD700;
+      padding: 5px;
+      border-radius: 5px;
+      font-size: 0.7rem;
+      margin: 5px 0;
+      animation: pulse 1.5s infinite;
+      text-shadow: 0 0 5px #000;
+    }
+
+    .community {
+      background: rgba(0, 0, 0, 0.9);
+      padding: 15px;
+      border: 4px solid #ff00ff;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #ff00ff;
+      width: 20%;
+      position: absolute;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      animation: neonFlicker 4s infinite;
+      transition: transform 0.3s ease;
+    }
+
+    .community:hover {
+      transform: translateY(-55%) scale(1.02);
+    }
+
+    @keyframes featuredGlow {
+      from {
+        box-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+      }
+
+      to {
+        box-shadow: 0 0 15px #ff00ff, 0 0 20px #ff00ff;
+      }
+    }
+
+    .game-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1000px;
+      margin: 20px auto;
+    }
+
+    .game-card {
+      background: rgba(0, 0, 0, 0.9);
+      border: 4px solid #00ffff;
+      border-radius: 10px;
+      padding: 15px;
+      transition: transform 0.3s ease, box-shadow 0.3s;
+      cursor: pointer;
+      width: 200px;
+      box-shadow: 0 0 10px #00ffff;
+      animation: neonFlicker 4s infinite;
+    }
+
+    .game-card.locked {
+      opacity: 0.5;
+      cursor: not-allowed;
+      border-color: #666;
+    }
+
+    .game-card:hover:not(.locked) {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #ff00ff;
+    }
+
+    .game-card.locked::after {
+      content: '🔒 Coming Soon';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffd700;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: clamp(0.7rem, 2vw, 0.9rem);
+    }
+
+    .game-card a {
+      color: #ffd700;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .game-card a:hover {
+      color: #ff00ff;
+    }
+
+    .leaderboard {
+      background: #ff00ff;
+      color: #00ffff;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .community a {
+      color: #ffd700;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .community a:hover {
+      color: #ff00ff;
+    }
+
+    .community-btn {
+      background: #ff00ff;
+      color: #00ffff;
+      padding: 8px 20px;
+      border: 2px solid #00ffff;
+      border-radius: 8px;
+      font-size: clamp(0.7rem, 2vw, 0.9rem);
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+      margin-top: 10px;
+    }
+
+    .community-btn:hover {
+      background: #cc00cc;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #00ffff;
+    }
+
+    .challenges {
+      background: rgba(0, 0, 0, 0.9);
+      padding: 20px;
+      border: 4px solid #ff00ff;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #ff00ff;
+      max-width: 320px;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      animation: neonFlicker 4s infinite;
+      transition: transform 0.3s ease;
+      z-index: 15;
+    }
+
+    .challenges h2 {
+      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      word-break: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.2;
+    }
+
+    .challenges:hover {
+      transform: scale(1.02);
+    }
+
+    .challenge-item {
+      background: rgba(255, 0, 255, 0.2);
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+
+    .challenge-item button {
+      background: #ff00ff;
+      color: #00ffff;
+      padding: 8px 20px;
+      border: 2px solid #00ffff;
+      border-radius: 8px;
+      font-size: clamp(0.7rem, 2vw, 0.9rem);
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+    }
+
+    .challenge-item button:disabled {
+      background: #666;
+      cursor: not-allowed;
+    }
+
+    .challenge-item button:hover:not(:disabled) {
+      background: #cc00cc;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #00ffff;
+    }
+
+    .roadmap {
+      background: rgba(0, 0, 0, 0.9);
+      padding: 20px;
+      border: 4px solid #00ffff;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #00ffff;
+      max-width: 800px;
+      margin: 20px auto;
+      position: relative;
+      animation: neonFlicker 4s infinite;
+      transition: transform 0.3s ease;
+    }
+
+    .roadmap:hover {
+      transform: scale(1.02);
+    }
+
+    .roadmap ul {
+      list-style: none;
+      padding: 0;
+      text-align: left;
+    }
+
+    .roadmap li {
+      margin: 10px 0;
+      transition: color 0.3s;
+    }
+
+    .roadmap li:hover {
+      color: #ff00ff;
+    }
+
+    .roadmap li:before {
+      content: "👾 ";
+    }
+
+    footer {
+      background: rgba(0, 0, 0, 0.9);
+      padding: 15px;
+      color: #a9a9a9;
+      font-size: clamp(0.7rem, 2vw, 0.9rem);
+      border-top: 4px solid #ff00ff;
+      box-shadow: 0 -5px 15px #ff00ff;
+      animation: neonFlicker 4s infinite;
+    }
+
+    .social-links a,
+    .mute-btn,
+    .dark-mode-btn {
+      color: #ffd700;
+      margin: 0 15px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .social-links a:hover,
+    .mute-btn:hover,
+    .dark-mode-btn:hover {
+      color: #ff00ff;
+    }
+
+    #loadingScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      color: #ffd700;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #ff00ff;
+      border-top: 4px solid #00ffff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-top: 10px;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .hero,
+    .game-card,
+    .stats,
+    .community,
+    .challenges,
+    .roadmap,
+    .content-wrapper,
+    footer {
+      position: relative;
+      z-index: 10;
+    }
+
+    .saloona-popup {
+      position: fixed;
+      width: 80px;
+      height: 80px;
+      background: url('assets/saloona_icon.png') no-repeat center;
+      background-size: contain;
+      pointer-events: auto;
+      z-index: 5;
+      animation: bounceAcross 10s ease-in-out forwards;
+      opacity: 0.8;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ff00, 0 0 15px #00ff00;
+    }
+
+    .saloona-popup::after {
+      content: 'Play to Earn!';
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffd700;
+      padding: 6px;
+      border-radius: 5px;
+      font-size: 0.7rem;
+      white-space: nowrap;
+    }
+
+    .saloona-popup:active {
+      transform: scale(1.2);
+      transition: transform 0.1s;
+    }
+
+    @keyframes bounceAcross {
+      0% {
+        transform: translateX(-100vw) translateY(0);
+      }
+
+      25% {
+        transform: translateX(-50vw) translateY(200px);
+      }
+
+      50% {
+        transform: translateX(0) translateY(-100px);
+      }
+
+      75% {
+        transform: translateX(50vw) translateY(150px);
+      }
+
+      100% {
+        transform: translateX(100vw) translateY(0);
+      }
+    }
+
+    @media (max-width: 1000px) {
+      .top-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding-top: 20px;
+      }
+
+      .stats,
+      .community {
+        position: static;
+        transform: none;
+        width: 90%;
+        max-width: 320px;
+      }
+
+      .stats:hover,
+      .community:hover {
+        transform: scale(1.02);
+      }
+
+      .game-card.featured {
+        width: 90%;
+        max-width: 320px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .saloona-popup {
+        width: 60px;
+        height: 60px;
+      }
+
+      .saloona-popup::after {
+        font-size: 0.6rem;
+        top: -25px;
+        padding: 4px;
+      }
+
+      .game-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .game-card {
+        width: 90%;
+      }
+
+      .challenges {
+        position: static;
+        margin: 20px auto;
+        bottom: auto;
+        right: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Loading Screen -->
+  <div id="loadingScreen">
+    Loading Saloona Arcade...
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Audio Elements -->
+  <audio id="bgMusic" loop>
+    <source src="assets/sounds/saloona_bg_music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="clickSound" src="assets/sounds/click_sound.mp3">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="coinSound" src="assets/sounds/coin_sound.mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <div class="hero fade-in">
+      <h1>🌵 Saloona Arcade</h1>
+      <p>Wild West Blockchain Gaming</p>
+      <p>Use $SALOONA to play games, buy NFTs, and join tournaments!</p>
+      <p id="saloonaCounter" style="margin-top: 10px;">$SALOONA: 0</p>
+      <p style="font-size: 0.6rem; margin-top: 10px;">
+        Disclaimer: Saloona Arcade and $SALOONA are independent projects built on the Solana blockchain and are not
+        affiliated with Solana Labs.
+      </p>
+    </div>
+
+    <!-- Top Row: Stats, Game, Community -->
+    <section id="top-row" class="top-row fade-in">
+      <!-- Stats/Leaderboard -->
+      <div class="stats">
+        <h2>Saloon Stats</h2>
+        <p id="topDraw">Top Draw: --ms</p>
+        <p id="posseSize">Posse Size: 0 Rough Riders</p>
+        <div class="leaderboard" id="leaderboard">Leader: --</div>
+      </div>
+      <!-- Active Game: DexHunt -->
+      <div class="game-card featured" onclick="playGame('DexHunt2.html')" aria-label="Play DexHunt: Quick-Draw Duel">
+        <h2>🔫 DexHunt</h2>
+        <p>Quick-Draw Duel</p>
+        <p><a href="https://x.com/DexHuntGame" target="_blank" rel="noopener noreferrer">Follow on X 🐦</a></p>
+        <div id="hotStreakBadge" class="hot-streak-badge" style="display: none;">
+          🔥 Hot Streak! Win 3 in a row for 20 $SALOONA!
+        </div>
+        <a href="DexHunt2.html" class="join-btn" aria-label="Play DexHunt: Quick-Draw Duel"
+          style="font-size: clamp(0.6rem, 1.5vw, 0.8rem); padding: 8px 20px; margin-top: 10px;">Saddle Up - Play
+          Now!</a>
+      </div>
+      <!-- Community -->
+      <div class="community">
+        <h2>Join the Posse!</h2>
+        <p>Connect with fellow gunslingers!</p>
+        <p>
+          <a href="https://x.com/SaloonaArcade" target="_blank" rel="noopener noreferrer">X 🐦</a>
+        </p>
+        <button class="community-btn" onclick="window.open('https://discord.gg/aCUBwNQR', '_blank')"
+          aria-label="Join our Discord">Join Discord 💬</button>
+      </div>
+    </section>
+
+    <!-- Game Grid: Coming Soon Games -->
+    <section id="game-grid" class="game-grid fade-in">
+      <div class="game-card locked" aria-label="Gold Rush: Coming Soon">
+        <h2>⚡ Gold Rush</h2>
+        <p>Coming Soon</p>
+      </div>
+      <div class="game-card locked" aria-label="Poker Showdown: Coming Soon">
+        <h2>🃏 Poker Showdown</h2>
+        <p>Coming Soon</p>
+      </div>
+      <div class="game-card locked" aria-label="Degen Derby: Coming Soon">
+        <h2>🏇 Degen Derby</h2>
+        <p>Coming Soon</p>
+      </div>
+    </section>
+
+    <!-- Challenges -->
+    <div class="challenges fade-in">
+      <h2>Gunslinger’s Challenges</h2>
+      <div class="challenge-item">
+        <p id="dailyChallengeText">Play 3 duels in DexHunt today! (0/3)</p>
+        <button id="dailyChallengeBtn" onclick="claimChallengeReward('daily')"
+          aria-label="Claim 10 $SALOONA for daily challenge">Claim 10 $SALOONA</button>
+      </div>
+      <div class="challenge-item">
+        <p id="shareChallengeText">Share your fastest draw on X!</p>
+        <button id="shareChallengeBtn" onclick="shareScore()" aria-label="Share score on X and earn 5 $SALOONA">Tweet &
+          Earn 5 $SALOONA</button>
+      </div>
+    </div>
+
+    <!-- Roadmap -->
+    <div class="roadmap fade-in">
+      <h2>Horizon Ahead</h2>
+      <ul>
+        <li>⚡ Thunder’s Gold Rush: Dig for blockchain riches!</li>
+        <li>🃏 Saloon Poker Showdown: Outwit Wildcard Wade!</li>
+        <li>🏇 Degen Derby: Race across the plains!</li>
+        <li>🔫 Blaster’s Bounty: Hunt with Blaster Dex!</li>
+        <li>🌐 SaloonaVerse: Saloons across blockchains!</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="social-links">
+      <span class="mute-btn" onclick="toggleMute()" aria-label="Toggle sound mute">🔊 Unmute</span>
+      <span class="dark-mode-btn" onclick="toggleDarkMode()" aria-label="Toggle dark mode">🌙 Dark Mode</span>
+    </div>
+    <p id="footerText">© 2025 Saloona Arcade - Powered by Solana 👾</p>
+  </footer>
+
+  <div id="saloonaPopups"></div>
+
+  <script>
+    console.log("Saloona Arcade: Locked and Loaded");
+
+    const bgMusic = document.getElementById('bgMusic');
+    const clickSound = document.getElementById('clickSound');
+    const coinSound = document.getElementById('coinSound');
+    let isMuted = localStorage.getItem('isMuted') === 'true' || true;
+
+    [bgMusic, clickSound, coinSound].forEach(audio => audio.muted = isMuted);
+    document.querySelector('.mute-btn').textContent = isMuted ? '🔇 Unmute' : '🔊 Mute';
+
+    [bgMusic, clickSound, coinSound].forEach(audio => {
+      audio.addEventListener('error', () => {
+        console.error(`Failed to load audio: ${audio.src}`);
+        alert('Some audio files failed to load. Please check your connection or browser settings.');
+      });
+    });
+
+    window.addEventListener('load', () => {
+      document.getElementById('loadingScreen').style.display = 'none';
+    });
+
+    document.querySelectorAll('button, .join-btn, .game-card:not(.locked)').forEach(el => {
+      el.addEventListener('click', () => {
+        if (!isMuted) clickSound.play().catch(err => console.log("Click sound failed:", err));
+      });
+    });
+
+    function toggleMute() {
+      isMuted = !isMuted;
+      [bgMusic, clickSound, coinSound].forEach(audio => audio.muted = isMuted);
+      document.querySelector('.mute-btn').textContent = isMuted ? '🔇 Unmute' : '🔊 Mute';
+      localStorage.setItem('isMuted', isMuted);
+      if (!isMuted) bgMusic.play().catch(err => console.log("Music play failed:", err));
+    }
+
+    let isDarkMode = localStorage.getItem('darkMode') === 'true';
+    if (isDarkMode) document.body.classList.add('dark-mode');
+    document.querySelector('.dark-mode-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
+    function toggleDarkMode() {
+      isDarkMode = !isDarkMode;
+      document.body.classList.toggle('dark-mode');
+      document.querySelector('.dark-mode-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
+      localStorage.setItem('darkMode', isDarkMode);
+    }
+
+    function playGame(url) {
+      window.location.href = url;
+    }
+
+    function validateLocalStorage(key, defaultValue) {
+      try {
+        const value = JSON.parse(localStorage.getItem(key));
+        return value !== null && value !== undefined ? value : defaultValue;
+      } catch {
+        return defaultValue;
+      }
+    }
+
+    function updateSaloona(amount) {
+      let totalSaloonaEarned = parseInt(localStorage.getItem('totalSaloonaEarned')) || 0;
+      totalSaloonaEarned += amount;
+      localStorage.setItem('totalSaloonaEarned', totalSaloonaEarned);
+      return totalSaloonaEarned;
+    }
+
+    function updateSaloonaDisplay() {
+      const saloonaCounter = document.getElementById('saloonaCounter');
+      if (saloonaCounter) {
+        saloonaCounter.textContent = `$SALOONA: ${challenges.totalSaloona}`;
+      }
+    }
+
+    let stats = validateLocalStorage('saloonaStats', {
+      topDraw: Infinity,
+      topDrawPlayer: 'Unknown',
+      posseSize: 0
+    });
+    let globalLeaderboard = validateLocalStorage('globalLeaderboard', []);
+
+    function updateStats() {
+      if (globalLeaderboard.length > 0) {
+        const topEntry = globalLeaderboard[0];
+        stats.topDraw = topEntry.time;
+        stats.topDrawPlayer = topEntry.name;
+      }
+      stats.posseSize = Math.max(globalLeaderboard.length, parseInt(localStorage.getItem('totalDuels')) || 0, 300);
+      localStorage.setItem('saloonaStats', JSON.stringify(stats));
+
+      document.getElementById('topDraw').textContent = `Top Draw: ${stats.topDraw === Infinity ? '--' : stats.topDraw}ms`;
+      document.getElementById('posseSize').textContent = `Posse Size: ${stats.posseSize} Rough Riders`;
+      document.getElementById('leaderboard').textContent = `Leader: ${stats.topDrawPlayer} - ${stats.topDraw === Infinity ? '--' : stats.topDraw}ms`;
+    }
+
+    let challenges = validateLocalStorage('challenges', {
+      dailyDuels: { count: 0, claimed: false, lastReset: new Date().toDateString() },
+      shareChallenge: { claimed: false, lastReset: new Date().toDateString() },
+      totalSaloona: 0
+    });
+
+    const dexHuntSaloona = parseInt(localStorage.getItem('totalSaloonaEarned')) || 0;
+    challenges.totalSaloona = Math.max(challenges.totalSaloona, dexHuntSaloona);
+    localStorage.setItem('totalSaloonaEarned', challenges.totalSaloona);
+
+    updateSaloonaDisplay();
+
+    function updateChallenges() {
+      const today = new Date().toDateString();
+      if (challenges.dailyDuels.lastReset !== today) {
+        challenges.dailyDuels = { count: 0, claimed: false, lastReset: today };
+      }
+      if (challenges.shareChallenge.lastReset !== today) {
+        challenges.shareChallenge = { claimed: false, lastReset: today };
+      }
+
+      const dexHuntDuels = parseInt(localStorage.getItem('totalDuels')) || 0;
+      const dexHuntDailyWins = validateLocalStorage('dailyChallenge', { winsToday: 0, lastReset: today });
+      if (dexHuntDailyWins.lastReset === today) {
+        challenges.dailyDuels.count = Math.max(challenges.dailyDuels.count, dexHuntDailyWins.winsToday);
+      }
+      challenges.dailyDuels.count = Math.min(challenges.dailyDuels.count, dexHuntDuels);
+
+      document.getElementById('dailyChallengeText').textContent = `Play 3 duels in DexHunt today! (${challenges.dailyDuels.count}/3)`;
+      document.getElementById('dailyChallengeBtn').disabled = challenges.dailyDuels.count < 3 || challenges.dailyDuels.claimed;
+      document.getElementById('shareChallengeBtn').disabled = challenges.shareChallenge.claimed;
+
+      localStorage.setItem('challenges', JSON.stringify(challenges));
+    }
+    updateChallenges();
+
+    function claimChallengeReward(type) {
+      if (type === 'daily' && challenges.dailyDuels.count >= 3 && !challenges.dailyDuels.claimed) {
+        challenges.dailyDuels.claimed = true;
+        challenges.totalSaloona = updateSaloona(10);
+        localStorage.setItem('challenges', JSON.stringify(challenges));
+        updateSaloonaDisplay();
+        if (!isMuted) coinSound.play().catch(err => console.log("Coin sound failed:", err));
+        alert('Claimed 10 $SALOONA for daily challenge!');
+        updateChallenges();
+      } else if (type === 'daily') {
+        alert('Complete 3 duels in DexHunt to claim this reward!');
+      }
+    }
+
+    function shareScore() {
+      const score = stats.topDraw === Infinity ? '145ms' : stats.topDraw + 'ms';
+      const text = `🤠 Outdrew Shotgun Slim in DexHunt with a ${score} shot! Think you’re faster? Hit up Saloona Arcade! https://fifthgenhub.github.io/DexHunt.github.io/ #SaloonaDuel`;
+      window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+      if (!challenges.shareChallenge.claimed) {
+        challenges.shareChallenge.claimed = true;
+        challenges.totalSaloona = updateSaloona(5);
+        localStorage.setItem('challenges', JSON.stringify(challenges));
+        updateSaloonaDisplay();
+        if (!isMuted) coinSound.play().catch(err => console.log("Coin sound failed:", err));
+        updateChallenges();
+      }
+    }
+
+    function syncStats() {
+      globalLeaderboard = validateLocalStorage('globalLeaderboard', []);
+      updateStats();
+      updateChallenges();
+    }
+    window.addEventListener('load', syncStats);
+
+    let activePopups = 0;
+    function createSaloonaPopup() {
+      if (activePopups >= 1) return;
+      activePopups++;
+      const popup = document.createElement('div');
+      popup.classList.add('saloona-popup');
+      const yPosition = Math.random() * (window.innerHeight - 300) + 100;
+      popup.style.top = `${yPosition}px`;
+      document.getElementById('saloonaPopups').appendChild(popup);
+
+      if (!isMuted) coinSound.play().catch(err => console.log("Coin sound failed:", err));
+
+      popup.addEventListener('click', () => {
+        if (!isMuted) coinSound.play().catch(err => console.log("Coin sound failed:", err));
+        playGame('DexHunt2.html');
+      });
+
+      setTimeout(() => {
+        popup.remove();
+        activePopups--;
+      }, 10000);
+    }
+
+    setInterval(() => {
+      if (Math.random() > 0.5) createSaloonaPopup();
+    }, 15000);
+
+    function updateHotStreak() {
+      const recentWins = validateLocalStorage('recentWins', { wins: 0, lastWin: null });
+      const now = new Date();
+      const lastWin = recentWins.lastWin ? new Date(recentWins.lastWin) : null;
+      const timeSinceLastWin = lastWin ? (now - lastWin) / (1000 * 60) : Infinity;
+
+      if (timeSinceLastWin > 30) {
+        recentWins.wins = 0;
+      }
+
+      const totalWins = parseInt(localStorage.getItem('totalWins')) || 0;
+      if (totalWins > recentWins.wins) {
+        recentWins.wins = totalWins;
+        recentWins.lastWin = now.toISOString();
+      }
+
+      localStorage.setItem('recentWins', JSON.stringify(recentWins));
+
+      const hotStreakBadge = document.getElementById('hotStreakBadge');
+      if (recentWins.wins > 0 && timeSinceLastWin <= 30) {
+        hotStreakBadge.style.display = 'block';
+      } else {
+        hotStreakBadge.style.display = 'none';
+      }
+    }
+
+    window.addEventListener('load', updateHotStreak);
+
+    document.getElementById('footerText').textContent = `© ${new Date().getFullYear()} Saloona Arcade - Powered by Solana 👾`;
+
+    const fadeInElements = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    fadeInElements.forEach(element => observer.observe(element));
+  </script>
+</body>
+
+</html>
