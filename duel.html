@@ -700,7 +700,7 @@
         .then(data => {
           const restricted = ["US", "CN", "CA", "FR", "SG", "IR", "KP", "SY", "CU", "AE", "QA", "NL"];
           if (restricted.includes(data.country_code)) {
-            log.textContent = "⚠️ Access restricted in your region. Proceed at your own risk. All rewards are simulated.";
+          log.textContent = "⚠️ Access restricted in your region. Proceed at your own risk. All rewards are simulated with no real-world value. For the best experience, please zoom to 150% during beta. I am working on a scaling fix!";
           }
         })
         .catch(err => console.error("Jurisdiction check failed:", err));
