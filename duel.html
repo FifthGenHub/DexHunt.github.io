@@ -393,6 +393,16 @@
       z-index: 0;
     }
 
+    #walletPopup.visible {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
     @keyframes flicker {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.7; transform: scale(0.9); }
@@ -466,7 +476,7 @@
         <button class="wallet-btn" onclick="connectWallet()" id="connectWalletBtn">💼</button>
       </div>
       <div class="wallet-hud" id="walletHUD">
-        💰 $SALOONA: 0 | ⚡ Best Draw: --ms | 🔥 Streak: 0
+        💰 $DEXHUNT: 0 | ⚡ Best Draw: --ms | 🔥 Streak: 0
       </div>
       <div class="beta-label">Beta Testing</div>
     </div>
@@ -489,14 +499,14 @@
       <h3>Welcome to DexHunt!</h3>
       <p>1. Click "Start Duel" and wait for the countdown.</p>
       <p>2. Click "BANG!" fast to win simulated rewards:</p>
-      <p>- Under 500ms: Earn $SALOONA (beta only).</p>
+      <p>- Under 500ms: Earn $DEXHUNT (beta only).</p>
       <p>- Under 250ms: High score!</p>
       <p>Wallet connection and NFTs coming soon!</p>
       <button aria-label="Close tutorial" onclick="closeTutorial()">Got It!</button>
     </div>
     <div class="double-or-nothing-popup" id="doubleOrNothingPopup">
       <h3>Double or Nothing!</h3>
-      <p>5 losses in a row! Risk your streak to double your $SALOONA?</p>
+      <p>5 losses in a row! Risk your streak to double your $DEXHUNT?</p>
       <button aria-label="Accept Double or Nothing challenge" class="share-btn" onclick="startDoubleOrNothing()">Yes</button>
       <button aria-label="Decline Double or Nothing challenge" class="share-btn" onclick="declineDoubleOrNothing()">No</button>
     </div>
@@ -516,7 +526,7 @@
     </div>
     <div class="rewards-popup" id="rewardsPopup">
       <h3>Rewards</h3>
-      <p>Check your simulated $SALOONA earnings!</p>
+      <p>Check your simulated $DEXHUNT earnings!</p>
       <p>Mock Reward: <span id="mockRewardStatus">None</span></p>
       <button aria-label="Close rewards popup" class="share-btn" onclick="toggleRewardsPopup()">Close</button>
     </div>
@@ -526,7 +536,7 @@
     </div>
     <div class="wallet-popup" id="walletPopup" style="display: none;">
       <h3>Mock Wallet Connection (Devnet)</h3>
-      <p>Simulate connecting a Solana wallet to test $SALOONA rewards.</p>
+      <p>Simulate connecting a Solana wallet to test $DEXHUNT rewards.</p>
       <button class="share-btn" onclick="mockConnectWallet()">Connect Wallet</button>
       <button class="share-btn" onclick="toggleWalletPopup()">Skip</button>
       <div id="jupiterSwapWidget" style="margin-top: 15px;"></div>
@@ -722,7 +732,7 @@
 
     function updateWalletHUD() {
       const hud = document.getElementById("walletHUD");
-      hud.innerHTML = `💰 $SALOONA: ${saloona} | ⚡ Best Draw: ${bestDraw || '--'}ms | 🔥 Streak: ${winStreak}`;
+      hud.innerHTML = `💰 $DEXHUNT: ${dexhunt} | ⚡ Best Draw: ${bestDraw || '--'}ms | 🔥 Streak: ${winStreak}`;
     }
 
     function startCountdown(callback) {
@@ -817,7 +827,7 @@
           localStorage.setItem("bestDraw", bestDraw);
         }
         document.getElementById("winSound").play();
-        log.textContent = `🎯 Shot in ${reaction}ms! Earned ${reward} $SALOONA (simulated). Streak: ${winStreak}!`;
+        log.textContent = `🎯 Shot in ${reaction}ms! Earned ${reward} $DEXHUNT (simulated). Streak: ${winStreak}!`;
         lossStreak = 0;
 
         if (isConnected) {
@@ -885,7 +895,7 @@
     function startDoubleOrNothing() {
       const doubleOrNothingPopup = document.getElementById("doubleOrNothingPopup");
       doubleOrNothingPopup.style.display = "none";
-      log.textContent = "Double or Nothing challenge started! Win to double your $SALOONA!";
+      log.textContent = "Double or Nothing challenge started! Win to double your $DEXHUNT!";
       resetDuel();
       startDuel();
     }
@@ -938,7 +948,7 @@
       leaderboardPopup.innerHTML = `
         <h3>Stats</h3>
         <p>Best Draw: ${bestDraw || '--'}ms</p>
-        <p>$SALOONA Balance: ${saloona}</p>
+        <p>$DEXHUNT Balance: ${saloona}</p>
         <p>Win Streak: ${winStreak}</p>
         <button class="share-btn" onclick="toggleLinksLeaderboard()">Close</button>
       `;
@@ -972,9 +982,17 @@
       notificationPopup.style.display = "none";
     }
 
-    function toggleWalletPopup() {
+    function toggleWalletPopup(force = null) {
       const walletPopup = document.getElementById("walletPopup");
-      walletPopup.style.display = walletPopup.style.display === "block" ? "none" : "block";
+      const isVisible = walletPopup.classList.contains("visible");
+    
+      if (force === true || (!isVisible && force !== false)) {
+        walletPopup.classList.add("visible");
+        walletPopup.style.display = "block";
+      } else {
+        walletPopup.classList.remove("visible");
+        walletPopup.style.display = "none";
+      }
     }
 
     function mockConnectWallet() {
@@ -983,7 +1001,7 @@
       document.getElementById("connectWalletBtn").textContent = "💼 Mock";
       document.getElementById("connectWalletBtn").onclick = disconnectWallet;
       document.getElementById("walletSound").play();
-      log.textContent = "Mock wallet connected! $SALOONA rewards will be simulated.";
+      log.textContent = "Mock wallet connected! $DEXHUNT rewards will be simulated.";
       toggleWalletPopup();
       updateWalletHUD();
       initJupiterSwapWidget();
@@ -1006,15 +1024,16 @@
     function initJupiterSwapWidget() {
       const widgetContainer = document.getElementById("jupiterSwapWidget");
       widgetContainer.innerHTML = `
-        <p>Simulated Jupiter Swap (Devnet)</p>
-        <p>Swap $SALOONA rewards in future updates!</p>
+        <p><strong>$DEXHUNT is a testnet-only token used for demo purposes during beta.</strong></p>
+        <p>Swap and utility features are simulated and carry no real-world value.</p>
+        <p>💡 Full utility (including in-game purchases and progression) will launch with the live token!</p>
       `;
     }
 
     function performMockSwap(amount) {
-      log.textContent = `Simulating swap of ${amount} $SALOONA on Devnet...`;
+      log.textContent = `Simulating swap of ${amount} $DEXHUNT on Devnet...`;
       setTimeout(() => {
-        log.textContent = `Mock swap complete: ${amount} $SALOONA processed!`;
+        log.textContent = `Mock swap complete: ${amount} $DEXHUNT processed!`;
       }, 2000);
     }
 
