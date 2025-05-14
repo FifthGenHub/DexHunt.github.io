@@ -1057,14 +1057,39 @@
     };
 
     window.addEventListener("resize", resizeCanvas);
+
+    // 🔌 Detect Phantom and offer real connection if available
+    window.addEventListener("load", () => {
+      (async () => {
+        if (window.solana && window.solana.isPhantom) {
+          try {
+            const resp = await window.solana.connect({ onlyIfTrusted: true });
+            walletPublicKey = resp.publicKey.toString();
+            isConnected = true;
+            document.getElementById("connectWalletBtn").textContent = "💼 " + walletPublicKey.slice(0, 4) + "..." + walletPublicKey.slice(-4);
+            document.getElementById("connectWalletBtn").onclick = disconnectWallet;
+            log.textContent = `Real Phantom wallet connected: ${walletPublicKey}`;
+            updateWalletHUD();
+          } catch (err) {
+            console.warn("Phantom installed but not connected.");
+          }
+        } else {
+          console.warn("Phantom not detected. Defaulting to mock wallet.");
+        }
+      })();
+    });
   </script>
+
+  
       <footer>
         &copy; 2025 DexHunt Arcade | Built by FifthGenHub<br>
-        <a href="https://x.com/DexHuntGame" target="_blank">@DexHuntGame</a> |
+        <a href="https://x.com/DexHuntGame" target="_blank" rel="noopener noreferrer">@DexHuntGame</a> |
         <a href="links.html">🔗 All DexHunt Links</a>
         <p style="font-size: 0.8rem; margin-top: 0.5rem;">
           This town ain't big enough for stolen code. © 2025 DexHunt
         </p>
       </footer>
+
+  
 </body>
 </html>
