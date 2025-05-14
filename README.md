@@ -1,3 +1,5 @@
+![DexHunt Banner](./assets/dexhunt-banner.png)
+
 # 🎯 DexHunt — The Wild West of Skill-Based Crypto Gaming
 
 **DexHunt** is a fast-paced, reflex-based arcade shooter powered by $DEXHUNT — a Solana-native token rewarding speed, skill, and sharp aim.
