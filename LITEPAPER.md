@@ -49,7 +49,7 @@ Launch: [Pump.fun](https://pump.fun/YOUR_TOKEN_LINK)
 
 - 🎮 [Play the Game](https://fifthgenhub.github.io/DexHunt.github.io/)
 - 🐦 [Follow Us on Twitter](https://twitter.com/DexHuntGame)
-- 💬 Discord: Coming Soon
+- 💬 Discord: [Under Wild West Construction](https://discord.gg/NNswE2P4)
 - 🔫 Buy $DEXHUNT on Pump.fun: Coming Soon
 
 ---
