@@ -606,9 +606,9 @@
 
     function animateElements(timestamp) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    
       animations.sort((a, b) => a.zIndex - b.zIndex);
-
+    
       animations.forEach((anim, index) => {
         if (!anim.img) {
           if (anim.animation === "cowboy") anim.img = cowboy;
@@ -616,33 +616,29 @@
             anim.img = (index === 1 && cloud1) ? cloud1 : (cloud2 || cloud1);
           }
         }
-
-        if (anim.img && anim.img.complete && anim.img.naturalWidth !== 0) {
+    
+        if (anim.img && anim.img.complete && anim.img.naturalWidth > 0) {
           if (!anim.lastUpdate) anim.lastUpdate = timestamp;
           const elapsed = timestamp - anim.lastUpdate;
           const progress = (elapsed % anim.duration) / anim.duration;
-
+    
           if (anim.animation === "moveCloud") {
             anim.x = -anim.width + (canvas.width + anim.width) * progress;
-            anim.y = anim.y;
           } else if (anim.animation === "cowboy") {
             anim.x = canvas.width - 65;
             anim.y = canvas.height - 150;
-            if (duelStarted && drawTime > 0 && performance.now() - drawTime < 500) {
-              anim.opacity = 0.5;
-            } else {
-              anim.opacity = 1;
-            }
+            anim.opacity = (duelStarted && drawTime > 0 && performance.now() - drawTime < 500) ? 0.5 : 1;
           }
-
+    
           ctx.globalAlpha = anim.opacity || 1;
           ctx.drawImage(anim.img, anim.x, anim.y, anim.width, anim.height);
           ctx.globalAlpha = 1;
         } else {
-          console.error("Failed to draw animation", index, "image:", anim.img?.src, "loaded:", !!anim.img, "complete:", anim.img?.complete);
+          console.warn("Skipping draw: Image not ready or invalid:", anim.img?.src);
         }
       });
-
+    
+      // ✅ This should be OUTSIDE the forEach loop
       if (hitEffect.active) {
         ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
         ctx.beginPath();
@@ -651,7 +647,7 @@
         hitEffect.radius += 2;
         if (hitEffect.radius > 50) hitEffect.active = false;
       }
-
+    
       requestAnimationFrame(animateElements);
     }
 
