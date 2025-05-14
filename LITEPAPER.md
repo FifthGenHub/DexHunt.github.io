@@ -50,7 +50,7 @@ Launch: [Pump.fun](https://pump.fun/YOUR_TOKEN_LINK)
 - 🎮 [Play the Game](https://fifthgenhub.github.io/DexHunt.github.io/)
 - 🐦 [Follow Us on Twitter](https://twitter.com/DexHuntGame)
 - 💬 Discord: Coming Soon
-- 🔫 Buy $DEXHUNT on Pump.fun
+- 🔫 Buy $DEXHUNT on Pump.fun: Coming Soon
 
 ---
 
