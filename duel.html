@@ -732,7 +732,7 @@
 
     function updateWalletHUD() {
       const hud = document.getElementById("walletHUD");
-      hud.innerHTML = `💰 $DEXHUNT: ${dexhunt} | ⚡ Best Draw: ${bestDraw || '--'}ms | 🔥 Streak: ${winStreak}`;
+      hud.innerHTML = `💰 $DEXHUNT: ${saloona} | ⚡ Best Draw: ${bestDraw || '--'}ms | 🔥 Streak: ${winStreak}`;
     }
 
     function startCountdown(callback) {
@@ -802,9 +802,6 @@
         log.textContent = "Too soon! You fired before the signal.";
         resetDuel();
         return;
-        let duelLogs = JSON.parse(localStorage.getItem("duelLogs") || "[]");
-        duelLogs.push({ time: Date.now(), reaction: reaction });
-        localStorage.setItem("duelLogs", JSON.stringify(duelLogs));
       }
 
       const reaction = Math.floor(now - drawTime);
