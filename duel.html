@@ -617,7 +617,7 @@
             anim.x = -anim.width + (canvas.width + anim.width) * progress;
             anim.y = anim.y;
           } else if (anim.animation === "cowboy") {
-            anim.x = canvas.width - 70;
+            anim.x = canvas.width - 65;
             anim.y = canvas.height - 150;
             if (duelStarted && drawTime > 0 && performance.now() - drawTime < 500) {
               anim.opacity = 0.5;
@@ -665,7 +665,7 @@
           anim.y = canvas.height - anim.height - 20;
         }
         if (anim.animation === "cowboy") {
-          anim.x = canvas.width - 70;
+          anim.x = canvas.width - 65;
           anim.y = canvas.height - 150;
         }
       });
