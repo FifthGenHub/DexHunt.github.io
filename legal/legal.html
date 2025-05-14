@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Legal information for Saloona Arcade and DexHunt, a Web3 gaming platform on Solana." />
+  <title>Legal Information | Saloona Arcade</title>
+  <link href="../assets/favicon.png" rel="icon" type="image/png" />
+  <style>
+    :root {
+      /* Customize background image here */
+      --background-image: url('../assets/DexHuntBackground.png');
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      line-height: 1.6;
+      color: #ffc34d;
+      background: #1a1a1a;
+      background-image: var(--background-image);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Dark overlay for readability */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      background: rgba(40, 40, 40, 0.85);
+      padding: 2rem;
+      border: 2px solid #ff9900;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      z-index: 1;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      color: #ffcc00;
+      text-shadow: 1px 1px #000;
+      font-size: clamp(1.8rem, 3vw, 2.2rem);
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+      margin-bottom: 1rem;
+    }
+
+    .legal-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .legal-link {
+      display: inline-block;
+      background: #1a1a1a;
+      border: 2px solid #ff9900;
+      border-radius: 8px;
+      padding: 10px 20px;
+      color: #f0c420;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .legal-link:hover {
+      background: #e6d7a8;
+      color: #1a1a1a;
+    }
+
+    .back-link {
+      display: inline-block;
+      background: #1a1a1a;
+      border: 2px solid #ff9900;
+      border-radius: 8px;
+      padding: 10px 20px;
+      margin: 1rem 0;
+      color: #f0c420;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .back-link:hover {
+      background: #e6d7a8;
+      color: #1a1a1a;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.7);
+      border-top: 4px solid #ffcc00;
+      width: 100%;
+      color: #a9a9a9;
+      font-size: clamp(0.8rem, 1.5vw, 1rem);
+    }
+
+    footer a {
+      margin: 0 0.5rem;
+      color: #00ffff;
+      text-decoration: underline;
+    }
+
+    footer a:hover {
+      color: #ff9900;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+
+      .container {
+        padding: 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Legal Information</h1>
+
+    <a href="../duel.html" class="back-link">Back to DexHunt</a>
+
+    <p>Welcome to the legal hub for <strong>Saloona Arcade</strong> and <strong>DexHunt</strong>, a skill-based Web3 gaming platform powered by Solana. Below, you’ll find our legal documents outlining your rights, responsibilities, and our policies.</p>
+
+    <p><strong>Important:</strong> DexHunt is currently in beta testing on Solana Devnet. All transactions, rewards, and tokens ($SALOONA, NFTs) are simulated and have no real-world value. Participation is restricted in certain jurisdictions (see Terms and Conditions).</p>
+
+    <div class="legal-links">
+      <a href="./terms_and_conditions.html" class="legal-link">Terms and Conditions</a>
+      <a href="./privacy_policy.html" class="legal-link">Privacy Policy</a>
+      <a href="./disclaimer.html" class="legal-link">Disclaimer</a>
+    </div>
+
+    <p>For questions, contact us at <a href="mailto:legal@saloona.gg">legal@saloona.gg</a>.</p>
+  </div>
+
+  <footer>
+    <p>
+      <a href="./terms_and_conditions.html" aria-label="Terms and Conditions">Terms</a> |
+      <a href="./privacy_policy.html" aria-label="Privacy Policy">Privacy</a> |
+      <a href="./disclaimer.html" aria-label="Disclaimer">Disclaimer</a>
+    </p>
+    <p>© 2025 Saloona Arcade - Powered by Solana 👾</p>
+  </footer>
+</body>
+</html>
