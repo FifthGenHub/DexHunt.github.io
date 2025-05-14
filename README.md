@@ -1,4 +1,4 @@
-# 🎯 DexHunt Arcade (Beta) – Powered by $DEXHUNT
+# 🎯 DexHunt Game (Beta) – Powered by $DEXHUNT
 
 Welcome to **DexHunt**, the first reflex-based Web3 arcade shooter built entirely around skill, timing, and integrity.
 
