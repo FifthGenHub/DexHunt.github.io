@@ -575,7 +575,7 @@
 
     // Animation state
     let animations = [
-      { img: null, x: canvas.width - 65, y: canvas.height - 150, width: 60, height: 60, animation: "cowboy", duration: 1000, lastUpdate: 0, loop: true, zIndex: 4 },
+      { img: null, x: canvas.width - 65, y: canvas.height - 50, width: 60, height: 60, animation: "cowboy", duration: 1000, lastUpdate: 0, loop: true, zIndex: 4 },
       { img: null, x: -100, y: 175, width: 300, height: 180, speed: 0.005, animation: "moveCloud", duration: 25000, lastUpdate: 0, loop: true, zIndex: 1 },
       { img: null, x: -100, y: 70, width: 240, height: 140, speed: 0.25, animation: "moveCloud", duration: 30000, lastUpdate: 0, loop: true, zIndex: 2 }
     ];
@@ -681,7 +681,7 @@
         }
         if (anim.animation === "cowboy") {
           anim.x = canvas.width - 55;
-          anim.y = canvas.height - 150;
+          anim.y = canvas.height - 50;
         }
       });
     }
