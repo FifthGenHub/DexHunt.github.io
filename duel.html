@@ -576,6 +576,8 @@
     let hasInteracted = false;
     let tutorialShown = localStorage.getItem("tutorialShown") === "true";
     let canvas = document.getElementById("gameCanvas");
+    const cowboyYOffset = -40;  // Change this value to move him up/down
+    const cowboyXOffset = -90;  // Change this value to move him left/right
     let ctx = canvas.getContext("2d");
     let hitEffect = { active: false, x: 0, y: 0, radius: 10 };
 
@@ -595,6 +597,11 @@
     const quickDraw = document.getElementById("quickDraw");
     const log = document.getElementById("log");
     const startBtn = document.querySelector(".start-btn");
+
+    function positionCowboy(anim) {
+      anim.x = canvas.width - anim.width + cowboyXOffset;
+      anim.y = canvas.height - anim.height + cowboyYOffset;
+    }
 
     function preloadImages() {
       cloud1 = new Image();
@@ -644,8 +651,7 @@
           if (anim.animation === "moveCloud") {
             anim.x = -anim.width + (canvas.width + anim.width) * progress;
           } else if (anim.animation === "cowboy") {
-            anim.x = canvas.width - 65;
-            anim.y = canvas.height - 200;
+            positionCowboy(anim);
             anim.opacity = (duelStarted && drawTime > 0 && performance.now() - drawTime < 500) ? 0.5 : 1;
           }
     
@@ -689,8 +695,8 @@
           anim.y = canvas.height - anim.height - 20;
         }
         if (anim.animation === "cowboy") {
-          anim.x = canvas.width - 55;
-          anim.y = canvas.height - 50;
+          positionCowboy(anim);
+        }
         }
       });
     }
