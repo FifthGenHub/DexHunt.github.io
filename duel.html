@@ -470,6 +470,7 @@
   <audio id="walletSound" preload="auto" src="assets/sounds/yeehaw-13229.mp3"></audio>
   <audio id="coyoteHowl" preload="auto" src="assets/sounds/coyote-howl.mp3"></audio>
   <audio id="drawSound" preload="auto" src="assets/sounds/draw-sound.mp3"></audio>
+  <audio id="cowboyHitSound" preload="auto" src="assets/sounds/cowboy-hit-grunt.mp3"></audio>
   <audio id="backgroundMusic" loop preload="auto">
     <source src="assets/sounds/background_music.mp3" type="audio/mpeg"/>
   </audio>
@@ -576,10 +577,12 @@
     let hasInteracted = false;
     let tutorialShown = localStorage.getItem("tutorialShown") === "true";
     let canvas = document.getElementById("gameCanvas");
-    const cowboyYOffset = -40;  // Change this value to move him up/down
-    const cowboyXOffset = -90;  // Change this value to move him left/right
+    // const cowboyYOffset = -40;  // Change this value to move him up/down
+    // const cowboyXOffset = -90;  // Change this value to move him left/right
     let ctx = canvas.getContext("2d");
     let hitEffect = { active: false, x: 0, y: 0, radius: 10 };
+    let cowboyBlinking = false;
+    let blinkTimer = 0;
 
     // Animation image variables
     let cloud1, cloud2, cowboy;
@@ -599,8 +602,8 @@
     const startBtn = document.querySelector(".start-btn");
 
     function positionCowboy(anim) {
-      anim.x = canvas.width - anim.width + cowboyXOffset;
-      anim.y = canvas.height - anim.height + cowboyYOffset;
+      anim.x = canvas.width - 60;  // adjust left/right
+      anim.y = canvas.height - 140; // adjust up/down
     }
 
     function preloadImages() {
@@ -650,9 +653,20 @@
     
           if (anim.animation === "moveCloud") {
             anim.x = -anim.width + (canvas.width + anim.width) * progress;
-          } else if (anim.animation === "cowboy") {
+          }
+    
+          if (anim.animation === "cowboy") {
             positionCowboy(anim);
-            anim.opacity = (duelStarted && drawTime > 0 && performance.now() - drawTime < 500) ? 0.5 : 1;
+    
+            // Blink every 3 seconds
+            if (!blinkTimer || timestamp - blinkTimer > 3000) {
+              cowboyBlinking = true;
+              blinkTimer = timestamp;
+              setTimeout(() => cowboyBlinking = false, 200); // blink duration
+            }
+    
+            // Set blink opacity
+            anim.opacity = cowboyBlinking ? 0.6 : 1;
           }
     
           ctx.globalAlpha = anim.opacity || 1;
@@ -663,7 +677,7 @@
         }
       });
     
-      // ✅ This should be OUTSIDE the forEach loop
+      // Draw hit effect if active
       if (hitEffect.active) {
         ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
         ctx.beginPath();
@@ -679,16 +693,16 @@
     function resizeCanvas() {
       const wrapper = document.getElementById("backgroundWrapper");
       const canvas = document.getElementById("gameCanvas");
-
+    
       if (!wrapper || !canvas) {
         console.error("Missing wrapper or canvas");
         return;
       }
-
+    
       const bounds = wrapper.getBoundingClientRect();
       canvas.width = bounds.width;
       canvas.height = bounds.height;
-
+    
       animations.forEach(anim => {
         if (anim.y < 50) anim.y = 50;
         if (anim.y > canvas.height - anim.height - 20) {
@@ -696,7 +710,6 @@
         }
         if (anim.animation === "cowboy") {
           positionCowboy(anim);
-        }
         }
       });
     }
@@ -829,6 +842,43 @@
       hitEffect.y = parseFloat(bang.style.top) + 60;
       hitEffect.radius = 10;
 
+      // 🔊 Play cowboy grunt sound
+      document.getElementById("cowboyHitSound").volume = 0.8;
+      document.getElementById("cowboyHitSound").play();
+
+      // 💥 Cowboy Shake Effect + Glow Flash
+      let cowboyAnim = animations.find(a => a.animation === "cowboy");
+      if (cowboyAnim) {
+        let originalX = cowboyAnim.x;
+        let originalY = cowboyAnim.y;
+        let shakeIntensity = 6;
+        let shakeDuration = 200;
+        const shakeStart = Date.now();
+
+        // Temporary white flash
+        const flashCanvas = () => {
+          ctx.save();
+          ctx.globalAlpha = 0.4;
+          ctx.globalCompositeOperation = "lighter";
+          ctx.fillStyle = "white";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.restore();
+        };
+
+        const shaker = setInterval(() => {
+          const elapsed = Date.now() - shakeStart;
+          if (elapsed > shakeDuration) {
+            clearInterval(shaker);
+            cowboyAnim.x = originalX;
+            cowboyAnim.y = originalY;
+          } else {
+            cowboyAnim.x = originalX + (Math.random() - 0.5) * shakeIntensity;
+            cowboyAnim.y = originalY + (Math.random() - 0.5) * shakeIntensity;
+            flashCanvas(); // Trigger white glow flash per shake
+          }
+        }, 33);
+      }
+
       if (reaction <= 600) {
         const reward = 5 + Math.floor(Math.max(0, 300 - reaction) / 25);
         dexhuntBalance += reward;
@@ -871,7 +921,7 @@
         if (stopBtn) stopBtn.remove();
         log.textContent = "Auto-restarting duel to test your reflexes again!";
         startDuel();
-      }, 4000);
+      }, 2000);
 
       if (gameStarted && (lossStreak + dexhuntBalance / 5) % 3 === 0) {
         showNotification();
