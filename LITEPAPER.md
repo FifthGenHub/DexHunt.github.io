@@ -10,6 +10,8 @@ It’s play-to-win — not play-to-wait, stake-to-hope, or pray-to-the-APY-gods.
 You click fast. You win.  
 You miss? You lose.
 
+No luck. No scams. Just speed.
+
 ---
 
 ## 💸 The Token — $DEXHUNT
@@ -17,43 +19,42 @@ You miss? You lose.
 $DEXHUNT fuels the ecosystem:
 
 - Used in-game for utility-based rewards
-- Backed by skill — not speculation
-- Emitted through fair mechanics (no hidden emissions or premines)
+- Earned by skill — not speculation
+- No premines, no hidden emissions, no team wallets
 
-Launch: [Pump.fun](https://pump.fun/YOUR_TOKEN_LINK)
+**Launch**: [Pump.fun](https://pump.fun/YOUR_TOKEN_LINK)
 
 ---
 
 ## 📜 Roadmap Snapshot
 
-| Phase | Features |
-|-------|----------|
-| ✅ Beta Live | Game, $DEXHUNT token, mock payouts |
-| 🔜 NFT Jackpot | “The Last Draw” – 1-of-1 skill-based reward |
-| 🔜 Tournaments | Time-based + skill-based PvP leaderboards |
-| 🔜 Arcade Expansion | More games inside the Saloona Arcade ecosystem |
-| 🔜 Full Token Integration | Live rewards + in-wallet game interaction |
+| Phase         | Features                                           |
+|---------------|----------------------------------------------------|
+| ✅ **Beta Live**       | Game, $DEXHUNT token, mock payouts                |
+| 🔜 **NFT Jackpot**    | *The Last Draw* — 1-of-1 skill-based NFT         |
+| 🔜 **Tournaments**    | Leaderboards, PvP draws, skill-based prize flow |
+| 🔜 **Arcade Expansion** | New titles inside the future Saloona Arcade       |
+| 🔜 **Token Utility**  | In-wallet upgrades, shop system, NFT claims      |
 
 ---
 
 ## 🧠 Why It Works
 
 - Built for **speed, fairness, and fun**
-- **No staking**, **no idle farming**, **no bullshit**
-- Legal-first game logic (skill-based = compliant)
-- Designed to grow organically via gameplay, not hype
+- **No staking**, **no idle farming**, **no rug wizardry**
+- Legal-first logic (skill-based = compliant)
+- Fully on-chain open source. No central custody, ever.
 
 ---
 
 ## 🌐 Join the Arcade
 
-- 🎮 [Play the Game](https://fifthgenhub.github.io/DexHunt.github.io/)
-- 🐦 [Follow Us on Twitter](https://twitter.com/DexHuntGame)
-- 💬 Discord: [Under Wild West Construction](https://discord.gg/NNswE2P4)
-- 🔫 Buy $DEXHUNT on Pump.fun: Coming Soon
+- 🎮 [Play DexHunt](https://fifthgenhub.github.io/DexHunt.github.io/)
+- 🐦 [Follow @DexHuntGame](https://twitter.com/DexHuntGame)
+- 💬 [Join Our Discord](https://discord.gg/NNswE2P4)
+- 🔫 $DEXHUNT on Pump.fun: **Coming Soon**
 
 ---
 
 DexHunt is open source, skill-based, and ready to fire.  
 You're not too early — you're just in time.
-
