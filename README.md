@@ -17,6 +17,7 @@
 - 💸 [**Buy $DEXHUNT on Pump.fun**](https://pump.fun/YOUR_TOKEN_LINK)
 - 📄 [**Litepaper**](./LITEPAPER.md)
 - 🐦 [**Follow @DexHuntGame**](https://twitter.com/DexHuntGame)
+- 💬 [**Join the DexHunt Discord**](https://discord.gg/NNswE2P4)
 
 ---
 
