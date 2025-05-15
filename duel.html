@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="DexHunt: Cowboy Reflex Showdown - Test your reflexes in a Wild West showdown on Saloona Arcade!" />
   <meta name="keywords" content="DexHunt, quick-draw duel, Saloona Arcade, Wild West game, blockchain gaming, Solana" />
   <meta name="author" content="Saloona Crew" />
@@ -16,7 +16,7 @@
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
   <link rel="shortcut icon" href="assets/favicon.ico" />
-  <meta name="theme-color" content="#E86100">
+  <meta name="msapplication-TileColor" content="#E86100">
 
   <!-- Audio preload -->
   <link rel="preload" as="audio" href="assets/sounds/background_music.mp3" />
@@ -83,9 +83,21 @@
       background: #b33c00;
     }
 
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: auto;
+      height: 100%;
+      font-family: 'Courier New', monospace;
+      background: #000;
+      color: #ffc34d;
+      text-align: center;
+    }
+
     .game-container {
       width: 100vw;
-      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -248,6 +260,8 @@
       width: 640px;
       height: 480px;
       max-width: 100%;
+      max-height: 100%;
+      overflow: hidden;
       background-image: url('assets/DexHuntBackground.png');
       background-size: contain;
       background-repeat: no-repeat;
