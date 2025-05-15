@@ -22,6 +22,8 @@ $DEXHUNT fuels the ecosystem:
 - Earned by skill — not speculation
 - No premines, no hidden emissions, no team wallets
 
+💡 **$DEXHUNT is a testnet-only token during Beta. No real-world value until launch.**
+
 **Launch**: [Pump.fun](https://pump.fun/YOUR_TOKEN_LINK)
 
 ---
@@ -56,5 +58,12 @@ $DEXHUNT fuels the ecosystem:
 
 ---
 
-DexHunt is open source, skill-based, and ready to fire.  
-You're not too early — you're just in time.
+## 🔏 Legal Footnote
+
+DexHunt is a beta skill-based game on Solana Devnet.  
+No monetary value is associated with gameplay or token use until full mainnet launch.
+
+---
+
+<!-- SEO Optimization Meta -->
+<!-- DexHunt is a crypto arcade shooter built on Solana. Play-to-win reflex gaming meets legal Web3 token utility. -->
