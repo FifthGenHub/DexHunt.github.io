@@ -27,3 +27,7 @@
 git clone https://github.com/FifthGenHub/DexHunt.github.io.git
 cd DexHunt.github.io
 open index.html
+```
+---
+
+> © 2025 DexHunt — Powered by Solana ⚡ Built for Duelists
