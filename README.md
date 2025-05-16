@@ -1,4 +1,4 @@
-![DexHunt Banner](./assets/dexhunt-banner.png)
+![DexHunt — Play-to-Win Reflex Arcade Game on Solana. Skill-Based. No RNG. No Rugs.](./assets/dexhunt-banner.png)
 
 # 🎯 DexHunt — The Wild West of Skill-Based Crypto Gaming
 
@@ -14,7 +14,7 @@
 ### 🚀 Quick Links
 
 - 🕹️ [**Play the Game**](https://fifthgenhub.github.io/DexHunt.github.io/)
-- 💸 [**Buy $DEXHUNT on Pump.fun**](https://pump.fun/YOUR_TOKEN_LINK)
+- 💸 [**Buy $DEXHUNT on Pump.fun**](https://pump.fun/ "Launches soon — check Twitter for drop time")
 - 📄 [**Litepaper**](./LITEPAPER.md)
 - 🐦 [**Follow @DexHuntGame**](https://twitter.com/DexHuntGame)
 - 💬 [**Join the DexHunt Discord**](https://discord.gg/NNswE2P4)
