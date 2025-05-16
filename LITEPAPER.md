@@ -12,7 +12,11 @@ You miss? You lose.
 
 No luck. No scams. Just speed.
 
+**_🗓️ Updated: May 15 2025 — DexHunt Beta is now live with mock payouts and reflex duel logic fully integrated._**
+
 ---
+
+
 
 ## 💸 The Token — $DEXHUNT
 
@@ -21,10 +25,11 @@ $DEXHUNT fuels the ecosystem:
 - Used in-game for utility-based rewards
 - Earned by skill — not speculation
 - No premines, no hidden emissions, no team wallets
+- Launch via Pump.fun — fair launch, no presale
 
 💡 **$DEXHUNT is a testnet-only token during Beta. No real-world value until launch.**
 
-**Launch**: [Pump.fun](https://pump.fun/YOUR_TOKEN_LINK)
+[Pump.fun Launch](https://pump.fun/) <!-- or full token URL once live -->
 
 ---
 
@@ -45,7 +50,8 @@ $DEXHUNT fuels the ecosystem:
 - Built for **speed, fairness, and fun**
 - **No staking**, **no idle farming**, **no rug wizardry**
 - Legal-first logic (skill-based = compliant)
-- Fully on-chain open source. No central custody, ever.
+- 🛡️ **Non-custodial forever.** No team wallets, no centralized control.
+
 
 ---
 
