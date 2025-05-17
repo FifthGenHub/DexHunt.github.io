@@ -19,7 +19,7 @@
 
 - 🕹️ [**Play DexHunt: Reflex Showdown**](https://fifthgenhub.github.io/DexHunt.github.io/)
 - 💸 [**Buy $DEXHUNT on Pump.fun**](https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump)
-- 📄 [**Litepaper**](./LITEPAPER.md)
+- 📄 [**Litepaper v2.0**](./LITEPAPER_v2.0.md)
 - 🐦 [**Follow @DexHuntGame**](https://twitter.com/DexHuntGame)
 - 💬 [**Join the DexHunt Discord**](https://discord.gg/NNswE2P4)
 
