@@ -806,6 +806,12 @@
     }
 
     function startDuel() {
+      gtag('event', 'start_duel_click', {
+        event_category: 'engagement',
+        event_label: 'Start Duel Button',
+        value: 1
+      });
+  
       if (duelStarted || !gameStarted) {
         console.log("Duel blocked: duelStarted=", duelStarted, "gameStarted=", gameStarted);
         return;
@@ -924,9 +930,15 @@
         if (winStreak === 3) {
           log.textContent += " 🤠 Nice streak! Keep it up!";
         } else if (winStreak === 5) {
+          gtag('event', 'streak_milestone', {
+            event_category: 'skill',
+            event_label: `Win Streak: ${winStreak}`,
+            value: winStreak
+          });
           log.textContent += " 🔥 Hot shot! 5 wins in a row!";
           document.getElementById("mockRewardStatus").textContent = "Mock Reward Earned!";
         }
+
       } else {
         document.getElementById("loseSound").play();
         log.textContent = `Too slow! Your draw was ${reaction}ms. Streak ended.`;
@@ -1047,6 +1059,11 @@
     }
 
     function closeTutorial() {
+      gtag('event', 'tutorial_completed', {
+        event_category: 'engagement',
+        event_label: 'User Finished Tutorial',
+        value: 1
+      });
       const tutorialPopup = document.getElementById("tutorialPopup");
       tutorialPopup.style.display = "none";
       localStorage.setItem("tutorialShown", "true");
@@ -1083,6 +1100,12 @@
     }
 
     function mockConnectWallet() {
+      gtag('event', 'wallet_connected', {
+        event_category: 'wallet',
+        event_label: isConnected ? 'Real Wallet' : 'Mock Wallet',
+        value: 1
+      });
+
       isConnected = true;
       walletPublicKey = "MockWallet123";
       document.getElementById("connectWalletBtn").textContent = "💼 Mock";
