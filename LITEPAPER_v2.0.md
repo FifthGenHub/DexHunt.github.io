@@ -59,7 +59,7 @@ $DEXHUNT fuels the ecosystem:
 - 🎮 [Play DexHunt: Reflex Showdown](https://fifthgenhub.github.io/DexHunt.github.io/)
 - 🐦 [Follow @DexHuntGame](https://twitter.com/DexHuntGame)
 - 💬 [Join Our Discord](https://discord.gg/NNswE2P4)
-- 🔫 $DEXHUNT on Pump.fun: **Coming Soon**
+- 🔫 [Buy $DEXHUNT on Pump.fun](https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump)
 
 ---
 
@@ -71,5 +71,4 @@ No monetary value is associated with gameplay or token use until full mainnet la
 
 ---
 
-<!-- SEO Optimization Meta -->
-<!-- DexHunt: Reflex Showdown is a crypto arcade shooter built on Solana. Play-to-win reflex gaming meets legal Web3 token utility. -->
+<!-- DexHunt: Reflex Showdown is a crypto arcade shooter built on Solana. Skill-To-Earn reflex gaming meets legal Web3 token utility. -->
