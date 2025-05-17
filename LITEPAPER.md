@@ -1,10 +1,12 @@
 # 🧠 DexHunt Litepaper — Skill-Based Crypto Gaming, Done Right
 
+**⚠️ Disclaimer**: DexHunt: Reflex Showdown is an independent game and is not affiliated with Nintendo or any other entity.
+
 ---
 
 ## 🎯 What is DexHunt?
 
-**DexHunt** is a Solana-powered, reflex-based arcade game.  
+**DexHunt: Reflex Showdown** is a Solana-powered, reflex-based arcade game.  
 It’s play-to-win — not play-to-wait, stake-to-hope, or pray-to-the-APY-gods.
 
 You click fast. You win.  
@@ -12,11 +14,9 @@ You miss? You lose.
 
 No luck. No scams. Just speed.
 
-**_🗓️ Updated: May 15 2025 — DexHunt Beta is now live with mock payouts and reflex duel logic fully integrated._**
+**_🗓️ Updated: May 15 2025 — DexHunt: Reflex Showdown Beta is now live with mock payouts and reflex duel logic fully integrated._**
 
 ---
-
-
 
 ## 💸 The Token — $DEXHUNT
 
@@ -52,12 +52,11 @@ $DEXHUNT fuels the ecosystem:
 - Legal-first logic (skill-based = compliant)
 - 🛡️ **Non-custodial forever.** No team wallets, no centralized control.
 
-
 ---
 
 ## 🌐 Join the Arcade
 
-- 🎮 [Play DexHunt](https://fifthgenhub.github.io/DexHunt.github.io/)
+- 🎮 [Play DexHunt: Reflex Showdown](https://fifthgenhub.github.io/DexHunt.github.io/)
 - 🐦 [Follow @DexHuntGame](https://twitter.com/DexHuntGame)
 - 💬 [Join Our Discord](https://discord.gg/NNswE2P4)
 - 🔫 $DEXHUNT on Pump.fun: **Coming Soon**
@@ -66,10 +65,11 @@ $DEXHUNT fuels the ecosystem:
 
 ## 🔏 Legal Footnote
 
+DexHunt: Reflex Showdown is an independent game and is not affiliated with Nintendo or any other entity.  
 DexHunt is a beta skill-based game on Solana Devnet.  
 No monetary value is associated with gameplay or token use until full mainnet launch.
 
 ---
 
 <!-- SEO Optimization Meta -->
-<!-- DexHunt is a crypto arcade shooter built on Solana. Play-to-win reflex gaming meets legal Web3 token utility. -->
+<!-- DexHunt: Reflex Showdown is a crypto arcade shooter built on Solana. Play-to-win reflex gaming meets legal Web3 token utility. -->
