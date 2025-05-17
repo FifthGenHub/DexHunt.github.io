@@ -2,6 +2,8 @@
 
 # 🎯 DexHunt — The Wild West of Skill-Based Crypto Gaming
 
+**⚠️ Disclaimer**: DexHunt: Reflex Showdown is an independent game and is not affiliated with Nintendo or any other entity.
+
 **DexHunt** is a fast-paced, reflex-based arcade shooter powered by $DEXHUNT — a Solana-native token rewarding speed, skill, and sharp aim.
 
 - 🎮 **Play-to-Win**: No RNG. Pure reflexes. Beat the timer, earn the respect.
@@ -27,7 +29,3 @@
 git clone https://github.com/FifthGenHub/DexHunt.github.io.git
 cd DexHunt.github.io
 open index.html
-```
----
-
-> © 2025 DexHunt — Powered by Solana ⚡ Built for Duelists
