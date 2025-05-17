@@ -15,8 +15,10 @@
 
 ### 🚀 Quick Links
 
+🚨 $DEXHUNT is LIVE on Pump.fun — fair launch, no presale. Play now. Trade now. Win later.
+
 - 🕹️ [**Play DexHunt: Reflex Showdown**](https://fifthgenhub.github.io/DexHunt.github.io/)
-- 💸 [**Buy $DEXHUNT on Pump.fun**](https://pump.fun/ "Launches soon — check Twitter for drop time")
+- 💸 [**Buy $DEXHUNT on Pump.fun**](https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump)
 - 📄 [**Litepaper**](./LITEPAPER.md)
 - 🐦 [**Follow @DexHuntGame**](https://twitter.com/DexHuntGame)
 - 💬 [**Join the DexHunt Discord**](https://discord.gg/NNswE2P4)
