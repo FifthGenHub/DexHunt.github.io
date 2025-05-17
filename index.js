@@ -7,7 +7,7 @@ if (!localStorage.getItem("disclaimerShown")) {
   localStorage.setItem("disclaimerShown", "true");
 }
 
-// Existing game logic from duel.html
+// Existing game logic (from duel.html, message #39)
 let duelStarted = false;
 let drawTime = 0;
 let duelTimeout = null;
@@ -100,14 +100,12 @@ function animateElements(timestamp) {
       if (anim.animation === "cowboy") {
         positionCowboy(anim);
 
-        // Blink every 3 seconds
         if (!blinkTimer || timestamp - blinkTimer > 3000) {
           cowboyBlinking = true;
           blinkTimer = timestamp;
           setTimeout(() => cowboyBlinking = false, 200); // blink duration
         }
 
-        // Set blink opacity
         anim.opacity = cowboyBlinking ? 0.6 : 1;
       }
 
@@ -119,7 +117,6 @@ function animateElements(timestamp) {
     }
   });
 
-  // Draw hit effect if active
   if (hitEffect.active) {
     ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
     ctx.beginPath();
@@ -284,11 +281,9 @@ function shoot() {
   hitEffect.y = parseFloat(bang.style.top) + 60;
   hitEffect.radius = 10;
 
-  // 🔊 Play cowboy grunt sound
   document.getElementById("cowboyHitSound").volume = 0.8;
   document.getElementById("cowboyHitSound").play();
 
-  // 💥 Cowboy Shake Effect + Glow Flash
   let cowboyAnim = animations.find(a => a.animation === "cowboy");
   if (cowboyAnim) {
     let originalX = cowboyAnim.x;
@@ -297,7 +292,6 @@ function shoot() {
     let shakeDuration = 200;
     const shakeStart = Date.now();
 
-    // Temporary white flash
     const flashCanvas = () => {
       ctx.save();
       ctx.globalAlpha = 0.4;
@@ -316,7 +310,7 @@ function shoot() {
       } else {
         cowboyAnim.x = originalX + (Math.random() - 0.5) * shakeIntensity;
         cowboyAnim.y = originalY + (Math.random() - 0.5) * shakeIntensity;
-        flashCanvas(); // Trigger white glow flash per shake
+        flashCanvas();
       }
     }, 33);
   }
@@ -541,7 +535,6 @@ function performMockSwap(amount) {
   }, 2000);
 }
 
-// 🎯 Lightweight play tracking
 let lastActivity = localStorage.getItem("lastPlayTimestamp");
 if (!lastActivity) {
   localStorage.setItem("lastPlayTimestamp", Date.now());
@@ -554,7 +547,6 @@ if (!lastActivity) {
   localStorage.setItem("lastPlayTimestamp", now);
 }
 
-// ⌛ Duel history tracker
 if (!localStorage.getItem("duelLogs")) {
   localStorage.setItem("duelLogs", JSON.stringify([]));
 }
@@ -576,7 +568,6 @@ window.onload = function () {
 
 window.addEventListener("resize", resizeCanvas);
 
-// 🔌 Detect Phantom and offer real connection if available
 window.addEventListener("load", () => {
   (async () => {
     if (window.solana && window.solana.isPhantom) {
