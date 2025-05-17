@@ -29,3 +29,4 @@
 git clone https://github.com/FifthGenHub/DexHunt.github.io.git
 cd DexHunt.github.io
 open index.html
+```
