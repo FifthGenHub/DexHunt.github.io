@@ -1,10 +1,10 @@
 ![DexHunt — Play-to-Win Reflex Arcade Game on Solana. Skill-Based. No RNG. No Rugs.](./assets/dexhunt-banner.png)
 
-# 🎯 DexHunt — The Wild West of Skill-Based Crypto Gaming
+# 🎯 DexHunt: Reflex Showdown — The Wild West of Skill-Based Crypto Gaming
 
 **⚠️ Disclaimer**: DexHunt: Reflex Showdown is an independent game and is not affiliated with Nintendo or any other entity.
 
-**DexHunt** is a fast-paced, reflex-based arcade shooter powered by $DEXHUNT — a Solana-native token rewarding speed, skill, and sharp aim.
+**DexHunt: Reflex Showdown** is a fast-paced, reflex-based arcade shooter powered by $DEXHUNT — a Solana-native token rewarding speed, skill, and sharp aim.
 
 - 🎮 **Play-to-Win**: No RNG. Pure reflexes. Beat the timer, earn the respect.
 - 🪙 **Token-Integrated**: Built on Solana. $DEXHUNT fuels the game + future arcade titles.
@@ -15,7 +15,7 @@
 
 ### 🚀 Quick Links
 
-- 🕹️ [**Play the Game**](https://fifthgenhub.github.io/DexHunt.github.io/)
+- 🕹️ [**Play DexHunt: Reflex Showdown**](https://fifthgenhub.github.io/DexHunt.github.io/)
 - 💸 [**Buy $DEXHUNT on Pump.fun**](https://pump.fun/ "Launches soon — check Twitter for drop time")
 - 📄 [**Litepaper**](./LITEPAPER.md)
 - 🐦 [**Follow @DexHuntGame**](https://twitter.com/DexHuntGame)
