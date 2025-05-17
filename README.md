@@ -6,7 +6,7 @@
 
 **DexHunt: Reflex Showdown** is a fast-paced, reflex-based arcade shooter powered by $DEXHUNT — a Solana-native token rewarding speed, skill, and sharp aim.
 
-- 🎮 **Play-to-Win**: No RNG. Pure reflexes. Beat the timer, earn the respect.
+- 🎮 **Skill-to-Win**: No RNG. Pure reflexes. Beat the timer, earn the respect.
 - 🪙 **Token-Integrated**: Built on Solana. $DEXHUNT fuels the game + future arcade titles.
 - 🧠 **Legally Compliant Beta**: No betting, no promises. Just gameplay that slaps.
 - 🎁 **NFT + Tournament Layers**: On the roadmap — but you’re early. Real early.
