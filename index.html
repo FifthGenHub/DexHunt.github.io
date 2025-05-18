@@ -151,16 +151,28 @@
       <strong>Status:</strong> Beta Testing | NFTs & Tournaments Coming Soon
     </p>
   </main>
-  <section style="margin: 3rem auto; background: #1a1a1a; padding: 1.5rem; border: 2px solid #ffc107; width: 90%; max-width: 420px; border-radius: 8px;">
-  <h2 style="color: #ffc107;">🏆 Top Duelists</h2>
-  <ol style="text-align: left; font-family: monospace; font-size: 1rem; padding-left: 1.2rem; color: #f7d774;">
-    <li>QuickDrawCharlie — 243ms</li>
-    <li>DeadeyeJoan — 256ms</li>
-    <li>TriggerTom — 270ms</li>
-  </ol>
-  <p style="font-size: 0.85rem; color: #ccc;">Leaderboard updates coming soon...</p>
+  <section style="margin: 3rem auto 2rem auto; background: #232323; padding: 1.5rem; border: 2px solid #ffc107; width: 90%; max-width: 420px; border-radius: 8px;">
+  <h2 style="color: #ffc107;">🛒 DexHunt PixelShop</h2>
+  <p id="wallet-address">Wallet: Not Connected</p>
+  <button onclick="connectWallet()">Connect Wallet</button>
+  <div class="item" style="border:2px solid #ffc107; margin:1rem auto; padding:1rem; border-radius:10px;">
+    <h3>🔫 Golden Gun Skin</h3>
+    <p>Cost: 500 $DEXHUNT</p>
+    <button onclick="burnDexhuntToken('Golden Gun Skin')">Unlock</button>
+  </div>
+  <div class="item" style="border:2px solid #ffc107; margin:1rem auto; padding:1rem; border-radius:10px;">
+    <h3>🎵 Yeehaw Sound FX</h3>
+    <p>Cost: 250 $DEXHUNT</p>
+    <button onclick="burnDexhuntToken('Yeehaw Sound FX')">Unlock</button>
+  </div>
+  <div class="item" style="border:2px solid #ffc107; margin:1rem auto; padding:1rem; border-radius:10px;">
+    <h3>🌩️ Thunderstorm Background</h3>
+    <p>Cost: 350 $DEXHUNT</p>
+    <button onclick="burnDexhuntToken('Thunderstorm Background')">Unlock</button>
+  </div>
+  <p style="font-size:0.85rem; color:#ccc;">More items coming soon!</p>
 </section>
-
+<script src="swapFromGame.js"></script>
 
   <footer>
     <p>© 2025 DexHunt: Reflex Showdown — An independent game not affiliated with Nintendo or any other entity. Built by FifthGenHub.</p>
