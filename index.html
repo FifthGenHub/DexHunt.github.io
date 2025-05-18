@@ -3,102 +3,292 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- ✅ SEO + Social Metadata -->
+  <title>DexHunt: Reflex Showdown — Skill-Based Crypto Arcade</title>
   <meta name="description" content="DexHunt: Reflex Showdown is a reflex-based crypto arcade game powered by the $DEXHUNT token. Play now in beta, win by skill, and join the Wild West of Web3." />
-  <meta name="keywords" content="DexHunt: Reflex Showdown, crypto arcade, Solana game, reflex duel, skill-based, $DEXHUNT token" />
-  <meta name="author" content="FifthGenHub" />
-  <link rel="canonical" href="https://fifthgenhub.github.io/DexHunt.github.io/" />
-
-  <!-- ✅ Open Graph -->
-  <meta property="og:title" content="DexHunt: Reflex Showdown — The Wild West of Skill-Based Crypto Gaming" />
-  <meta property="og:description" content="Play the reflex-based Solana arcade game powered by $DEXHUNT. No betting. No RNG. Just skill." />
-  <meta property="og:image" content="https://fifthgenhub.github.io/DexHunt.github.io/assets/dexhunt-banner.png" />
-  <meta property="og:url" content="https://fifthgenhub.github.io/DexHunt.github.io/" />
-  <meta property="og:type" content="website" />
-
-  <!-- ✅ Twitter Cards -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="DexHunt: Reflex Showdown — Skill-Based Crypto Arcade" />
-  <meta name="twitter:description" content="Reflex duels. Arcade skill. $DEXHUNT on Solana." />
-  <meta name="twitter:image" content="https://fifthgenhub.github.io/DexHunt.github.io/assets/dexhunt-banner.png" />
-
-  <!-- Classic Fallback -->
-  <link rel="shortcut icon" href="favicon.ico" />
-
-  <!-- Modern Browsers -->
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
-  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png" />
-
-  <!-- Mobile and Install Support -->
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-  <meta name="apple-mobile-web-app-title" content="DexHunt: Reflex Showdown" />
-  <link rel="manifest" href="site.webmanifest" />
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RW3W4Q1SY"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-2RW3W4Q1SY');
-  </script>
+  <link rel="icon" type="image/png" href="favicon-32x32.png" />
   <style>
-    body {
-      font-family: 'Courier New', Courier, monospace;
-      background: #0d0d0d;
-      color: #f7d774;
+    html, body {
+      height: 100%;
       margin: 0;
       padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    }
+    body {
+      min-height: 100vh;
+      font-family: 'Courier New', Courier, monospace;
+      color: #f7d774;
+      font-size: 1.18rem;
+      background:
+        repeating-linear-gradient(135deg, #e86100 0 2px, transparent 2px 20px),
+        linear-gradient(to top, #2d1b00 0%, #e86100 60%, #ffd700 100%);
+      background-attachment: fixed;
+      background-size: cover;
+      position: relative;
+      overflow-x: hidden;
+    }
+    /* Animated sun */
+    .sun {
+      position: absolute;
+      top: 7vh;
+      left: 60vw;
+      font-size: 3.5rem;
+      z-index: 0;
+      filter: blur(0.5px) brightness(1.2);
+      animation: sunpulse 4s infinite alternate;
+      pointer-events: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    @keyframes sunpulse {
+      0% { filter: brightness(1.1) blur(0.5px);}
+      100% { filter: brightness(1.4) blur(1.2px);}
+    }
+    /* Animated clouds using emoji */
+    .cloud, .cloud2, .cloud3 {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      -webkit-user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-select: none; /* Safari/iOS support */
+      user-select: none; /* Add this for Safari compatibility */
+    }
+    .cloud {
+      font-size: 2.5rem;
+      opacity: 0.7;
+      animation: cloudmove 40s linear infinite;
+      top: 12vh;
+      left: -10vw;
+    }
+    .cloud2 {
+      top: 18vh;
+      left: -20vw;
+      font-size: 3.2rem;
+      opacity: 0.5;
+      animation: cloudmove 60s linear infinite;
+    }
+    .cloud3 {
+      top: 22vh;
+      left: -30vw;
+      font-size: 2.7rem;
+      opacity: 0.6;
+      animation: cloudmove 55s linear infinite;
+    }
+    @keyframes cloudmove {
+      0% { left: -10vw; }
+      100% { left: 110vw; }
+    }
+    /* Birds */
+    .birds {
+      position: absolute;
+      top: 13vh;
+      left: 40vw;
+      font-size: 2.1rem;
+      opacity: 0.8;
+      z-index: 2;
+      pointer-events: none;
+      user-select: none;
+      animation: birdsfly 18s linear infinite;
+    }
+    @keyframes birdsfly {
+      0% { left: 40vw; top: 13vh;}
+      100% { left: 110vw; top: 7vh;}
+    }
+    /* Tumbleweed */
+    .tumbleweed {
+      position: fixed;
+      left: -5vw;
+      bottom: 2.5rem;
+      font-size: 2.5rem;
+      opacity: 0.8;
+      z-index: 101;
+      animation: tumble 22s linear infinite;
+      pointer-events: none;
+      user-select: none;
+    }
+    @keyframes tumble {
+      0% { left: -5vw; transform: rotate(0deg);}
+      100% { left: 110vw; transform: rotate(720deg);}
+    }
+    /* Cactus and tumbleweed using emoji */
+    .desert-art {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
       text-align: center;
+      font-size: 2.5rem;
+      z-index: 100;
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.92;
+      letter-spacing: 0.5rem;
+      background: linear-gradient(to top, #2d1b00cc 70%, transparent 100%);
+      padding-bottom: 0.5rem;
     }
-    header {
-      background: #1a1a1a;
-      padding: 1rem 2rem;
-      width: 100%;
-      border-bottom: 4px solid #ffc107;
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 2.5rem 1rem 2rem 1rem;
+      background: rgba(26, 26, 26, 0.85);
+      border-bottom: 3px solid #ffc107;
+      position: relative;
+      z-index: 3;
+      box-shadow: 0 4px 24px #0008;
     }
-    header h1 {
-      margin: 0;
-      font-size: 2.2rem;
+    .hero-title {
+      font-size: 2.9rem;
+      margin: 0.2rem 0 0.6rem 0;
+      color: #ffc107;
+      text-shadow: 2px 2px #000, 0 0 10px #ffcc00;
+      letter-spacing: 2px;
     }
-    main {
-      padding: 2rem;
-      max-width: 800px;
+    .hero-tagline {
+      font-size: 1.35rem;
+      color: #fffbe7;
+      margin-bottom: 1.2rem;
+      font-weight: 500;
     }
-    .cta {
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
       margin-top: 1.5rem;
+      flex-wrap: wrap;
     }
-    .cta a {
-      display: inline-block;
+    .hero-cta a {
       background: #ffc107;
       color: #1a1a1a;
-      text-decoration: none;
-      padding: 1rem 2rem;
-      border-radius: 8px;
+      padding: 1rem 2.2rem;
+      border-radius: 10px;
+      font-size: 1.25rem;
       font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 2px 8px #0006;
+      transition: background 0.2s, transform 0.2s;
+      animation: pulse 1.5s infinite;
     }
-    .cta a:hover {
+    .hero-cta a:hover {
+      background: #ffde59;
+      transform: scale(1.05);
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 2px 8px #0006; }
+      50% { box-shadow: 0 0 24px #ffc10799; }
+    }
+    /* Nav Bar */
+    nav {
+      background: #181818e6;
+      border-bottom: 2px solid #ffc107;
+      padding: 0.7rem 0;
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    nav a, nav button {
+      color: #00ffff;
+      background: none;
+      border: none;
+      font-size: 1.18rem;
+      font-family: inherit;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 0.3rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    nav a:hover, nav button:hover {
+      color: #ffc107;
+      text-shadow: 0 0 6px #ffcc00;
+    }
+    /* Dashboard Sections */
+    .dashboard {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2.5rem auto 1.5rem auto;
+      max-width: 1200px;
+      z-index: 2;
+    }
+    .dashboard-section {
+      background: #232323e6;
+      border: 2px solid #ffc107;
+      border-radius: 12px;
+      padding: 1.5rem 1.2rem;
+      min-width: 280px;
+      max-width: 340px;
+      flex: 1 1 280px;
+      margin: 0.5rem;
+      box-shadow: 0 2px 12px #0007;
+      font-size: 1.13rem;
+    }
+    .dashboard-section h3 {
+      color: #ffc107;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.45rem;
+    }
+    .pixelshop-preview .item {
+      border: 2px solid #ffc107;
+      border-radius: 8px;
+      margin: 0.7rem 0;
+      padding: 0.7rem;
+      background: #181818;
+    }
+    .pixelshop-preview button {
+      background: #ffc107;
+      color: #181818;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.2s;
+      font-size: 1.13rem;
+    }
+    .pixelshop-preview button:hover {
       background: #ffde59;
     }
-    .nav-links a {
-      margin: 0 1rem;
-      color: #00ffff;
-      text-decoration: none;
+    .live-feed, .testimonials {
+      font-size: 1.08rem;
+      color: #fffbe7;
+      min-height: 60px;
     }
-    .nav-links a:hover {
-      color: #ffcc00;
+    .how-to-play {
+      background: #181818e6;
+      border: 2px solid #ffc107;
+      border-radius: 12px;
+      max-width: 700px;
+      margin: 2.5rem auto 1.5rem auto;
+      padding: 2rem 1.5rem;
+      color: #fffbe7;
+      box-shadow: 0 2px 12px #0007;
+      font-size: 1.13rem;
+    }
+    .how-to-play h2 {
+      color: #ffc107;
+      margin-top: 0;
+      font-size: 1.45rem;
+    }
+    .how-to-play ul {
+      text-align: left;
+      max-width: 500px;
+      margin: 1rem auto;
+      padding-left: 1.2rem;
+    }
+    .how-to-play li {
+      margin-bottom: 0.7rem;
+      font-size: 1.13rem;
     }
     footer {
       text-align: center;
-      margin-top: 3rem;
+      margin-top: 2.5rem;
       padding: 1.2rem 1rem;
-      font-size: 0.9rem;
+      font-size: 1.08rem;
       color: #aaa;
       border-top: 2px solid #ffc107;
       background-color: #1a1a1a;
@@ -108,86 +298,192 @@
       text-decoration: none;
       font-weight: bold;
       margin: 0 0.5rem;
-      transition: color 0.3s ease, text-shadow 0.3s ease;
+      transition: color 0.3s;
     }
     footer a:hover {
       color: #ffde59;
       text-shadow: 0 0 5px #ffcc00;
     }
+    @media (max-width: 900px) {
+      .dashboard { flex-direction: column; align-items: center; }
+      .dashboard-section { max-width: 95vw; }
+    }
+    /* Prevent text selection in certain areas */
+    .selector {
+      -webkit-user-select: none; /* Safari and iOS Safari */
+      user-select: none;         /* Modern browsers */
+    }
   </style>
 </head>
 <body>
- <div style="padding: 2rem 1rem 1rem 1rem;">
-  <img 
-  src="assets/dexhunt-banner.png" 
-  alt="DexHunt: Reflex Showdown Banner" 
-  style="max-width: 100%; height: auto; max-height: 400px; margin: 20px auto;" />
- </div>   
-  <header>
-    <h1>DexHunt: Reflex Showdown</h1>
-    <p style="margin-top: 0.5rem; font-size: 1rem; color: #ccc;">
-      A skill-based crypto arcade game powered by $DEXHUNT
-    </p>
-    <div class="nav-links">
-      <a href="duel.html" target="_blank" rel="noopener">🎮 Play DexHunt: Reflex Showdown</a>
-      <a href="LITEPAPER_v2.0.md" target="_blank" rel="noopener">Litepaper v2.0</a>
-      <a href="https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump" target="_blank" rel="noopener">💸 Buy $DEXHUNT</a>
-      <a href="https://discord.gg/NNswE2P4" target="_blank" rel="noopener">💬 Join Discord</a>
-      <a href="https://github.com/FifthGenHub/DexHunt.github.io" target="_blank" rel="noopener">👨‍💻 GitHub</a>
+  <!-- Beta Notice -->
+  <div style="background:#ffc107;color:#1a1a1a;text-align:center;padding:0.7rem 1rem;font-weight:bold;font-size:1.18rem;letter-spacing:1px;box-shadow:0 2px 8px #0006;z-index:100;position:relative;">
+    🚧 <strong>Beta Notice:</strong> DexHunt is in public beta. No real $DEXHUNT tokens, NFTs, or prizes are awarded yet. All gameplay and rewards are for testing only!
+  </div>
 
-      <a href="legal/legal.html">📜 Legal</a>
+  <!-- Animated Sun & Atmosphere -->
+  <div class="sun">☀️</div>
+  <div class="cloud" style="animation-delay: 0s;">☁️</div>
+  <div class="cloud cloud2" style="animation-delay: 10s;">☁️</div>
+  <div class="cloud cloud3" style="animation-delay: 20s;">☁️</div>
+  <div class="birds">🕊️ 🕊️</div>
+  <div class="tumbleweed">🌾</div>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="hero-title">DexHunt: Reflex Showdown</div>
+    <div class="hero-tagline">The Wild West of Skill-Based Crypto Gaming.<br>No gambling. No RNG. Just pure reflex and $DEXHUNT rewards.</div>
+    <div class="hero-cta">
+      <a href="duel.html" target="_blank" rel="noopener">🎮 Play Now</a>
+      <a href="https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump" target="_blank" rel="noopener">💸 Buy $DEXHUNT</a>
     </div>
-  </header>
-  <main>
-    <h2>$DEXHUNT is live on Pump.fun</h2>
-    <p>
-      DexHunt: Reflex Showdown is a skill-based arcade game built for Web3 gunslingers. There’s no gambling, no chance — only speed, reflex, and timing.
-      Play the beta, claim the leaderboard, and show the blockchain who draws fastest.
-    </p>
-    <div class="cta">
-      <a href="https://pump.fun/">Buy $DEXHUNT on Pump.fun</a>
+  </div>
+
+  <!-- Nav Bar -->
+  <nav>
+    <a href="duel.html" target="_blank" rel="noopener">🎮 Play</a>
+    <a href="pixelshop.html">🛒 PixelShop</a>
+    <a href="https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump" target="_blank" rel="noopener">💸 Buy</a>
+    <a href="#" onclick="alert('Leaderboard coming soon!')">🏆 Leaderboard</a>
+    <a href="https://discord.gg/NNswE2P4" target="_blank" rel="noopener">💬 Discord</a>
+    <button onclick="connectWallet()" id="navWalletBtn">💼 Connect Wallet</button>
+  </nav>
+
+  <!-- Dashboard Sections -->
+  <div class="dashboard">
+    <!-- Your Stats -->
+    <div class="dashboard-section" id="yourStats">
+      <h3>Your Stats</h3>
+      <div id="statsContent">
+        <p>Connect your wallet to see your stats!</p>
+      </div>
     </div>
-    <p>
-      <strong>Status:</strong> Beta Testing | NFTs & Tournaments Coming Soon
+    <!-- Leaderboard Preview -->
+    <div class="dashboard-section" id="leaderboardPreview">
+      <h3>Leaderboard</h3>
+      <ul id="leaderboardList">
+        <li>Loading top gunslingers...</li>
+      </ul>
+      <a href="#" onclick="alert('Full leaderboard coming soon!')">View Full Leaderboard</a>
+    </div>
+    <!-- PixelShop Preview -->
+    <div class="dashboard-section pixelshop-preview">
+      <h3>PixelShop Preview</h3>
+      <div class="item">
+        <h4>🔫 Golden Gun Skin</h4>
+        <p>Cost: 500 $DEXHUNT</p>
+        <button onclick="burnDexhuntToken('Golden Gun Skin')">Unlock</button>
+      </div>
+      <div class="item">
+        <h4>🎵 Yeehaw Sound FX</h4>
+        <p>Cost: 250 $DEXHUNT</p>
+        <button onclick="burnDexhuntToken('Yeehaw Sound FX')">Unlock</button>
+      </div>
+      <a href="pixelshop.html" style="color:#00ffff;display:inline-block;margin-top:0.8rem;">See All Items</a>
+    </div>
+    <!-- Lucky Cactus Spin Mini-Game -->
+    <div class="dashboard-section" id="luckySpin">
+      <h3>🌵 Lucky Cactus Spin!</h3>
+      <div id="spinResult" style="margin:1rem 0;min-height:2.2rem;"></div>
+      <button onclick="spinCactus()" style="font-size:1.2rem;padding:0.7rem 2rem;">Spin 🌵</button>
+      <p style="font-size:0.95rem;color:#ffc107;margin-top:0.7rem;">Spin daily for a chance at $DEXHUNT or NFT prizes!</p>
+    </div>
+    <!-- News/Updates -->
+    <div class="dashboard-section">
+      <h3>News & Updates</h3>
+      <ul style="text-align:left;max-width:290px;margin:0 auto;">
+        <li>🔥 Beta live! Compete for the fastest draw.</li>
+        <li>🏆 Tournaments & NFTs launching soon.</li>
+        <li>💸 $DEXHUNT now tradable on Pump.fun!</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Live Game Feed & Testimonials -->
+  <div class="dashboard" style="margin-top:0;">
+    <div class="dashboard-section live-feed">
+      <h3>Live Game Feed</h3>
+      <div id="liveFeed">
+        <p>🤠 Sawn-Off Slim just set a new record: 212ms!</p>
+        <p>🎉 Player0 unlocked Golden Gun Skin!</p>
+      </div>
+    </div>
+    <div class="dashboard-section testimonials">
+      <h3>What Players Say</h3>
+      <div>
+        <p>“Fastest, fairest crypto game I’ve played!”</p>
+        <p>“No gambling, just skill. Love it!”</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- How to Play / Why Play Section -->
+  <section class="how-to-play">
+    <h2>How to Play & Why DexHunt?</h2>
+    <ul>
+      <li>🎯 Click “Play Now” and connect your wallet.</li>
+      <li>⏳ Wait for the “DRAW!” signal, then click as fast as you can.</li>
+      <li>🏆 Win $DEXHUNT for fast draws. Unlock skins & FX in the PixelShop.</li>
+      <li>🤝 Compete on the leaderboard. No luck, no gambling—just skill!</li>
+      <li>🔒 100% transparent, legal, and community-driven.</li>
+    </ul>
+    <p style="margin-top:1.2rem;">
+      <a href="LITEPAPER_v2.0.md" target="_blank" style="color:#00ffff;">Read the Litepaper</a>
     </p>
-  </main>
-  <section style="margin: 3rem auto 2rem auto; background: #232323; padding: 1.5rem; border: 2px solid #ffc107; width: 90%; max-width: 420px; border-radius: 8px;">
-  <h2 style="color: #ffc107;">🛒 DexHunt PixelShop</h2>
-  <p id="wallet-address">Wallet: Not Connected</p>
-  <button onclick="connectWallet()">Connect Wallet</button>
-  <div class="item" style="border:2px solid #ffc107; margin:1rem auto; padding:1rem; border-radius:10px;">
-    <h3>🔫 Golden Gun Skin</h3>
-    <p>Cost: 500 $DEXHUNT</p>
-    <button onclick="burnDexhuntToken('Golden Gun Skin')">Unlock</button>
-  </div>
-  <div class="item" style="border:2px solid #ffc107; margin:1rem auto; padding:1rem; border-radius:10px;">
-    <h3>🎵 Yeehaw Sound FX</h3>
-    <p>Cost: 250 $DEXHUNT</p>
-    <button onclick="burnDexhuntToken('Yeehaw Sound FX')">Unlock</button>
-  </div>
-  <div class="item" style="border:2px solid #ffc107; margin:1rem auto; padding:1rem; border-radius:10px;">
-    <h3>🌩️ Thunderstorm Background</h3>
-    <p>Cost: 350 $DEXHUNT</p>
-    <button onclick="burnDexhuntToken('Thunderstorm Background')">Unlock</button>
-  </div>
-  <p style="font-size:0.85rem; color:#ccc;">More items coming soon!</p>
-</section>
-<script src="swapFromGame.js"></script>
+  </section>
+
+  <script src="swapFromGame.js"></script>
+  <script>
+    // Example: Populate stats if wallet connected (mock)
+    function connectWallet() {
+      document.getElementById('navWalletBtn').textContent = "💼 Wallet: 7x...123";
+      document.getElementById('statsContent').innerHTML = `
+        <p><strong>Best Draw:</strong> 241ms</p>
+        <p><strong>$DEXHUNT:</strong> 1,250</p>
+        <p><strong>Unlocked:</strong> Golden Gun Skin</p>
+      `;
+      document.getElementById('wallet-address') && (document.getElementById('wallet-address').textContent = "Wallet: 7x...123");
+    }
+    // Example: Populate leaderboard preview (mock)
+    document.getElementById('leaderboardList').innerHTML = `
+      <li>1. Sawn-Off Slim — 212ms</li>
+      <li>2. QuickDrawKate — 233ms</li>
+      <li>3. Player0 — 241ms</li>
+    `;
+
+    // Lucky Cactus Spin Mini-Game
+    function spinCactus() {
+      const outcomes = [
+        "🎉 You won 5 $DEXHUNT!",
+        "🌵 Try again tomorrow!",
+        "💎 NFT drop coming soon!",
+        "🔥 Double your next reward!",
+        "😅 No luck this time, cowboy!"
+      ];
+      const result = outcomes[Math.floor(Math.random() * outcomes.length)];
+      document.getElementById('spinResult').textContent = result;
+      // Monetization: Show ad, affiliate, or buy link after spin
+      if(result.includes("won")) {
+        setTimeout(() => {
+          document.getElementById('spinResult').innerHTML +=
+            '<br><a href="https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump" target="_blank" style="color:#00ffff;">Buy more $DEXHUNT</a>';
+        }, 1200);
+      }
+    }
+  </script>
 
   <footer>
-    <p>© 2025 DexHunt: Reflex Showdown — An independent game not affiliated with Nintendo or any other entity. Built by FifthGenHub.</p>
     <p>
       <a href="https://x.com/DexHuntGame" title="Follow DexHunt on Twitter">@DexHuntGame</a> |
       <a href="links.html" title="All Official Links">🔗 All DexHunt Links</a> |
       <a href="mailto:dexhuntgame@gmail.com" title="Email Us">📬 Contact</a> |
       <a href="legal/legal.html">📜 Legal Hub</a> |
-      <a href="https://forms.gle/vijeRsiKSv88YCN69" target="_blank" rel="noopener" style="padding: 6px 12px; background-color: #FFD700; color: #000; text-decoration: none; font-weight: bold; border-radius: 6px; box-shadow: 1px 1px 3px rgba(0,0,0,0.2);">📨 Submit Feedback</a>
+      <a href="https://discord.gg/NNswE2P4" target="_blank" rel="noopener">💬 Discord</a>
     </p>
     <p style="font-size: 0.8rem; margin-top: 0.5rem;">
       This town ain't big enough for stolen code. © 2025 DexHunt: Reflex Showdown
     </p>
   </footer>
-
-
+  <div class="desert-art">🌵&nbsp;&nbsp;🌵&nbsp;&nbsp;💀&nbsp;&nbsp;🌵&nbsp;&nbsp;🌾&nbsp;&nbsp;🌵&nbsp;&nbsp;🌾&nbsp;&nbsp;🌵</div>
 </body>
 </html>
