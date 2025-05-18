@@ -1,4 +1,4 @@
-![DexHunt — Play-to-Win Reflex Arcade Game on Solana. Skill-Based. No RNG. No Rugs.](./assets/dexhunt-banner.png)
+![DexHunt — Play-to-Win Reflex Arcade Game on Solana. Skill-Based. No RNG. No Rugs.](./assets/DexHuntArcadeV2.png)
 
 # 🎯 DexHunt: Reflex Showdown — The Wild West of Skill-Based Crypto Gaming
 
