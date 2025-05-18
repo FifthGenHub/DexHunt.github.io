@@ -504,14 +504,14 @@
   <audio id="walletSound" preload="auto" src="assets/sounds/yeehaw-13229.mp3"></audio>
   <audio id="coyoteHowl" preload="auto" src="assets/sounds/coyote-howl.mp3"></audio>
   <audio id="drawSound" preload="auto" src="assets/sounds/draw-sound.mp3"></audio>
-  <audio id="cowboyHitSound" preload="auto" src="assets/sounds/cowboy-hit-grunt.mp3"></audio>
+  <audio id="HitSound" preload="auto" src="assets/sounds/-hit-grunt.mp3"></audio>
   <audio id="backgroundMusic" loop preload="auto">
     <source src="assets/sounds/background_music.mp3" type="audio/mpeg"/>
   </audio>
 
   <div class="game-container" id="game">
     <div class="top-bar">
-      <h1><span class="emoji">🤠</span> DexHunt: Cowboy Reflex Showdown</h1>
+      <h1><span class="emoji">🤠</span> DexHunt:  Reflex Showdown</h1>
       <div class="button-row">
         <button class="start-btn" onclick="startDuel()">Start Duel</button>
         <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
@@ -534,7 +534,7 @@
       </div>
     </div>
 
-    <div class="log" id="log">All rewards are simulated on Solana Devnet. No real-world value. Think you’re quick enough, cowboy? Beat Sawn-Off Slim in under 0.5 seconds!</div>
+    <div class="log" id="log">All rewards are simulated on Solana Devnet. No real-world value. Think you’re quick enough, ? Beat Sawn-Off Slim in under 0.5 seconds!</div>
     <div class="ambient-lantern"></div>
 
     <!-- Popups -->
@@ -614,7 +614,7 @@
 
     // Animation state
     let animations = [
-      { img: null, x: canvas.width - 65, y: canvas.height - 50, width: 60, height: 60, animation: "cowboy", duration: 1000, lastUpdate: 0, loop: true, zIndex: 4 },
+      { img: null, x: canvas.width - 65, y: canvas.height - 25, width: 60, height: 60, animation: "cowboy", duration: 1000, lastUpdate: 0, loop: true, zIndex: 4 },
       { img: null, x: -100, y: 175, width: 300, height: 180, speed: 0.005, animation: "moveCloud", duration: 25000, lastUpdate: 0, loop: true, zIndex: 1 },
       { img: null, x: -100, y: 70, width: 240, height: 140, speed: 0.25, animation: "moveCloud", duration: 30000, lastUpdate: 0, loop: true, zIndex: 2 }
     ];
