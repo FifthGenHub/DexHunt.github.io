@@ -504,14 +504,14 @@
   <audio id="walletSound" preload="auto" src="assets/sounds/yeehaw-13229.mp3"></audio>
   <audio id="coyoteHowl" preload="auto" src="assets/sounds/coyote-howl.mp3"></audio>
   <audio id="drawSound" preload="auto" src="assets/sounds/draw-sound.mp3"></audio>
-  <audio id="HitSound" preload="auto" src="assets/sounds/-hit-grunt.mp3"></audio>
+  <audio id="cowboyHitSound" preload="auto" src="assets/sounds/cowboy-hit-grunt.mp3"></audio>
   <audio id="backgroundMusic" loop preload="auto">
     <source src="assets/sounds/background_music.mp3" type="audio/mpeg"/>
   </audio>
 
   <div class="game-container" id="game">
     <div class="top-bar">
-      <h1><span class="emoji">🤠</span> DexHunt:  Reflex Showdown</h1>
+      <h1><span class="emoji">🤠</span> DexHunt: Cowboy Reflex Showdown</h1>
       <div class="button-row">
         <button class="start-btn" onclick="startDuel()">Start Duel</button>
         <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
@@ -534,7 +534,7 @@
       </div>
     </div>
 
-    <div class="log" id="log">All rewards are simulated on Solana Devnet. No real-world value. Think you’re quick enough, ? Beat Sawn-Off Slim in under 0.5 seconds!</div>
+    <div class="log" id="log">All rewards are simulated on Solana Devnet. No real-world value. Think you’re quick enough, cowboy? Beat Sawn-Off Slim in under 0.5 seconds!</div>
     <div class="ambient-lantern"></div>
 
     <!-- Popups -->
@@ -806,12 +806,6 @@
     }
 
     function startDuel() {
-      gtag('event', 'start_duel_click', {
-        event_category: 'engagement',
-        event_label: 'Start Duel Button',
-        value: 1
-      });
-  
       if (duelStarted || !gameStarted) {
         console.log("Duel blocked: duelStarted=", duelStarted, "gameStarted=", gameStarted);
         return;
@@ -930,15 +924,9 @@
         if (winStreak === 3) {
           log.textContent += " 🤠 Nice streak! Keep it up!";
         } else if (winStreak === 5) {
-          gtag('event', 'streak_milestone', {
-            event_category: 'skill',
-            event_label: `Win Streak: ${winStreak}`,
-            value: winStreak
-          });
           log.textContent += " 🔥 Hot shot! 5 wins in a row!";
           document.getElementById("mockRewardStatus").textContent = "Mock Reward Earned!";
         }
-
       } else {
         document.getElementById("loseSound").play();
         log.textContent = `Too slow! Your draw was ${reaction}ms. Streak ended.`;
@@ -1059,11 +1047,6 @@
     }
 
     function closeTutorial() {
-      gtag('event', 'tutorial_completed', {
-        event_category: 'engagement',
-        event_label: 'User Finished Tutorial',
-        value: 1
-      });
       const tutorialPopup = document.getElementById("tutorialPopup");
       tutorialPopup.style.display = "none";
       localStorage.setItem("tutorialShown", "true");
@@ -1100,12 +1083,6 @@
     }
 
     function mockConnectWallet() {
-      gtag('event', 'wallet_connected', {
-        event_category: 'wallet',
-        event_label: isConnected ? 'Real Wallet' : 'Mock Wallet',
-        value: 1
-      });
-
       isConnected = true;
       walletPublicKey = "MockWallet123";
       document.getElementById("connectWalletBtn").textContent = "💼 Mock";
