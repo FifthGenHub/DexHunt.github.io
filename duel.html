@@ -23,9 +23,30 @@
   <link rel="apple-touch-icon" href="/icon-192x192.png"> <!-- fallback -->
 
   <!-- Theme Color for Browser Chrome -->
-  <meta name="theme-color" content="#E86100" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#E86100" id="themeColorMeta">
+  <!-- Note: Firefox does not support theme-color meta, but fallback CSS and msapplication/apple tags help -->
+  <meta name="msapplication-TileColor" content="#E86100">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Fallback for browsers that do not support theme-color with media queries -->
+  <style>
+    html, body {
+      background-color: #E86100;
+    }
+  </style>
   <meta name="color-scheme" content="light dark">
+  <script>
+    // Dynamically update theme-color for browsers that do not support media queries on meta tags
+    (function() {
+      function setThemeColor() {
+        var meta = document.getElementById('themeColorMeta');
+        if (!meta) return;
+        var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        meta.setAttribute('content', isDark ? '#1a1a1a' : '#E86100');
+      }
+      setThemeColor();
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setThemeColor);
+    })();
+  </script>
 
   <!-- Windows Tiles -->
   <meta name="msapplication-TileColor" content="#E86100">
@@ -287,6 +308,14 @@
       background-position: center;
       margin: 0 auto;
       position: relative;
+      box-shadow: 0 0 40px 10px #ffc10788, 0 0 0 8px #1a1a1a, 0 0 24px 8px #ff44cc88;
+      border-radius: 18px;
+      animation: neon-pulse 1.2s infinite alternate;
+    }
+
+    @keyframes neon-pulse {
+      0% { box-shadow: 0 0 40px 10px #ffc107cc, 0 0 0 8px #1a1a1a, 0 0 24px 8px #ff44cc88;}
+      100% { box-shadow: 0 0 60px 20px #ffc107, 0 0 0 8px #1a1a1a, 0 0 48px 16px #ff44cc;}
     }
 
     #gameCanvas {
@@ -304,10 +333,16 @@
       display: none;
       z-index: 10;
       cursor: pointer;
-      animation: pulse 0.3s infinite;
+      animation: pulse 0.3s infinite, bang-glow 0.7s infinite alternate;
+      filter: drop-shadow(0 0 16px #ff4444cc);
       width: 120px;
       height: 120px;
       object-fit: contain;
+    }
+
+    @keyframes bang-glow {
+      0% { filter: drop-shadow(0 0 16px #ff4444cc);}
+      100% { filter: drop-shadow(0 0 32px #ffc107);}
     }
 
     .leaderboard-popup,
@@ -479,6 +514,122 @@
         text-align: center;
       }
     }
+
+    /* Duel borders and neon effects */
+    .duel-border-left,
+    .duel-border-right {
+      display: none !important;
+    }
+    @media (max-width: 900px) {
+      .duel-border-left, .duel-border-right { display: none; }
+    }
+
+    .duel-side-emoji {
+      position: fixed;
+      font-size: 2.8rem;
+      z-index: 101;
+      pointer-events: none;
+      -webkit-user-select: none;
+      user-select: none;
+      opacity: 0.93;
+      filter: drop-shadow(0 0 8px #ffcc00cc);
+    }
+
+    .cactus-left {
+      left: 12px; bottom: 2.5rem;
+      animation: cactus-bounce 2.5s infinite alternate;
+    }
+
+    .cactus-right {
+      right: 12px; top: 2.5rem;
+      animation: cactus-bounce 2.5s 1.25s infinite alternate;
+    }
+
+    @keyframes cactus-bounce {
+      0% { transform: translateY(0);}
+      100% { transform: translateY(-18px) scale(1.08);}
+    }
+
+    .duel-side-emoji.meme {
+      left: 10px; top: 10px; font-size: 2.2rem; animation: meme-spin 3s linear infinite;
+    }
+
+    @keyframes meme-spin {
+      0% { transform: rotate(0);}
+      100% { transform: rotate(360deg);}
+    }
+
+    /* --- DOPAMINE BOOSTERS --- */
+
+    /* 1. Animated confetti burst for big wins */
+    .confetti {
+      pointer-events: none;
+      position: fixed;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      z-index: 9999;
+      overflow: hidden;
+      display: none;
+    }
+    .confetti span {
+      position: absolute;
+      font-size: 2.2rem;
+      animation: confetti-fall 1.2s linear forwards;
+      opacity: 0.85;
+    }
+    @keyframes confetti-fall {
+      0% { transform: translateY(-60px) rotate(0deg) scale(1);}
+      80% { opacity: 1;}
+      100% { transform: translateY(90vh) rotate(360deg) scale(0.7); opacity: 0;}
+    }
+
+    /* 2. Neon pulse border around the main game area */
+    #backgroundWrapper {
+      box-shadow: 0 0 40px 10px #ffc107cc, 0 0 0 8px #1a1a1a, 0 0 24px 8px #ff44cc88;
+      border-radius: 18px;
+      animation: neon-pulse 1.2s infinite alternate;
+    }
+    @keyframes neon-pulse {
+      0% { box-shadow: 0 0 40px 10px #ffc107cc, 0 0 0 8px #1a1a1a, 0 0 24px 8px #ff44cc88;}
+      100% { box-shadow: 0 0 60px 20px #ffc107, 0 0 0 8px #1a1a1a, 0 0 48px 16px #ff44cc;}
+    }
+
+    /* 3. Add a subtle animated background gradient for the whole page */
+    body {
+      background: radial-gradient(ellipse at 60% 40%, #e86100 0%, #1a1a1a 100%) !important;
+      animation: bg-move 8s ease-in-out infinite alternate;
+    }
+    @keyframes bg-move {
+      0% { background-position: 60% 40%; }
+      100% { background-position: 40% 60%; }
+    }
+
+    /* 4. Make the "BANG!" button pulse faster and glow */
+    .bang {
+      animation: pulse 0.18s infinite, bang-glow 0.7s infinite alternate;
+      filter: drop-shadow(0 0 16px #ff4444cc);
+    }
+    @keyframes bang-glow {
+      0% { filter: drop-shadow(0 0 16px #ff4444cc);}
+      100% { filter: drop-shadow(0 0 32px #ffc107);}
+    }
+
+    /* 5. Add a "streak fire" effect to the streak bar */
+    #walletHUD.streak-fire {
+      animation: fire-glow 0.4s infinite alternate;
+      text-shadow: 0 0 8px #ff4400, 0 0 16px #ffc107;
+    }
+    @keyframes fire-glow {
+      0% { color: #ffc34d;}
+      100% { color: #ff4400;}
+    }
+
+    @keyframes shake {
+      0% { transform: translate(0,0);}
+      25% { transform: translate(-4px,2px);}
+      50% { transform: translate(4px,-2px);}
+      75% { transform: translate(-2px,4px);}
+      100% { transform: translate(0,0);}
+    }
   </style>
 </head>
 <body>
@@ -511,7 +662,7 @@
 
   <div class="game-container" id="game">
     <div class="top-bar">
-      <h1><span class="emoji">🤠</span> DexHunt: Cowboy Reflex Showdown</h1>
+      <h1>DexHunt: Cowboy Reflex Showdown</h1>
       <div class="button-row">
         <button class="start-btn" onclick="startDuel()">Start Duel</button>
         <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
@@ -587,6 +738,10 @@
       <div id="jupiterSwapWidget" style="margin-top: 15px;"></div>
     </div>
   </div>
+
+  <div style="background:#ffc107;color:#1a1a1a;text-align:center;padding:0.7rem 1rem;font-weight:bold;font-size:1.18rem;letter-spacing:1px;box-shadow:0 2px 8px #0006;z-index:100;position:relative;">
+  🚧 <strong>Beta Notice:</strong> DexHunt is in public beta. No real $DEXHUNT tokens, NFTs, or prizes are awarded yet. All gameplay and rewards are for testing only!
+</div>
 
   <script src="https://unpkg.com/@solana/web3.js@1.95.3/lib/index.iife.js"></script>
   <script>
@@ -766,7 +921,7 @@
     function checkJurisdiction() {
       fetch("https://ipapi.co/json/")
         .then(response => response.json())
-        .then(data => {
+        .then((data) => {
           const restricted = ["US", "CN", "CA", "FR", "SG", "IR", "KP", "SY", "CU", "AE", "QA", "NL"];
           if (restricted.includes(data.country_code)) {
           log.textContent = "⚠️ Access restricted in your region. Proceed at your own risk. All rewards are simulated with no real-world value. For the best experience, please zoom to 133% during beta. I am working on a scaling fix!";
@@ -787,6 +942,11 @@
     function updateWalletHUD() {
       const hud = document.getElementById("walletHUD");
       hud.innerHTML = `💰 $DEXHUNT: ${dexhuntBalance} | ⚡ Best Draw: ${bestDraw || '--'}ms | 🔥 Streak: ${winStreak}`;
+      if (winStreak >= 3) {
+        hud.classList.add('streak-fire');
+      } else {
+        hud.classList.remove('streak-fire');
+      }
     }
 
     function startCountdown(callback) {
@@ -913,20 +1073,18 @@
         if (!bestDraw || reaction < bestDraw) {
           bestDraw = reaction;
           localStorage.setItem("bestDraw", bestDraw);
+          document.getElementById("winSound").play();
+          log.textContent = `🎯 Shot in ${reaction}ms! NEW BEST! Earned ${reward} $DEXHUNT (simulated). Streak: ${winStreak}!`;
+          showConfetti();
+          maybeShowMemePopup();
+          lossStreak = 0;
         }
-        document.getElementById("winSound").play();
-        log.textContent = `🎯 Shot in ${reaction}ms! Earned ${reward} $DEXHUNT (simulated). Streak: ${winStreak}!`;
-        lossStreak = 0;
-
-        if (isConnected) {
-          performMockSwap(reward);
-        }
-
         if (winStreak === 3) {
           log.textContent += " 🤠 Nice streak! Keep it up!";
         } else if (winStreak === 5) {
           log.textContent += " 🔥 Hot shot! 5 wins in a row!";
           document.getElementById("mockRewardStatus").textContent = "Mock Reward Earned!";
+          showConfetti();
         }
       } else {
         document.getElementById("loseSound").play();
@@ -963,6 +1121,7 @@
       bang.style.display = "none";
       quickDraw.style.display = "none";
       startBtn.classList.remove("clicked");
+      showCowboyQuote(); // Show a cowboy quote on reset
     }
 
     function cancelAutoRestart() {
@@ -1181,6 +1340,57 @@
         }
       })();
     });
+
+    // Confetti dopamine burst for big wins!
+function showConfetti() {
+  const confetti = document.getElementById('confetti');
+  confetti.innerHTML = '';
+  const emojis = ['💰','💥','🔥','🎉','🤠','⚡','⭐','🪙'];
+  for (let i = 0; i < 24; i++) {
+    const span = document.createElement('span');
+    span.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    span.style.left = Math.random()*100 + 'vw';
+    span.style.animationDelay = (Math.random()*0.5) + 's';
+    confetti.appendChild(span);
+  }
+  confetti.style.display = 'block';
+  setTimeout(() => { confetti.style.display = 'none'; }, 1400);
+}
+
+function maybeShowMemePopup() {
+  if (Math.random() < 0.03) { // 3% chance on big win
+    const memes = [
+      "When you draw faster than your WiFi: 🚀",
+      "That moment when you beat your own reflexes. 🤯",
+      "DexHunt: The only place where cowboys use memes as ammo.",
+      "You just unlocked: Certified Reflex Maniac! 🏆",
+      "Share your score and flex on your friends! 💪"
+    ];
+    alert(memes[Math.floor(Math.random()*memes.length)]);
+  }
+}
+
+function shareScore() {
+  const text = `I just scored ${bestDraw || '--'}ms on DexHunt! 🤠💥 Can you beat me? https://dexhunt.xyz #DexHunt #ReflexGame`;
+  if (navigator.share) {
+    navigator.share({ text });
+  } else {
+    navigator.clipboard.writeText(text);
+    alert("Copied! Paste this on X/Twitter or Discord and flex your score!");
+  }
+}
+
+const cowboyQuotes = [
+  "“Fast is fine, but accuracy is final.”",
+  "“There’s a new sheriff in town.”",
+  "“You miss 100% of the shots you don’t take.”",
+  "“Stay quick, stay slick.”",
+  "“Legends never reload.”"
+];
+function showCowboyQuote() {
+  log.textContent += "\n" + cowboyQuotes[Math.floor(Math.random()*cowboyQuotes.length)];
+}
+// Call showCowboyQuote() after resetDuel() or on loss
   </script>
 
   
@@ -1194,5 +1404,13 @@
       </footer>
 
   
+  <div class="confetti" id="confetti"></div>
+
+  <div class="duel-border-left"></div>
+  <div class="duel-border-right"></div>
+
+  <div class="duel-side-emoji cactus-left">🌵</div>
+<div class="duel-side-emoji cactus-right">💀</div>
+<div class="duel-side-emoji meme">🧑‍🌾</div>
 </body>
 </html>
