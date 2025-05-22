@@ -39,6 +39,15 @@
       color: #888;
     }
   </style>
+
+  <!-- Google Analytics Tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RW3W4Q1SY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-2RW3W4Q1SY');
+  </script>
 </head>
 <body>
   <h1>🔗 DexHunt Official Links</h1>
@@ -60,5 +69,27 @@
       This town ain't big enough for stolen code. © 2025 DexHunt
     </p>
   </footer>
+
+  <!-- Global Outbound Link Tracker -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const links = document.querySelectorAll("a.link-button");
+      links.forEach(link => {
+        try {
+          const url = new URL(link.href);
+          if (url.hostname !== location.hostname) {
+            link.addEventListener("click", () => {
+              gtag('event', 'outbound_click', {
+                event_category: 'Outbound Link',
+                event_label: link.textContent.trim()
+              });
+            });
+          }
+        } catch (e) {
+          console.warn("Skipping malformed URL:", link.href);
+        }
+      });
+    });
+  </script>
 </body>
 </html>
