@@ -6,6 +6,38 @@
   <title>DexHunt: Reflex Showdown — Skill-Based Crypto Arcade</title>
   <meta name="description" content="DexHunt: Reflex Showdown is a reflex-based crypto arcade game powered by the $DEXHUNT token. Play now in beta, win by skill, and join the Wild West of Web3." />
   <link rel="icon" type="image/png" href="favicon-32x32.png" />
+
+  <!-- Google Analytics Tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RW3W4Q1SY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-2RW3W4Q1SY');
+  </script>
+
+  <!-- Outbound Link Tracker -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const trackedLinks = document.querySelectorAll("a[href^='http']");
+      trackedLinks.forEach(link => {
+        try {
+          const url = new URL(link.href);
+          if (url.hostname !== location.hostname) {
+            link.addEventListener("click", () => {
+              gtag('event', 'outbound_click', {
+                event_category: 'Outbound Link',
+                event_label: link.textContent.trim()
+              });
+            });
+          }
+        } catch (e) {
+          console.warn("Invalid URL for GA tracking:", link.href);
+        }
+      });
+    });
+  </script>
+
   <style>
     html, body {
       height: 100%;
@@ -329,23 +361,23 @@
   <div class="birds">🕊️ 🕊️</div>
   <div class="tumbleweed">🌾</div>
 
-  <!-- Hero Section -->
+   <!-- Hero Section (with UTM) -->
   <div class="hero">
     <div class="hero-title">DexHunt: Reflex Showdown</div>
     <div class="hero-tagline">The Wild West of Skill-Based Crypto Gaming.<br>No gambling. No RNG. Just pure reflex and $DEXHUNT rewards.</div>
     <div class="hero-cta">
-      <a href="duel.html" target="_blank" rel="noopener">🎮 Play Now</a>
-      <a href="https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump" target="_blank" rel="noopener">💸 Buy $DEXHUNT</a>
+      <a href="duel.html?utm_source=index&utm_medium=hero_cta&utm_campaign=play_game" target="_blank" rel="noopener">🎮 Play Now</a>
+      <a href="https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump?utm_source=index&utm_medium=hero_cta&utm_campaign=pumpfun_buy" target="_blank" rel="noopener">💸 Buy $DEXHUNT</a>
     </div>
   </div>
 
   <!-- Nav Bar -->
-  <nav>
-    <a href="duel.html" target="_blank" rel="noopener">🎮 Play</a>
+   <nav>
+    <a href="duel.html?utm_source=index&utm_medium=nav&utm_campaign=play_game" target="_blank" rel="noopener">🎮 Play</a>
     <a href="pixelshop.html">🛒 PixelShop</a>
-    <a href="https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump" target="_blank" rel="noopener">💸 Buy</a>
+    <a href="https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump?utm_source=index&utm_medium=nav&utm_campaign=pumpfun_buy" target="_blank" rel="noopener">💸 Buy</a>
     <a href="#" onclick="alert('Leaderboard coming soon!')">🏆 Leaderboard</a>
-    <a href="https://discord.gg/NNswE2P4" target="_blank" rel="noopener">💬 Discord</a>
+    <a href="https://discord.gg/NNswE2P4?utm_source=index&utm_medium=nav&utm_campaign=discord_join" target="_blank" rel="noopener">💬 Discord</a>
     <button onclick="connectWallet()" id="navWalletBtn">💼 Connect Wallet</button>
   </nav>
 
