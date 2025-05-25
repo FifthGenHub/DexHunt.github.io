@@ -1,5 +1,22 @@
 # DexHunt Launch Roadmap (Legal + Dev)
 
+> DexHunt isn’t just another Web3 game. We’re pioneering skill-based eSports on-chain, this is where your reflexes, NOT LUCK, earn you $DEXHUNT.
+
+> We’re building the first Solana-powered reflex esport. No RNG. No gambling. No pay-to-win. No bets. Just skill, speed, pure competition, and rewards for the best. All on the #DEXHUNT blockchain scoreboard.
+
+> DexHunt is a 1-of-1: the only reflex-based, skill-first, Web3 arcade game with real crypto rewards. If you want to be part of something new, this is your moment. Tag a friend who loves eSports or retweet if you’re ready for skill-based Web3 gaming! 🎮🔥
+
+> Next up: Our eSports tournament system is in the works! Soon, you’ll be able to compete in live events, climb the leaderboard, and win $DEXHUNT for your skills. We’re also rolling out new social features for sharing your best moments.
+
+> What’s next? Our eSports & competitive gaming roadmap:
+> - Launch eSports-focused tournaments and events for $DEXHUNT players.
+> - Expand leaderboard features to support competitive eSports play.
+> - Partner with Web3 and eSports communities to grow our player base.
+> - Develop streaming, sharing, and social features for eSports visibility.
+> - Continue to innovate as the first reflex-based Web3 eSports arcade.
+
+---
+
 ## ✅ Completed
 - **The Last Draw NFT defined as 1/1 and not for sale** — Legally locked-in *(Owner: Founder, Cost: Zero)*
 - **All legal docs: disclaimer, terms, privacy** — Published + compliant *(Owner: Founder, Cost: Zero)*
@@ -28,3 +45,4 @@
 - Partner with Web3 and eSports communities to grow our player base.
 - Develop streaming, sharing, and social features for eSports visibility.
 - Continue to innovate as the first reflex-based Web3 eSports arcade.
+- **Coming soon:** Compete in live eSports tournaments, climb the leaderboard, and win $DEXHUNT for your skills. New social features will let you share your best moments and victories with the community.
