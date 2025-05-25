@@ -1,95 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DexHunt Links</title>
+  <title>DexHunt Official Links</title>
+  <link rel="icon" type="image/png" href="favicon-32x32.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Courier New', Courier, monospace;
-      background-color: #0d0d0d;
-      color: #f7d774;
-      text-align: center;
+    html, body {
+      height: 100%;
       margin: 0;
-      padding: 2rem;
+      padding: 0;
+      background: #000 !important;
+      color: #ffc34d;
+      min-height: 100vh;
+      font-family: 'Courier New', Courier, monospace;
     }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 2rem;
+    body {
+      background:
+        repeating-linear-gradient(135deg, #2d1b00 0 2px, transparent 2px 20px),
+        linear-gradient(to top, #181818 0%, #2d1b00 60%, #e86100 100%);
+      background-attachment: fixed;
+      background-size: cover;
+      position: relative;
+      overflow-x: hidden;
+    }
+    .hero {
+      text-align: center;
+      padding: 2.5rem 1rem 2rem 1rem;
+      background: rgba(26, 26, 26, 0.85);
+      border-bottom: 3px solid #ffc107;
+      position: relative;
+      z-index: 3;
+      box-shadow: 0 4px 24px #0008;
+    }
+    .hero-title {
+      font-family: 'Press Start 2P', 'VT323', 'Courier New', monospace;
+      font-size: 2.2rem;
+      margin: 0.2rem 0 0.6rem 0;
+      color: #ffc107;
+      text-shadow: 2px 2px #000, 0 0 10px #ffcc00;
+      letter-spacing: 2px;
+    }
+    .links-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      align-items: center;
+      margin: 2.5rem auto 2rem auto;
+      max-width: 500px;
+      z-index: 2;
     }
     .link-button {
-      display: block;
-      margin: 1rem auto;
-      padding: 1rem 2rem;
-      background-color: #ffc107;
-      color: #0d0d0d;
-      text-decoration: none;
+      background: #ffc107;
+      color: #1a1a1a;
+      padding: 1rem 2.2rem;
       border-radius: 10px;
+      font-size: 1.25rem;
       font-weight: bold;
-      width: 90%;
-      max-width: 400px;
-      transition: background 0.3s;
+      text-decoration: none;
+      box-shadow: 0 2px 8px #0006;
+      transition: background 0.2s, transform 0.2s;
+      animation: pulse 1.5s infinite;
+      display: flex;
+      align-items: center;
+      gap: 0.7em;
     }
     .link-button:hover {
-      background-color: #ffde59;
+      background: #ffde59;
+      transform: scale(1.05);
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 2px 8px #0006; }
+      50% { box-shadow: 0 0 24px #ffc10799; }
+    }
+    .desert-art {
+      position: fixed;
+      bottom: 1rem;
+      left: 0;
+      width: 100vw;
+      text-align: center;
+      font-size: 2.5rem;
+      z-index: 100;
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.92;
+      letter-spacing: 0.5rem;
+      background: linear-gradient(to top, #000000cc 0%, transparent 100%);
+      padding-bottom: 0.5rem;
     }
     footer {
-      margin-top: 3rem;
-      font-size: 0.8rem;
-      color: #888;
+      text-align: center;
+      margin-top: 2.5rem;
+      padding: 1.2rem 1rem;
+      font-size: 1.08rem;
+      color: #aaa;
+      border-top: 2px solid #ffc107;
+      background-color: #1a1a1a;
+    }
+    footer a {
+      color: #ffc107;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 0.5rem;
+      transition: color 0.3s;
+    }
+    footer a:hover {
+      color: #ffde59;
+      text-shadow: 0 0 5px #ffcc00;
+    }
+    @media (max-width: 600px) {
+      .hero-title { font-size: 1.3rem; }
+      .link-button { font-size: 1rem; padding: 0.8rem 1.2rem; }
     }
   </style>
-
-  <!-- Google Analytics Tag -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RW3W4Q1SY"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-2RW3W4Q1SY');
-  </script>
 </head>
 <body>
-  <h1>🔗 DexHunt Official Links</h1>
-
-  <a class="link-button" href="https://fifthgenhub.github.io/DexHunt.github.io/?utm_source=links_page&utm_medium=button&utm_campaign=play_dexhunt" target="_blank">🎮 Play DexHunt (Beta)</a>
-  <a class="link-button" href="https://x.com/DexHuntGame?utm_source=links_page&utm_medium=button&utm_campaign=x_profile" target="_blank">🐦 Follow @DexHuntGame on X</a>
-  <a class="link-button" href="https://discord.gg/NNswE2P4?utm_source=links_page&utm_medium=button&utm_campaign=discord_invite" target="_blank">💬 Join the DexHunt Discord</a>
-  <a class="link-button" href="https://fifthgenhub.github.io/SaloonaArcade/?utm_source=links_page&utm_medium=button&utm_campaign=visit_arcade" target="_blank">🌐 Visit the Saloona Arcade</a>
-  <a class="link-button" href="https://github.com/FifthGenHub/DexHunt.github.io?utm_source=links_page&utm_medium=button&utm_campaign=github_codebase" target="_blank">👨‍💻 View the GitHub Codebase</a>
-  <a class="link-button" href="https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump?utm_source=links_page&utm_medium=button&utm_campaign=pumpfun_buy" target="_blank">🪙 Buy $DEXHUNT on Pump.fun (Live Now)</a>
-  <a class="link-button" href="https://github.com/FifthGenHub/DexHunt.github.io/blob/main/LITEPAPER_v2.0.md?utm_source=links_page&utm_medium=button&utm_campaign=litepaper_read" target="_blank">📄 Read the Litepaper</a>
-  <a class="link-button" href="legal/legal.html?utm_source=links_page&utm_medium=button&utm_campaign=legal_info" target="_blank">📜 Legal Info</a>
-
+  <div class="hero">
+    <div class="hero-title">🔗 DexHunt Official Links</div>
+    <div style="margin-top:1.2rem; color:#00ffff; font-size:1.08rem; font-family:inherit;">
+      We’re building the first Solana-powered reflex esport. No RNG. No gambling. No pay-to-win. No bets. Just skill, speed, pure competition and rewards for the best, all on the blockchain scoreboard.
+    </div>
+    <div class="links-list">
+      <a class="link-button" href="https://fifthgenhub.github.io/DexHunt.github.io/" target="_blank" rel="noopener">🎮 Play DexHunt (Beta)</a>
+      <a class="link-button" href="https://x.com/DexHuntGame" target="_blank" rel="noopener">🐦 Follow @DexHuntGame on X</a>
+      <a class="link-button" href="https://discord.gg/NNswE2P4" target="_blank" rel="noopener">💬 Join the DexHunt Discord</a>
+      <a class="link-button" href="https://github.com/FifthGenHub/DexHunt.github.io" target="_blank" rel="noopener">👨‍💻 View the GitHub Codebase</a>
+      <a class="link-button" href="https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump" target="_blank" rel="noopener">🪙 Buy $DEXHUNT on Pump.fun</a>
+      <a class="link-button" href="LITEPAPER_v2.md" target="_blank" rel="noopener">📄 Read the Litepaper</a>
+      <a class="link-button" href="legal/legal.html" target="_blank" rel="noopener">📜 Legal Hub</a>
+    </div>
+  </div>
+  <div class="desert-art">
+    🌵&nbsp;🤠&nbsp;💰&nbsp;🔫&nbsp;🪙&nbsp;💀&nbsp;🪙&nbsp;🔫&nbsp;💰&nbsp;🤠&nbsp;🌵
+  </div>
   <footer>
-    &copy; 2025 DexHunt Arcade | Built by FifthGenHub<br>
-    <a href="https://x.com/DexHuntGame" target="_blank">@DexHuntGame</a> |
-    <a href="links.html">🔗 All DexHunt Links</a>
+    <p>
+      <a href="https://x.com/DexHuntGame" target="_blank" rel="noopener" title="Follow DexHunt on Twitter">@DexHuntGame</a> |
+      <a href="mailto:dexhuntgame@gmail.com" title="Email Us">📬 Contact</a> |
+      <a href="legal/legal.html">📜 Legal Hub</a> |
+      <a href="https://discord.gg/NNswE2P4" target="_blank" rel="noopener">💬 Discord</a>
+    </p>
     <p style="font-size: 0.8rem; margin-top: 0.5rem;">
-      This town ain't big enough for stolen code. © 2025 DexHunt
+      This town ain't big enough for stolen code. © 2025 DexHunt: Reflex Showdown
     </p>
   </footer>
-
-  <!-- Global Outbound Link Tracker -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const links = document.querySelectorAll("a.link-button");
-      links.forEach(link => {
-        try {
-          const url = new URL(link.href);
-          if (url.hostname !== location.hostname) {
-            link.addEventListener("click", () => {
-              gtag('event', 'outbound_click', {
-                event_category: 'Outbound Link',
-                event_label: link.textContent.trim()
-              });
-            });
-          }
-        } catch (e) {
-          console.warn("Skipping malformed URL:", link.href);
-        }
-      });
-    });
-  </script>
 </body>
 </html>
