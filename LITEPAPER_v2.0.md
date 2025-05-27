@@ -29,7 +29,7 @@ $DEXHUNT fuels the ecosystem:
 
 💡 **$DEXHUNT is a testnet-only token during Beta. No real-world value until launch.**
 
-[Pump.fun Launch](https://pump.fun/) <!-- or full token URL once live -->
+[Buy $DEXHUNT on Pump.fun](https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump?utm_source=litepaper&utm_medium=referral&utm_campaign=litepaper&utm_content=buynow)
 
 ---
 
@@ -56,10 +56,10 @@ $DEXHUNT fuels the ecosystem:
 
 ## 🌐 Join the Arcade
 
-- 🎮 [Play DexHunt: Reflex Showdown](https://fifthgenhub.github.io/DexHunt.github.io/)
+- 🎮 [Play DexHunt: Reflex Showdown](https://fifthgenhub.github.io/DexHunt.github.io/duel.html?utm_source=litepaper&utm_medium=referral&utm_campaign=litepaper&utm_content=playnow)
 - 🐦 [Follow @DexHuntGame](https://twitter.com/DexHuntGame)
-- 💬 [Join Our Discord](https://discord.gg/NNswE2P4)
-- 🔫 [Buy $DEXHUNT on Pump.fun](https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump)
+- 💬 [Join Our Discord](https://discord.gg/yyjkYQGP?utm_source=litepaper&utm_medium=referral&utm_campaign=litepaper&utm_content=discord)
+- 🔫 [Buy $DEXHUNT on Pump.fun](https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump?utm_source=litepaper&utm_medium=referral&utm_campaign=litepaper&utm_content=buynow)
 
 ---
 
