@@ -14,7 +14,7 @@ You miss? You lose.
 
 No luck. No scams. Just speed.
 
-**_🗓️ Updated: May 17 2025 — DexHunt: Reflex Showdown Beta is now live with mock payouts and reflex duel logic fully integrated._**
+**_🗓️ Updated: May 27 2025 — DexHunt: Reflex Showdown Beta is now live with mock payouts and reflex duel logic fully integrated._**
 
 ---
 
@@ -58,7 +58,7 @@ $DEXHUNT fuels the ecosystem:
 
 - 🎮 [Play DexHunt: Reflex Showdown](https://fifthgenhub.github.io/DexHunt.github.io/duel.html?utm_source=litepaper&utm_medium=referral&utm_campaign=litepaper&utm_content=playnow)
 - 🐦 [Follow @DexHuntGame](https://twitter.com/DexHuntGame)
-- 💬 [Join Our Discord](https://discord.gg/yyjkYQGP?utm_source=litepaper&utm_medium=referral&utm_campaign=litepaper&utm_content=discord)
+- 💬 [Join Our Discord](https://bit.ly/jointheduelteam)
 - 🔫 [Buy $DEXHUNT on Pump.fun](https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump?utm_source=litepaper&utm_medium=referral&utm_campaign=litepaper&utm_content=buynow)
 
 ---
