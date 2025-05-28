@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="description" content="DexHunt: Cowboy Reflex Showdown - Test your reflexes with this Wild West showdown!" />
   <meta name="keywords" content="DexHunt, quick-draw duel, Wild West Arcade game, blockchain gaming, Web3 Gaming, Solana" />
   <meta name="author" content="DexHunt Crew" />
@@ -28,6 +28,8 @@
   <meta name="msapplication-TileColor" content="#E86100">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <!-- Fallback for browsers that do not support theme-color with media queries -->
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     html, body {
       background-color: #E86100;
@@ -108,6 +110,8 @@
     body.dark-mode .double-or-nothing-popup,
     body.dark-mode .settings-popup,
     body.dark-mode .cookie-consent {
+    body.dark-mode .settings-popup,
+    body.dark-mode .cookie-consent {
       background: rgba(40, 40, 40, 0.85);
     }
 
@@ -119,22 +123,30 @@
     body.dark-mode .sound-toggle-btn,
     body.dark-mode .reset-btn,
     body.dark-mode .cookie-btn {
+    body.dark-mode .reset-btn,
+    body.dark-mode .cookie-btn {
       background: #b33c00;
     }
 
     html, body {
       margin: 0;
       padding: 0;
-      overflow: auto;
-      height: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
       font-family: 'Courier New', monospace;
       background: #000;
       color: #ffc34d;
       text-align: center;
+      box-sizing: border-box;
     }
 
     .game-container {
+      
       width: 100vw;
+      height: 100dvh;
+      overflow-x: hidden;
+      overflow-y: auto;
       height: 100dvh;
       overflow-x: hidden;
       overflow-y: auto;
@@ -143,6 +155,7 @@
       flex-direction: column;
       align-items: center;
       z-index: 1;
+    
     }
 
     .top-bar {
@@ -159,14 +172,49 @@
       gap: 10px;
     }
 
-    .top-bar h1 {
-      font-size: clamp(1rem, 2vw, 1.5rem);
-      margin: 0;
-      color: #ffc34d;
-      text-shadow: 2px 2px #000, 0 0 10px #ffcc00;
-      font-family: 'Courier New', monospace;
-      flex: 1;
-      text-align: left;
+    .top-bar h1, .dashboard-section h3, .tutorial-popup h3, .double-or-nothing-popup h3, .settings-popup h3, .rewards-popup h3, .notification-popup h3, .wallet-popup h3 {
+      font-family: 'Press Start 2P', 'Courier New', Courier, monospace !important;
+      letter-spacing: 1px;
+      color: #ffc107;
+      text-shadow: 2px 2px #000, 0 0 10px #00ffff;
+      font-size: 1.25rem;
+    }
+    .pixel-font, .dashboard-section h3, .top-bar h1 {
+      font-family: 'Press Start 2P', 'Courier New', Courier, monospace !important;
+      letter-spacing: 1px;
+      color: #ffc107;
+      text-shadow: 2px 2px #000, 0 0 10px #00ffff;
+    }
+    .start-btn, .share-btn, #flexStreakBtn, .sound-toggle-btn, .reset-btn, .cookie-btn, .settings-btn, .links-leaderboard-btn, .tutorial-btn, .wallet-btn, .stop-btn {
+      font-family: 'Press Start 2P', 'Courier New', Courier, monospace !important;
+      letter-spacing: 1px;
+      font-weight: bold;
+      font-size: 1.08rem;
+    }
+    /* Ensure dashboard-section backgrounds match index/pixelshop for cohesion */
+    .dashboard-section {
+      background: linear-gradient(135deg, #232323 80%, #ffc10722 100%) !important;
+      border: 2px solid #00ffff !important;
+      color: #fffbe7;
+    }
+    /* Viral challenge, leaderboard, live feed: pixel font for section titles */
+    #viralChallengeBox h3, #leaderboardBox h3, #liveFeedBox h3 {
+      font-family: 'Press Start 2P', 'Courier New', Courier, monospace !important;
+      color: #ffc107;
+      text-shadow: 2px 2px #000, 0 0 10px #00ffff;
+      font-size: 1.15rem;
+    }
+    /* Popups: pixel font for all h3 */
+    .leaderboard-popup h3, .tutorial-popup h3, .double-or-nothing-popup h3, .settings-popup h3, .rewards-popup h3, .notification-popup h3, .wallet-popup h3 {
+      font-family: 'Press Start 2P', 'Courier New', Courier, monospace !important;
+      color: #ffc107;
+      text-shadow: 2px 2px #000, 0 0 10px #00ffff;
+    }
+    /* Ensure meme popup uses pixel font for memeContent */
+    #memeContent {
+      font-family: 'Press Start 2P', 'Courier New', Courier, monospace !important;
+      color: #ffc107;
+      text-shadow: 2px 2px #000, 0 0 10px #00ffff;
     }
 
     .top-bar .button-row {
@@ -210,6 +258,10 @@
       transition: transform 0.2s, background-color 0.3s;
     }
 
+    .top-bar, .top-bar button {
+  cursor: inherit !important;
+}
+
     .duel-area {
       display: flex;
       justify-content: center;
@@ -243,9 +295,13 @@
       max-width: 90%;
       margin-bottom: 100px;
       z-index: 9;
+      margin-bottom: 100px;
+      z-index: 9;
       font-family: 'Chalkduster', 'Courier New', monospace;
       text-shadow: 1px 1px #000;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      margin: 20px auto;
+      position: relative;
       margin: 20px auto;
       position: relative;
     }
@@ -274,6 +330,9 @@
       0% { transform: scale(1); }
       50% { transform: scale(1.05); }
       100% { transform: scale(1); }
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
 
     .quick-draw {
@@ -290,6 +349,8 @@
     @keyframes flash {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
     }
 
     .emoji {
@@ -297,35 +358,22 @@
     }
 
     #backgroundWrapper {
-      width: 640px;
-      height: 480px;
-      max-width: 100%;
-      max-height: 100%;
-      overflow: hidden;
-      background-image: url('assets/DexHuntBackground.png');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      margin: 0 auto;
       position: relative;
-      box-shadow: 0 0 40px 10px #ffc10788, 0 0 0 8px #1a1a1a, 0 0 24px 8px #ff44cc88;
-      border-radius: 18px;
-      animation: neon-pulse 1.2s infinite alternate;
-    }
-
-    @keyframes neon-pulse {
-      0% { box-shadow: 0 0 40px 10px #ffc107cc, 0 0 0 8px #1a1a1a, 0 0 24px 8px #ff44cc88;}
-      100% { box-shadow: 0 0 60px 20px #ffc107, 0 0 0 8px #1a1a1a, 0 0 48px 16px #ff44cc;}
+      width: 1280px;
+      height: 800px;
+      margin: 0 auto 24px auto;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 8px solid #00ffff; /* Thicker, more defined cyan border */
     }
 
     #gameCanvas {
-      position: relative;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      width: 1280px;
+      height: 800px;
+      max-width: 100%;
       display: block;
       background: transparent;
+      cursor: url('assets/reticles/blasterReticle.png') 32 32, auto;
     }
 
     .bang {
@@ -350,6 +398,9 @@
     .double-or-nothing-popup,
     .settings-popup,
     .rewards-popup,
+    .notification-popup,
+    .wallet-popup,
+    .cookie-consent {
     .notification-popup,
     .wallet-popup,
     .cookie-consent {
@@ -380,6 +431,8 @@
     .sound-toggle-btn,
     .reset-btn,
     .cookie-btn {
+    .reset-btn,
+    .cookie-btn {
       background: #1a1a1a;
       border: 2px solid #ff9900;
       border-radius: 8px;
@@ -393,6 +446,8 @@
 
     .share-btn:hover,
     .sound-toggle-btn:hover,
+    .reset-btn:hover,
+    .cookie-btn:hover {
     .reset-btn:hover,
     .cookie-btn:hover {
       background-color: #e6d7a8;
@@ -427,9 +482,12 @@
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     footer {
+      position: relative;
       position: relative;
       bottom: 0;
       left: 0;
@@ -492,26 +550,34 @@
     }
 
     @media (max-width: 600px) {
-      .bang {
-        width: 165px;
-        height: 165px;
+      #backgroundWrapper {
+        transform: scale(0.85);
+        transform-origin: top center;
       }
 
-      .top-bar {
-        flex-direction: column;
-        align-items: center;
+      #gameCanvas {
+        max-width: 100%;
+        height: auto;
       }
 
-      .top-bar h1 {
-        text-align: center;
+      .button-row button {
+        font-size: 1rem;
+        padding: 10px 14px;
       }
 
-      .top-bar .button-row {
-        justify-content: center;
+      .countdown {
+        font-size: 1.8rem;
+        padding: 1rem;
       }
 
-      .top-bar .wallet-hud {
-        text-align: center;
+      .wallet-hud,
+      .beta-label {
+        font-size: 0.9rem;
+      }
+
+      footer {
+        font-size: 0.75rem;
+        padding: 0.5rem;
       }
     }
 
@@ -559,8 +625,6 @@
       100% { transform: rotate(360deg);}
     }
 
-    /* --- DOPAMINE BOOSTERS --- */
-
     /* 1. Animated confetti burst for big wins */
     .confetti {
       pointer-events: none;
@@ -580,27 +644,6 @@
       0% { transform: translateY(-60px) rotate(0deg) scale(1);}
       80% { opacity: 1;}
       100% { transform: translateY(90vh) rotate(360deg) scale(0.7); opacity: 0;}
-    }
-
-    /* 2. Neon pulse border around the main game area */
-    #backgroundWrapper {
-      box-shadow: 0 0 40px 10px #ffc107cc, 0 0 0 8px #1a1a1a, 0 0 24px 8px #ff44cc88;
-      border-radius: 18px;
-      animation: neon-pulse 1.2s infinite alternate;
-    }
-    @keyframes neon-pulse {
-      0% { box-shadow: 0 0 40px 10px #ffc107cc, 0 0 0 8px #1a1a1a, 0 0 24px 8px #ff44cc88;}
-      100% { box-shadow: 0 0 60px 20px #ffc107, 0 0 0 8px #1a1a1a, 0 0 48px 16px #ff44cc;}
-    }
-
-    /* 3. Add a subtle animated background gradient for the whole page */
-    body {
-      background: radial-gradient(ellipse at 60% 40%, #e86100 0%, #1a1a1a 100%) !important;
-      animation: bg-move 8s ease-in-out infinite alternate;
-    }
-    @keyframes bg-move {
-      0% { background-position: 60% 40%; }
-      100% { background-position: 40% 60%; }
     }
 
     /* 4. Make the "BANG!" button pulse faster and glow */
@@ -630,768 +673,256 @@
       75% { transform: translate(-2px,4px);}
       100% { transform: translate(0,0);}
     }
+
+    .stop-btn {
+      background: #ff4444;
+      color: #fff;
+      border: 2px solid #ffcc00;
+      border-radius: 8px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      padding: 8px 24px;
+      margin: 10px auto;
+      cursor: pointer;
+      box-shadow: 0 0 10px #ffcc00aa;
+      transition: background 0.2s, color 0.2s;
+    }
+    .stop-btn:hover {
+      background: #ffcc00;
+      color: #1a1a1a;
+    }
+
+    /* Dashboard Styles */
+    .dashboard {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+    .dashboard-section {
+      max-width: 340px;
+      min-width: 260px;
+      flex: 1 1 260px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid #ffcc00;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s;
+    }
+    .dashboard-section:hover {
+      transform: translateY(-4px);
+    }
+    .dashboard-section h3 {
+      color: #ffc107;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      font-size: 1.2rem;
+      margin: 0 0 1rem 0;
+    }
+    #liveFeed, #leaderboardFeed {
+      height: 180px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+    .feed-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: background 0.3s;
+    }
+    .feed-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    @media (max-width: 900px) {
+      .dashboard {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+      }
+    }
+
+    /* Pixel Font Style */
+    .pixel-font {
+      font-family: 'Press Start 2P', 'Courier New', Courier, monospace;
+      letter-spacing: 1px;
+      color: #ffc34d;
+      text-shadow: 2px 2px #000, 0 0 10px #00ffff;
+    }
+      text-shadow: 2px 2px #000, 0 0 10px #00ffff;
+    }
+
+
+.target-img, .game-canvas { /* Use your actual class or id for the target area */
+  cursor: url('assets/reticles/blasterReticle.png') 32 32, auto !important;
+}
   </style>
 </head>
 <body>
-  <div class="loading-screen" id="loadingScreen">
-    <div style="text-align:center; margin-top:40px;">
-      ⏳ Loading DexHunt...
-      <div class="spinner" style="margin: 20px auto;"></div>
-    </div>
-  </div>
-
-  <div class="cookie-consent" id="cookieConsent">
-    <p>We use local storage to save your game progress and stats. Accept to continue.</p>
-    <button class="cookie-btn" onclick="acceptCookies()">Accept</button>
-  </div>
-
-  <!-- Audio Elements -->
-  <audio id="gunshot" preload="auto" src="assets/sounds/revovler-sound-328431.mp3"></audio>
-  <audio id="toosoon" preload="auto" src="assets/sounds/click_sound.mp3"></audio>
-  <audio id="winSound" preload="auto" src="assets/sounds/multi-coin-payout-14-213732.mp3"></audio>
-  <audio id="loseSound" preload="auto" src="assets/sounds/8-bit-video-game-lose-sound-version-1-145828.mp3"></audio>
-  <audio id="resetSound" preload="auto" src="assets/sounds/clean-revolver-reload-6889.mp3"></audio>
-  <audio id="startSound" preload="auto" src="assets/sounds/coin-donation-1-180437.mp3"></audio>
-  <audio id="walletSound" preload="auto" src="assets/sounds/yeehaw-13229.mp3"></audio>
-  <audio id="coyoteHowl" preload="auto" src="assets/sounds/coyote-howl.mp3"></audio>
-  <audio id="drawSound" preload="auto" src="assets/sounds/draw-sound.mp3"></audio>
-  <audio id="cowboyHitSound" preload="auto" src="assets/sounds/cowboy-hit-grunt.mp3"></audio>
-  <audio id="backgroundMusic" loop preload="auto">
-    <source src="assets/sounds/background_music.mp3" type="audio/mpeg"/>
-  </audio>
-
-  <div class="game-container" id="game">
-    <div class="top-bar">
-      <h1>DexHunt: Cowboy Reflex Showdown</h1>
-      <div class="button-row">
-        <button class="start-btn" onclick="startDuel()">Start Duel</button>
-        <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
-        <button class="links-leaderboard-btn" onclick="toggleLinksLeaderboard()">📊</button>
-        <button class="tutorial-btn" onclick="toggleTutorial()">❓</button>
-        <button class="wallet-btn" onclick="connectWallet()" id="connectWalletBtn">💼</button>
-        <button onclick="window.location.href='pixelshop.html'" title="Visit the DexHunt PixelShop">🛒 PixelShop</button>
-      </div>
-      <div class="wallet-hud" id="walletHUD">
-        💰 $DEXHUNT: 0 | ⚡ Best Draw: --ms | 🔥 Streak: 0
-      </div>
-      <div class="beta-label">Beta Testing</div>
-    </div>
-
-    <div class="duel-area" id="duel-area">
-      <div id="backgroundWrapper">
-        <canvas id="gameCanvas"></canvas>
-        <img src="assets/pow_explosion.png" id="bang" class="bang" alt="POW explosion target" title="Click to shoot" onclick="shoot();" />
-        <div class="countdown" id="countdown" style="display:none;"></div>
-        <div class="quick-draw" id="quickDraw" style="display:none;"></div>
+    <div class="loading-screen" id="loadingScreen">
+      <div style="text-align:center; margin-top:40px;">
+        ⏳ Loading DexHunt...
+        <div class="spinner" style="margin: 20px auto;"></div>
       </div>
     </div>
 
-    <div class="log" id="log">All rewards are simulated on Solana Devnet. No real-world value. Think you’re quick enough, cowboy? Beat Sawn-Off Slim in under 0.5 seconds!</div>
-    <div class="ambient-lantern"></div>
+    <div class="cookie-consent" id="cookieConsent">
+      <p>We use local storage to save your game progress and stats. Accept to continue.</p>
+      <button class="cookie-btn" onclick="acceptCookies()">Accept</button>
+    </div>
 
-    <!-- Popups -->
-    <div class="leaderboard-popup" id="leaderboardPopup"></div>
-    <div class="tutorial-popup" id="tutorialPopup">
-      <h3>Welcome to DexHunt!</h3>
-      <p>1. Click "Start Duel" and wait for the countdown.</p>
-      <p>2. Click "BANG!" fast to win simulated rewards:</p>
-      <p>- Under 500ms: Earn $DEXHUNT (beta only).</p>
-      <p>- Under 250ms: High score!</p>
-      <p>Wallet connection and NFTs coming soon!</p>
-      <button aria-label="Close tutorial" onclick="closeTutorial()">Got It!</button>
+    <!-- Audio Elements -->
+    <audio id="gunshot" preload="auto" src="assets/sounds/revovler-sound-328431.mp3"></audio>
+    <audio id="toosoon" preload="auto" src="assets/sounds/click_sound.mp3"></audio>
+    <audio id="winSound" preload="auto" src="assets/sounds/multi-coin-payout-14-213732.mp3"></audio>
+    <audio id="loseSound" preload="auto" src="assets/sounds/8-bit-video-game-lose-sound-version-1-145828.mp3"></audio>
+    <audio id="resetSound" preload="auto" src="assets/sounds/clean-revolver-reload-6889.mp3"></audio>
+    <audio id="startSound" preload="auto" src="assets/sounds/coin-donation-1-180437.mp3"></audio>
+    <audio id="walletSound" preload="auto" src="assets/sounds/yeehaw-13229.mp3"></audio>
+    <audio id="coyoteHowl" preload="auto" src="assets/sounds/coyote-howl.mp3"></audio>
+    <audio id="drawSound" preload="auto" src="assets/sounds/draw-sound.mp3"></audio>
+    <audio id="cowboyHitSound" preload="auto" src="assets/sounds/cowboy-hit-grunt.mp3"></audio>
+    <audio id="backgroundMusic" loop preload="auto">
+      <source src="assets/sounds/background_music.mp3" type="audio/mpeg"/>
+    </audio>
+    <audio id="gruntAudio" src="assets/grunt.mp3" preload="auto"></audio>
+    <audio id="yeehawAudio" src="assets/yeehaw.mp3" preload="auto"></audio>
+
+    <div class="game-container" id="game">
+      <div class="top-bar">
+        <h1>DexHunt: Cowboy Reflex Showdown</h1>
+        <div class="button-row">
+          <button class="start-btn" onclick="startDuel()" title="Skill-to-Win! Click to start a reflex duel. Fastest click wins simulated $DEXHUNT. A portion of duel entries will be burned on mainnet for scarcity.">Start Duel <span style='cursor:help;' title='Skill-to-Win: Your reflexes earn you $DEXHUNT. No luck, no gambling.'>ℹ️</span></button>
+          <button class="settings-btn" onclick="toggleSettings()" title="Game settings, sound, stats, and legal info.">⚙️</button>
+          <button class="links-leaderboard-btn" onclick="toggleLinksLeaderboard()" title="View your best draw and total $DEXHUNT burned.">📊</button>
+          <button class="tutorial-btn" onclick="toggleTutorial()" title="How to play DexHunt and earn skill rewards.">❓</button>
+          <button class="wallet-btn" onclick="connectWallet()" id="connectWalletBtn" title="$DEXHUNT is a skill-based, in-game utility token. No investment or profit guarantees. Connect wallet to track rewards.">💼 <span style='cursor:help;' title='Connect your Solana wallet to track $DEXHUNT skill rewards. Beta only, no real value.'>ℹ️</span></button>
+          <button onclick="window.location.href='pixelshop.html'" title="Visit the DexHunt PixelShop for skins and upgrades. A portion of every purchase is burned!">🛒 PixelShop</button>
+        </div>
+        <!-- Add Leaderboard and Viral Challenge buttons below header buttons -->
+        <div class="button-row" style="margin-top:0.7em;">
+          <button class="share-btn" onclick="toggleLeaderboardPopup()" title="Show Leaderboard (Simulated skill stats only, no real prizes)">Leaderboard 🏆</button>
+          <button class="share-btn" onclick="toggleViralChallengePopup()" title="Show Viral Challenge (for fun, simulated rewards)">Viral Challenge 🔥</button>
+          <button class="share-btn" onclick="toggleDailyMissionPopup()" title="Show Daily Mission (cosmetic/XP only, no real value)">Daily Mission ⭐</button>
+        </div>
+        <div class="wallet-hud" id="walletHUD" title="$DEXHUNT: Skill rewards only. All balances and rewards are simulated in beta. No real-world value, no investment, no profit.">
+          💰 $DEXHUNT: 0 | ⚡ Best Draw: --ms | 🔥 Streak: 0 <span style='cursor:help;' title='Skill rewards only. All balances and rewards are simulated in beta. No real-world value, no investment, no profit.'>ℹ️</span>
+        </div>
+        <!-- Session Timer & XP Bar -->
+        <div id="sessionStats" style="margin:0.5em auto 0.2em auto;max-width:420px;text-align:center;">
+          <span id="sessionTimer" style="font-size:1.05em;color:#00ffff;">Session: 0m 00s</span>
+          <div id="xpBarWrapper" style="margin-top:0.3em;background:#232323;border-radius:8px;height:18px;box-shadow:0 2px 8px #00ffff44;overflow:hidden;">
+            <div id="xpBar" style="height:100%;width:0%;background:linear-gradient(90deg,#ffc34d,#ff00ff);transition:width 0.5s;"></div>
+          </div>
+          <span id="xpLabel" style="font-size:0.95em;color:#ffc34d;">XP: 0 / 100 <span style='cursor:help;' title='XP and levels are for fun and cosmetic rewards only. No gameplay advantage or real-world value.'>ℹ️</span></span>
+        </div>
+        <div class="beta-label" title="Beta: All gameplay and rewards are for testing only. No real $DEXHUNT tokens, NFTs, or prizes are awarded. All rewards are simulated, cosmetic, or for fun only.">Beta Testing</div>
+      </div>
+
+      <div class="duel-area" id="duel-area">
+        <div id="backgroundWrapper">
+          <canvas id="gameCanvas"></canvas>
+          <img src="assets/pow_explosion.png" id="bang" class="bang" alt="POW explosion target" title="Click to shoot" onclick="shoot();" />
+          <div class="countdown" id="countdown" style="display:none;"></div>
+          <div class="quick-draw" id="quickDraw" style="display:none;"></div>
+        </div>
+      </div>
+
+      <div class="log" id="log">All rewards are simulated on Solana Devnet. No real-world value, no investment, no profit. Think you’re quick enough, cowboy? Beat Sawn-Off Slim in under 0.5 seconds!</div>
+      <div class="ambient-lantern"></div>
+
+      <!-- Popups -->
+      <div class="leaderboard-popup" id="leaderboardPopup" style="display:none;">
+        <h3>💀 Leaderboard</h3>
+        <div id="leaderboardFeed" style="height:180px;overflow-y:auto;"></div>
+        <div id="globalStats" style="margin-top:0.7em;font-size:0.95em;color:#ffc34d;">
+          <b>Global Best:</b> 187ms | <b>Top Streak:</b> 12 | <b>Total Burned:</b> 1,234,567 $DEXHUNT
+          <span style='cursor:help;' title='Mock stats for demo. All stats and rewards are simulated for fun. No real-world value.'>ℹ️</span>
+        </div>
+        <button class="share-btn" id="shareScoreBtn" style="margin-top:1em;" title="Share your best draw and streak (simulated, for fun only) on X (Twitter) or copy a meme!">Share Score 🚀</button>
+        <button class="share-btn" onclick="toggleLeaderboardPopup()" style="margin-top:1em;">Close</button>
+      </div>
+      <div class="tutorial-popup" id="tutorialPopup">
+        <h3>Welcome to DexHunt!</h3>
+        <p>1. Click "Start Duel" and wait for the countdown.</p>
+        <p>2. Click "BANG!" fast to win simulated, cosmetic-only rewards:</p>
+        <p>- Under 500ms: Earn simulated $DEXHUNT (beta only, for fun/cosmetic use).</p>
+        <p>- Under 250ms: High score!</p>
+        <p>Wallet connection and NFTs coming soon! All rewards are simulated and cosmetic only.</p>
+        <button aria-label="Close tutorial" onclick="closeTutorial()">Got It!</button>
+      </div>
+      <div class="double-or-nothing-popup" id="doubleOrNothingPopup">
+        <h3>Double or Nothing!</h3>
+        <p>5 losses in a row! Risk your streak to double your $DEXHUNT?</p>
+        <button aria-label="Accept Double or Nothing challenge" class="share-btn" onclick="startDoubleOrNothing()">Yes</button>
+        <button aria-label="Decline Double or Nothing challenge" class="share-btn" onclick="declineDoubleOrNothing()">No</button>
+      </div>
+      <div class="settings-popup" id="settingsPopup">
+        <h3>Settings</h3>
+        <button aria-label="Toggle game sound" class="sound-toggle-btn" onclick="toggleSound()">Mute Sound</button>
+        <button aria-label="Toggle background music" class="sound-toggle-btn" onclick="toggleBackgroundMusic()">Mute Music</button>
+        <button aria-label="Reset stats" class="reset-btn" onclick="resetStats()">Reset Stats</button>
+        <button aria-label="Reset the duel" class="reset-btn" onclick="resetDuel()">Reset Duel</button>
+        <button aria-label="Close settings" class="share-btn" onclick="toggleSettings()">Close</button>
+        <button aria-label="View legal information" class="share-btn" onclick="window.open('legal/legal.html', '_blank')">Legal</button>
+        <div id="reticleSelector">
+          <h3>Select Reticle</h3>
+          <div id="reticleOptions"></div>
+        </div>
+        <p style="margin-top:1rem;">
+          <a href="legal/terms_and_conditions.html" target="_blank" style="color: #00ffff;">Terms</a> |
+          <a href="legal/privacy_policy.html" target="_blank" style="color: #00ffff;">Privacy</a> |
+          <a href="legal/disclaimer.html" target="_blank" style="color: #00ffff;">Disclaimer</a>
+        </p>
+      </div>
+      <div class="rewards-popup" id="rewardsPopup">
+        <h3>Rewards</h3>
+        <p>Check your simulated $DEXHUNT earnings!</p>
+        <p>Mock Reward: <span id="mockRewardStatus">None</span></p>
+        <button aria-label="Close rewards popup" class="share-btn" onclick="toggleRewardsPopup()">Close</button>
+      </div>
+      <div class="notification-popup" id="notificationPopup">
+        <p>Enjoying the beta? Let us know your feedback!</p>
+        <button class="share-btn" onclick="closeNotification()">Close</button>
+      </div>
+      <div class="wallet-popup" id="walletPopup" style="display: none;">
+        <h3>Mock Wallet Connection (Devnet)</h3>
+        <p>Simulate connecting a Solana wallet to test $DEXHUNT rewards.</p>
+        <button class="share-btn" onclick="mockConnectWallet()">Connect Wallet</button>
+        <button class="share-btn" onclick="toggleWalletPopup()">Skip</button>
+        <div id="jupiterSwapWidget" style="margin-top: 15px;"></div>
+      </div>
+      <!-- Viral Challenge Popup Modal -->
+      <div class="leaderboard-popup" id="viralChallengePopup" style="display:none;">
+        <h3>🔥 Viral Challenge</h3>
+        <div id="viralChallengeContent">
+          <b>Today’s Challenge:</b> Win 3 duels in a row under 400ms!<br>
+          <span id="challengeStatus" style="color:#00ff99;">Not started</span>
+          <br><button class="share-btn" id="flexStreakBtn" style="margin-top:0.7em;display:none;" title="Flex your streak with a meme!">Flex Your Streak 💪</button>
+          <button class="share-btn" id="shareChallengeBtn" style="margin-top:0.7em;display:none;" title="Share your viral challenge win!">Share Challenge 🏆</button>
+        </div>
+        <button class="share-btn" onclick="toggleViralChallengePopup()" style="margin-top:1em;">Close</button>
+      </div>
+      <!-- Daily Mission Popup Modal -->
+      <div class="leaderboard-popup" id="dailyMissionPopup" style="display:none;max-width:420px;">
+        <h3>⭐ Daily Mission</h3>
+        <div id="dailyMissionContent" style="margin-bottom:1em;font-size:1.08em;"></div>
+        <div id="dailyMissionProgress" style="margin:0.7em 0 1em 0;"></div>
+        <button class="share-btn" onclick="toggleDailyMissionPopup()">Close</button>
+      </div>
     </div>
-    <div class="double-or-nothing-popup" id="doubleOrNothingPopup">
-      <h3>Double or Nothing!</h3>
-      <p>5 losses in a row! Risk your streak to double your $DEXHUNT?</p>
-      <button aria-label="Accept Double or Nothing challenge" class="share-btn" onclick="startDoubleOrNothing()">Yes</button>
-      <button aria-label="Decline Double or Nothing challenge" class="share-btn" onclick="declineDoubleOrNothing()">No</button>
-    </div>
-    <div class="settings-popup" id="settingsPopup">
-      <h3>Settings</h3>
-      <button aria-label="Toggle game sound" class="sound-toggle-btn" onclick="toggleSound()">Mute Sound</button>
-      <button aria-label="Toggle background music" class="sound-toggle-btn" onclick="toggleBackgroundMusic()">Mute Music</button>
-      <button aria-label="Reset stats" class="reset-btn" onclick="resetStats()">Reset Stats</button>
-      <button aria-label="Reset the duel" class="reset-btn" onclick="resetDuel()">Reset Duel</button>
-      <button aria-label="Close settings" class="share-btn" onclick="toggleSettings()">Close</button>
-      <button aria-label="View legal information" class="share-btn" onclick="window.open('legal/legal.html', '_blank')">Legal</button>
-      <p style="margin-top:1rem;">
-        <a href="legal/terms_and_conditions.html" target="_blank" style="color: #00ffff;">Terms</a> |
-        <a href="legal/privacy_policy.html" target="_blank" style="color: #00ffff;">Privacy</a> |
-        <a href="legal/disclaimer.html" target="_blank" style="color: #00ffff;">Disclaimer</a>
-      </p>
-    </div>
-    <div class="rewards-popup" id="rewardsPopup">
-      <h3>Rewards</h3>
-      <p>Check your simulated $DEXHUNT earnings!</p>
-      <p>Mock Reward: <span id="mockRewardStatus">None</span></p>
-      <button aria-label="Close rewards popup" class="share-btn" onclick="toggleRewardsPopup()">Close</button>
-    </div>
-    <div class="notification-popup" id="notificationPopup">
-      <p>Enjoying the beta? Let us know your feedback!</p>
-      <button class="share-btn" onclick="closeNotification()">Close</button>
-    </div>
-    <div class="wallet-popup" id="walletPopup" style="display: none;">
-      <h3>Mock Wallet Connection (Devnet)</h3>
-      <p>Simulate connecting a Solana wallet to test $DEXHUNT rewards.</p>
-      <button class="share-btn" onclick="mockConnectWallet()">Connect Wallet</button>
-      <button class="share-btn" onclick="toggleWalletPopup()">Skip</button>
-      <div id="jupiterSwapWidget" style="margin-top: 15px;"></div>
-    </div>
+
+    <div style="height: 48px;"></div>
+
+    <div style="background:#ffc107;color:#1a1a1a;text-align:center;padding:0.7rem 1rem;font-weight:bold;font-size:1.18rem;letter-spacing:1px;box-shadow:0 2px 8px #0006;z-index:100;position:relative;">
+    🚧 <strong>Beta Notice:</strong> DexHunt is in public beta. No real $DEXHUNT tokens, NFTs, or prizes are awarded yet. All gameplay and rewards are for testing only!
   </div>
 
-  <div style="background:#ffc107;color:#1a1a1a;text-align:center;padding:0.7rem 1rem;font-weight:bold;font-size:1.18rem;letter-spacing:1px;box-shadow:0 2px 8px #0006;z-index:100;position:relative;">
-  🚧 <strong>Beta Notice:</strong> DexHunt is in public beta. No real $DEXHUNT tokens, NFTs, or prizes are awarded yet. All gameplay and rewards are for testing only!
-</div>
-
-  <script src="https://unpkg.com/@solana/web3.js@1.95.3/lib/index.iife.js"></script>
-  <script>
-    let duelStarted = false;
-    let drawTime = 0;
-    let duelTimeout = null;
-    let dexhuntBalance = parseInt(localStorage.getItem("DexHuntBalance")) || 0;
-    let bestDraw = parseInt(localStorage.getItem("bestDraw")) || null;
-    let lossStreak = 0;
-    let winStreak = 0;
-    let isConnected = false;
-    let gameStarted = false;
-    let walletPublicKey = null;
-    let hasInteracted = false;
-    let tutorialShown = localStorage.getItem("tutorialShown") === "true";
-    let canvas = document.getElementById("gameCanvas");
-    // const cowboyYOffset = -40;  // Change this value to move him up/down
-    // const cowboyXOffset = -90;  // Change this value to move him left/right
-    let ctx = canvas.getContext("2d");
-    let hitEffect = { active: false, x: 0, y: 0, radius: 10 };
-    let cowboyBlinking = false;
-    let blinkTimer = 0;
-
-    // Animation image variables
-    let cloud1, cloud2, cowboy;
-
-    // Animation state
-    let animations = [
-      { img: null, x: canvas.width - 65, y: canvas.height - 50, width: 60, height: 60, animation: "cowboy", duration: 1000, lastUpdate: 0, loop: true, zIndex: 4 },
-      { img: null, x: -100, y: 175, width: 300, height: 180, speed: 0.005, animation: "moveCloud", duration: 25000, lastUpdate: 0, loop: true, zIndex: 1 },
-      { img: null, x: -100, y: 70, width: 240, height: 140, speed: 0.25, animation: "moveCloud", duration: 30000, lastUpdate: 0, loop: true, zIndex: 2 }
-    ];
-
-    // DOM elements
-    const bang = document.getElementById("bang");
-    const countdown = document.getElementById("countdown");
-    const quickDraw = document.getElementById("quickDraw");
-    const log = document.getElementById("log");
-    const startBtn = document.querySelector(".start-btn");
-
-    function positionCowboy(anim) {
-      anim.x = canvas.width - 60;  // adjust left/right
-      anim.y = canvas.height - 140; // adjust up/down
-    }
-
-    function preloadImages() {
-      cloud1 = new Image();
-      cloud1.src = "assets/cloud1.png";
-      cloud1.onload = () => console.log("Cloud1 loaded");
-      cloud1.onerror = () => {
-        console.error("Failed to load cloud1.png");
-        log.textContent = "Error loading cloud1.png. Refresh to try again.";
-      };
-
-      cloud2 = new Image();
-      cloud2.src = "assets/cloud2.png";
-      cloud2.onload = () => console.log("Cloud2 loaded");
-      cloud2.onerror = () => {
-        console.error("Failed to load cloud2.png");
-        log.textContent = "Error loading cloud2.png. Using fallback.";
-        cloud2 = cloud1; // Fallback to cloud1
-      };
-
-      cowboy = new Image();
-      cowboy.src = "assets/cowboy.png";
-      cowboy.onload = () => console.log("Cowboy loaded");
-      cowboy.onerror = () => {
-        console.error("Failed to load cowboy.png");
-        log.textContent = "Error loading cowboy asset. Refresh or check assets.";
-      };
-    }
-
-    function animateElements(timestamp) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-      animations.sort((a, b) => a.zIndex - b.zIndex);
-    
-      animations.forEach((anim, index) => {
-        if (!anim.img) {
-          if (anim.animation === "cowboy") anim.img = cowboy;
-          if (anim.animation === "moveCloud") {
-            anim.img = (index === 1 && cloud1) ? cloud1 : (cloud2 || cloud1);
-          }
-        }
-    
-        if (anim.img && anim.img.complete && anim.img.naturalWidth > 0) {
-          if (!anim.lastUpdate) anim.lastUpdate = timestamp;
-          const elapsed = timestamp - anim.lastUpdate;
-          const progress = (elapsed % anim.duration) / anim.duration;
-    
-          if (anim.animation === "moveCloud") {
-            anim.x = -anim.width + (canvas.width + anim.width) * progress;
-          }
-    
-          if (anim.animation === "cowboy") {
-            positionCowboy(anim);
-    
-            // Blink every 3 seconds
-            if (!blinkTimer || timestamp - blinkTimer > 3000) {
-              cowboyBlinking = true;
-              blinkTimer = timestamp;
-              setTimeout(() => cowboyBlinking = false, 200); // blink duration
-            }
-    
-            // Set blink opacity
-            anim.opacity = cowboyBlinking ? 0.6 : 1;
-          }
-    
-          ctx.globalAlpha = anim.opacity || 1;
-          ctx.drawImage(anim.img, anim.x, anim.y, anim.width, anim.height);
-          ctx.globalAlpha = 1;
-        } else {
-          console.warn("Skipping draw: Image not ready or invalid:", anim.img?.src);
-        }
-      });
-    
-      // Draw hit effect if active
-      if (hitEffect.active) {
-        ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
-        ctx.beginPath();
-        ctx.arc(hitEffect.x, hitEffect.y, hitEffect.radius, 0, Math.PI * 2);
-        ctx.fill();
-        hitEffect.radius += 2;
-        if (hitEffect.radius > 50) hitEffect.active = false;
-      }
-    
-      requestAnimationFrame(animateElements);
-    }
-
-    function resizeCanvas() {
-      const wrapper = document.getElementById("backgroundWrapper");
-      const canvas = document.getElementById("gameCanvas");
-    
-      if (!wrapper || !canvas) {
-        console.error("Missing wrapper or canvas");
-        return;
-      }
-    
-      const bounds = wrapper.getBoundingClientRect();
-      canvas.width = bounds.width;
-      canvas.height = bounds.height;
-    
-      animations.forEach(anim => {
-        if (anim.y < 50) anim.y = 50;
-        if (anim.y > canvas.height - anim.height - 20) {
-          anim.y = canvas.height - anim.height - 20;
-        }
-        if (anim.animation === "cowboy") {
-          positionCowboy(anim);
-        }
-      });
-    }
-
-    function showGameContent() {
-      const loadingScreen = document.getElementById('loadingScreen');
-      if (loadingScreen) {
-        loadingScreen.style.display = 'none';
-      } else {
-        console.error("Error: Could not find #loadingScreen");
-      }
-
-      if (!localStorage.getItem("cookiesAccepted")) {
-        document.getElementById("cookieConsent").style.display = "block";
-      }
-
-      if (!tutorialShown) {
-        toggleTutorial();
-      }
-      gameStarted = true;
-    }
-
-    function acceptCookies() {
-      localStorage.setItem("cookiesAccepted", "true");
-      document.getElementById("cookieConsent").style.display = "none";
-    }
-
-    function checkJurisdiction() {
-      fetch("https://ipapi.co/json/")
-        .then(response => response.json())
-        .then((data) => {
-          const restricted = ["US", "CN", "CA", "FR", "SG", "IR", "KP", "SY", "CU", "AE", "QA", "NL"];
-          if (restricted.includes(data.country_code)) {
-          log.textContent = "⚠️ Access restricted in your region. Proceed at your own risk. All rewards are simulated with no real-world value. For the best experience, please zoom to 133% during beta. I am working on a scaling fix!";
-          }
-        })
-        .catch(err => console.error("Jurisdiction check failed:", err));
-    }
-
-    function playBackgroundMusic() {
-      if (!hasInteracted) {
-        const bgMusic = document.getElementById("backgroundMusic");
-        bgMusic.volume = 0.5;
-        bgMusic.play().catch(err => console.error("Error playing music:", err));
-        hasInteracted = true;
-      }
-    }
-
-    function updateWalletHUD() {
-      const hud = document.getElementById("walletHUD");
-      hud.innerHTML = `💰 $DEXHUNT: ${dexhuntBalance} | ⚡ Best Draw: ${bestDraw || '--'}ms | 🔥 Streak: ${winStreak}`;
-      if (winStreak >= 3) {
-        hud.classList.add('streak-fire');
-      } else {
-        hud.classList.remove('streak-fire');
-      }
-    }
-
-    function startCountdown(callback) {
-      let count = 3;
-      countdown.style.display = "block";
-      countdown.innerText = count;
-
-      const ticker = setInterval(() => {
-        count--;
-        if (count > 0) {
-          countdown.innerText = count;
-        } else {
-          clearInterval(ticker);
-          countdown.style.display = "none";
-          callback();
-        }
-      }, 1000);
-    }
-
-    function startDuel() {
-      if (duelStarted || !gameStarted) {
-        console.log("Duel blocked: duelStarted=", duelStarted, "gameStarted=", gameStarted);
-        return;
-      }
-      console.log("Starting duel");
-      duelStarted = true;
-      startBtn.classList.add("clicked");
-      document.getElementById("startSound").play();
-      startCountdown(() => {
-        drawTime = performance.now();
-        quickDraw.style.display = "block";
-        document.getElementById("drawSound").play();
-
-        const wrapper = document.getElementById("backgroundWrapper");
-        const rect = wrapper.getBoundingClientRect();
-        const powWidth = 120;
-        const powHeight = 120;
-
-        const minX = 20;
-        const maxX = rect.width - powWidth - 20;
-        const minY = 20;
-        const maxY = rect.height / 2 - powHeight;
-
-        const randX = Math.random() * (maxX - minX) + minX;
-        const randY = Math.random() * (maxY - minY) + minY;
-
-        bang.style.left = `${randX}px`;
-        bang.style.top = `${randY}px`;
-        bang.style.display = "block";
-      });
-    }
-
-    function shoot() {
-      const now = performance.now();
-      if (!duelStarted) {
-        console.log("Shoot ignored: duel not started");
-        return;
-      }
-
-      document.getElementById("gunshot").play();
-      setTimeout(() => {
-        document.getElementById("resetSound").play();
-      }, 300);
-
-      if (drawTime === 0) {
-        document.getElementById("toosoon").play();
-        log.textContent = "Too soon! You fired before the signal.";
-        resetDuel();
-        return;
-      }
-
-      const reaction = Math.floor(now - drawTime);
-      drawTime = 0;
-      bang.style.display = "none";
-      quickDraw.style.display = "none";
-
-      hitEffect.active = true;
-      hitEffect.x = parseFloat(bang.style.left) + 60;
-      hitEffect.y = parseFloat(bang.style.top) + 60;
-      hitEffect.radius = 10;
-
-      // 🔊 Play cowboy grunt sound
-      document.getElementById("cowboyHitSound").volume = 0.8;
-      document.getElementById("cowboyHitSound").play();
-
-      // 💥 Cowboy Shake Effect + Glow Flash
-      let cowboyAnim = animations.find(a => a.animation === "cowboy");
-      if (cowboyAnim) {
-        let originalX = cowboyAnim.x;
-        let originalY = cowboyAnim.y;
-        let shakeIntensity = 6;
-        let shakeDuration = 200;
-        const shakeStart = Date.now();
-
-        // Temporary white flash
-        const flashCanvas = () => {
-          ctx.save();
-          ctx.globalAlpha = 0.4;
-          ctx.globalCompositeOperation = "lighter";
-          ctx.fillStyle = "white";
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.restore();
-        };
-
-        const shaker = setInterval(() => {
-          const elapsed = Date.now() - shakeStart;
-          if (elapsed > shakeDuration) {
-            clearInterval(shaker);
-            cowboyAnim.x = originalX;
-            cowboyAnim.y = originalY;
-          } else {
-            cowboyAnim.x = originalX + (Math.random() - 0.5) * shakeIntensity;
-            cowboyAnim.y = originalY + (Math.random() - 0.5) * shakeIntensity;
-            flashCanvas(); // Trigger white glow flash per shake
-          }
-        }, 33);
-      }
-
-      if (reaction <= 600) {
-        const reward = 5 + Math.floor(Math.max(0, 300 - reaction) / 25);
-        dexhuntBalance += reward;
-        winStreak++;
-        localStorage.setItem("DexHuntBalance", dexhuntBalance);
-        if (!bestDraw || reaction < bestDraw) {
-          bestDraw = reaction;
-          localStorage.setItem("bestDraw", bestDraw);
-          document.getElementById("winSound").play();
-          log.textContent = `🎯 Shot in ${reaction}ms! NEW BEST! Earned ${reward} $DEXHUNT (simulated). Streak: ${winStreak}!`;
-          showConfetti();
-          maybeShowMemePopup();
-          lossStreak = 0;
-        }
-        if (winStreak === 3) {
-          log.textContent += " 🤠 Nice streak! Keep it up!";
-        } else if (winStreak === 5) {
-          log.textContent += " 🔥 Hot shot! 5 wins in a row!";
-          document.getElementById("mockRewardStatus").textContent = "Mock Reward Earned!";
-          showConfetti();
-        }
-      } else {
-        document.getElementById("loseSound").play();
-        log.textContent = `Too slow! Your draw was ${reaction}ms. Streak ended.`;
-        lossStreak++;
-        winStreak = 0;
-        if (lossStreak >= 5) {
-          showDoubleOrNothing();
-        }
-      }
-
-      updateWalletHUD();
-      log.innerHTML += '<br><button id="stopButton" onclick="cancelAutoRestart()">🛑 STOP!</button>';
-
-      resetDuel();
-      duelTimeout = setTimeout(() => {
-        const stopBtn = document.getElementById("stopButton");
-        if (stopBtn) stopBtn.remove();
-        log.textContent = "Auto-restarting duel to test your reflexes again!";
-        startDuel();
-      }, 2000);
-
-      if (gameStarted && (lossStreak + dexhuntBalance / 5) % 3 === 0) {
-        showNotification();
-      }
-    }
-
-    function resetDuel() {
-      console.log("Resetting duel");
-      duelStarted = false;
-      drawTime = 0;
-      clearTimeout(duelTimeout);
-      duelTimeout = null;
-      bang.style.display = "none";
-      quickDraw.style.display = "none";
-      startBtn.classList.remove("clicked");
-      showCowboyQuote(); // Show a cowboy quote on reset
-    }
-
-    function cancelAutoRestart() {
-      console.log("Canceling auto-restart");
-      clearTimeout(duelTimeout);
-      duelTimeout = null;
-      const stopBtn = document.getElementById("stopButton");
-      if (stopBtn) stopBtn.remove();
-      log.textContent = "Auto-restart canceled. Click 'Start Duel' when ready.";
-      resetDuel();
-    }
-
-    function showDoubleOrNothing() {
-      const doubleOrNothingPopup = document.getElementById("doubleOrNothingPopup");
-      doubleOrNothingPopup.style.display = "block";
-    }
-
-    function startDoubleOrNothing() {
-      const doubleOrNothingPopup = document.getElementById("doubleOrNothingPopup");
-      doubleOrNothingPopup.style.display = "none";
-      log.textContent = "Double or Nothing challenge started! Win to double your $DEXHUNT!";
-      resetDuel();
-      startDuel();
-    }
-
-    function declineDoubleOrNothing() {
-      const doubleOrNothingPopup = document.getElementById("doubleOrNothingPopup");
-      doubleOrNothingPopup.style.display = "none";
-      lossStreak = 0;
-      log.textContent = "Double or Nothing declined. Keep dueling!";
-      resetDuel();
-    }
-
-    function toggleSettings() {
-      const settingsPopup = document.getElementById("settingsPopup");
-      settingsPopup.style.display = settingsPopup.style.display === "block" ? "none" : "block";
-    }
-
-    function toggleSound() {
-      const sounds = document.querySelectorAll("audio:not(#backgroundMusic)");
-      const isMuted = sounds[0].muted;
-      sounds.forEach(s => {
-        s.muted = !isMuted;
-        s.volume = 0.6;
-      });
-      document.querySelector(".sound-toggle-btn").textContent = isMuted ? "Mute Sound" : "Unmute Sound";
-    }
-
-    function toggleBackgroundMusic() {
-      const bgMusic = document.getElementById("backgroundMusic");
-      bgMusic.muted = !bgMusic.muted;
-      bgMusic.volume = 0.5;
-      document.querySelector(".settings-popup button:nth-child(2)").textContent = bgMusic.muted ? "Unmute Music" : "Mute Music";
-    }
-
-    function resetStats() {
-      dexhuntBalance = 0;
-      bestDraw = null;
-      winStreak = 0;
-      lossStreak = 0;
-      localStorage.setItem("DexHuntBalance", dexhuntBalance);
-      localStorage.setItem("bestDraw", bestDraw);
-      updateWalletHUD();
-      log.textContent = "Stats reset! Start dueling to earn simulated rewards.";
-      resetDuel();
-    }
-
-    function toggleLinksLeaderboard() {
-      const leaderboardPopup = document.getElementById("leaderboardPopup");
-      leaderboardPopup.style.display = leaderboardPopup.style.display === "block" ? "none" : "block";
-      leaderboardPopup.innerHTML = `
-        <h3>Stats</h3>
-        <p>Best Draw: ${bestDraw || '--'}ms</p>
-        <p>$DEXHUNT Balance: ${dexhuntBalance}</p>
-        <p>Win Streak: ${winStreak}</p>
-        <button class="share-btn" onclick="toggleLinksLeaderboard()">Close</button>
-      `;
-    }
-
-    function toggleTutorial() {
-      const tutorialPopup = document.getElementById("tutorialPopup");
-      tutorialPopup.style.display = tutorialPopup.style.display === "block" ? "none" : "block";
-    }
-
-    function closeTutorial() {
-      const tutorialPopup = document.getElementById("tutorialPopup");
-      tutorialPopup.style.display = "none";
-      localStorage.setItem("tutorialShown", "true");
-      tutorialShown = true;
-    }
-
-    function toggleRewardsPopup() {
-      const rewardsPopup = document.getElementById("rewardsPopup");
-      rewardsPopup.style.display = rewardsPopup.style.display === "block" ? "none" : "block";
-      document.getElementById("mockRewardStatus").textContent = winStreak >= 5 ? "Mock Reward Earned!" : "None";
-    }
-
-    function showNotification() {
-      const notificationPopup = document.getElementById("notificationPopup");
-      notificationPopup.style.display = "block";
-    }
-
-    function closeNotification() {
-      const notificationPopup = document.getElementById("notificationPopup");
-      notificationPopup.style.display = "none";
-    }
-
-    function toggleWalletPopup(force = null) {
-      const walletPopup = document.getElementById("walletPopup");
-      const isVisible = walletPopup.classList.contains("visible");
-    
-      if (force === true || (!isVisible && force !== false)) {
-        walletPopup.classList.add("visible");
-        walletPopup.style.display = "block";
-      } else {
-        walletPopup.classList.remove("visible");
-        walletPopup.style.display = "none";
-      }
-    }
-
-    function mockConnectWallet() {
-      isConnected = true;
-      walletPublicKey = "MockWallet123";
-      document.getElementById("connectWalletBtn").textContent = "💼 Mock";
-      document.getElementById("connectWalletBtn").onclick = disconnectWallet;
-      document.getElementById("walletSound").play();
-      log.textContent = "Mock wallet connected! $DEXHUNT rewards will be simulated.";
-      toggleWalletPopup();
-      updateWalletHUD();
-      initJupiterSwapWidget();
-    }
-
-    function disconnectWallet() {
-      isConnected = false;
-      walletPublicKey = null;
-      document.getElementById("connectWalletBtn").textContent = "💼";
-      document.getElementById("connectWalletBtn").onclick = connectWallet;
-      log.textContent = "Mock wallet disconnected.";
-      updateWalletHUD();
-      toggleWalletPopup();
-    }
-
-    function connectWallet() {
-      toggleWalletPopup();
-    }
-
-    function initJupiterSwapWidget() {
-      const widgetContainer = document.getElementById("jupiterSwapWidget");
-      widgetContainer.innerHTML = `
-        <p><strong>$DEXHUNT is a testnet-only token used for demo purposes during beta.</strong></p>
-        <p>Swap and utility features are simulated and carry no real-world value.</p>
-        <p>💡 Full utility (including in-game purchases and progression) will launch with the live token!</p>
-      `;
-    }
-
-    function performMockSwap(amount) {
-      log.textContent = `Simulating swap of ${amount} $DEXHUNT on Devnet...`;
-      setTimeout(() => {
-        log.textContent = `Mock swap complete: ${amount} $DEXHUNT processed!`;
-      }, 2000);
-    }
-
-    // 🎯 Lightweight play tracking
-    let lastActivity = localStorage.getItem("lastPlayTimestamp");
-    if (!lastActivity) {
-      localStorage.setItem("lastPlayTimestamp", Date.now());
-    } else {
-      const now = Date.now();
-      const diffHours = (now - parseInt(lastActivity)) / (1000 * 60 * 60);
-      if (diffHours > 1) {
-        console.log("🔍 Someone likely played recently. Last play was", new Date(parseInt(lastActivity)).toLocaleString());
-      }
-      localStorage.setItem("lastPlayTimestamp", now);
-    }
-
-    // ⌛ Duel history tracker
-    if (!localStorage.getItem("duelLogs")) {
-      localStorage.setItem("duelLogs", JSON.stringify([]));
-    }
-
-
-    window.onload = function () {
-      console.log("window.onload triggered");
-      preloadImages();
-      resizeCanvas();
-      requestAnimationFrame(animateElements);
-      updateWalletHUD();
-      checkJurisdiction();
-
-      setTimeout(() => {
-        showGameContent();
-      }, 2000);
-
-      window.addEventListener("click", playBackgroundMusic);
-    };
-
-    window.addEventListener("resize", resizeCanvas);
-
-    // 🔌 Detect Phantom and offer real connection if available
-    window.addEventListener("load", () => {
-      (async () => {
-        if (window.solana && window.solana.isPhantom) {
-          try {
-            const resp = await window.solana.connect({ onlyIfTrusted: true });
-            walletPublicKey = resp.publicKey.toString();
-            isConnected = true;
-            document.getElementById("connectWalletBtn").textContent = "💼 " + walletPublicKey.slice(0, 4) + "..." + walletPublicKey.slice(-4);
-            document.getElementById("connectWalletBtn").onclick = disconnectWallet;
-            log.textContent = `Real Phantom wallet connected: ${walletPublicKey}`;
-            updateWalletHUD();
-          } catch (err) {
-            console.warn("Phantom installed but not connected.");
-          }
-        } else {
-          console.warn("Phantom not detected. Defaulting to mock wallet.");
-        }
-      })();
-    });
-
-    // Confetti dopamine burst for big wins!
-function showConfetti() {
-  const confetti = document.getElementById('confetti');
-  confetti.innerHTML = '';
-  const emojis = ['💰','💥','🔥','🎉','🤠','⚡','⭐','🪙'];
-  for (let i = 0; i < 24; i++) {
-    const span = document.createElement('span');
-    span.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-    span.style.left = Math.random()*100 + 'vw';
-    span.style.animationDelay = (Math.random()*0.5) + 's';
-    confetti.appendChild(span);
-  }
-  confetti.style.display = 'block';
-  setTimeout(() => { confetti.style.display = 'none'; }, 1400);
-}
-
-function maybeShowMemePopup() {
-  if (Math.random() < 0.03) { // 3% chance on big win
-    const memes = [
-      "When you draw faster than your WiFi: 🚀",
-      "That moment when you beat your own reflexes. 🤯",
-      "DexHunt: The only place where cowboys use memes as ammo.",
-      "You just unlocked: Certified Reflex Maniac! 🏆",
-      "Share your score and flex on your friends! 💪"
-    ];
-    alert(memes[Math.floor(Math.random()*memes.length)]);
-  }
-}
-
-function shareScore() {
-  const text = `I just scored ${bestDraw || '--'}ms on DexHunt! 🤠💥 Can you beat me? https://dexhunt.xyz #DexHunt #ReflexGame`;
-  if (navigator.share) {
-    navigator.share({ text });
-  } else {
-    navigator.clipboard.writeText(text);
-    alert("Copied! Paste this on X/Twitter or Discord and flex your score!");
-  }
-}
-
-const cowboyQuotes = [
-  "“Fast is fine, but accuracy is final.”",
-  "“There’s a new sheriff in town.”",
-  "“You miss 100% of the shots you don’t take.”",
-  "“Stay quick, stay slick.”",
-  "“Legends never reload.”"
-];
-function showCowboyQuote() {
-  log.textContent += "\n" + cowboyQuotes[Math.floor(Math.random()*cowboyQuotes.length)];
-}
-// Call showCowboyQuote() after resetDuel() or on loss
-  </script>
+    <script src="https://unpkg.com/@solana/web3.js@1.95.3/lib/index.iife.js"></script>
 
   
       <footer>
@@ -1412,5 +943,88 @@ function showCowboyQuote() {
   <div class="duel-side-emoji cactus-left">🌵</div>
 <div class="duel-side-emoji cactus-right">💀</div>
 <div class="duel-side-emoji meme">🧑‍🌾</div>
+<!-- NFT Badge (hidden by default, shown if user owns any Founders NFT) -->
+<div id="nftBadge" style="display:none;position:absolute;top:12px;right:12px;z-index:2000;background:#181818cc;border:2px solid #ffcc00;border-radius:10px;padding:8px 16px;color:#ffc107;font-weight:bold;box-shadow:0 2px 8px #0008;">
+  <img id="nftBadgeImg" src="assets/cowboy.png" alt="NFT Badge" style="width:32px;height:32px;vertical-align:middle;margin-right:8px;"/>
+  <span id="nftBadgeLabel">Founders NFT Holder</span>
+</div>
+<script>
+// Placeholder: Simulate NFT badge display (replace with real wallet/NFT check)
+// TODO: On wallet connect, check for Founders NFT ownership and call showNFTBadge(nftName) if owned.
+function showNFTBadge(nftName) {
+  document.getElementById('nftBadge').style.display = 'block';
+  if (nftName && nftName !== 'Clickbuddy Cowboy') {
+    // Show correct NFT art
+    const imgMap = {
+      'POW! Explosion': 'assets/pow_explosion.png',
+      'Vault Guardian': 'DiamondDexHuntNFTs/10.png',
+      'Goldflare Monument': 'DiamondDexHuntNFTs/11.png',
+      'Arcade Sovereign': 'DiamondDexHuntNFTs/13.png',
+    };
+    document.getElementById('nftBadgeImg').src = imgMap[nftName] || 'assets/cowboy.png';
+    document.getElementById('nftBadgeLabel').textContent = nftName + ' Holder';
+  } else {
+    document.getElementById('nftBadgeImg').src = 'assets/cowboy.png';
+    document.getElementById('nftBadgeLabel').textContent = 'Founders NFT Holder';
+  }
+}
+// TODO: Integrate with wallet/NFT check. For now, simulate for demo:
+// showNFTBadge('Vault Guardian');
+</script>
+<script src="js/duel.js"></script>
+<script src="js/tokenomics.js"></script>
+<script src="js/common.js"></script>
+<!-- Tokenomics Modal HTML -->
+<script>
+fetch('tokenomics-modal.html').then(r=>r.text()).then(html=>{
+  document.body.insertAdjacentHTML('beforeend', html);
+});
+</script>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  const cowboy = document.getElementById('cowboyImg');
+  const wrapper = document.getElementById('backgroundWrapper');
+  const gruntAudio = document.getElementById('gruntAudio');
+  const yeehawAudio = document.getElementById('yeehawAudio');
+  let cowboyClicks = 0;
+  let minTop = 20, maxTop = wrapper.offsetHeight - 120;
+  function moveCowboy() {
+    cowboyClicks++;
+    if (gruntAudio) { gruntAudio.currentTime = 0; gruntAudio.play(); }
+    // Move vertically to a random top position
+    const newTop = minTop + Math.random() * (maxTop - minTop);
+    cowboy.style.top = newTop + 'px';
+    // If cowboy's vertical center overlaps the game area, set z-index lower (behind canvas)
+    const cowboyCenter = newTop + 50;
+    if (cowboyCenter > 120 && cowboyCenter < wrapper.offsetHeight - 120) {
+      cowboy.style.zIndex = 2;
+    } else {
+      cowboy.style.zIndex = 10;
+    }
+    // Every 5th click, play yeehaw
+    if (cowboyClicks % 5 === 0 && yeehawAudio) {
+      yeehawAudio.currentTime = 0;
+      yeehawAudio.play();
+    }
+  }
+  cowboy.addEventListener('click', moveCowboy);
+});
+</script>
+<script>
+      // Popup modal toggles
+      function toggleLeaderboardPopup() {
+        const popup = document.getElementById('leaderboardPopup');
+        popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
+      }
+      function toggleViralChallengePopup() {
+        const popup = document.getElementById('viralChallengePopup');
+        popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
+      }
+      function toggleDailyMissionPopup() {
+        const popup = document.getElementById('dailyMissionPopup');
+        popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
+      }
+    </script>
 </body>
 </html>
+

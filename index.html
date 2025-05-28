@@ -1,61 +1,58 @@
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DexHunt: Reflex Showdown — Skill-Based Crypto Arcade</title>
-  <meta name="description" content="DexHunt: Reflex Showdown is a reflex-based crypto arcade game powered by the $DEXHUNT token. Play now in beta, win by skill, and join the Wild West of Web3." />
-  <link rel="icon" type="image/png" href="favicon-32x32.png" />
-
-  <!-- Google Analytics Tag -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RW3W4Q1SY"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-2RW3W4Q1SY');
-  </script>
-
-  <!-- Outbound Link Tracker -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const trackedLinks = document.querySelectorAll("a[href^='http']");
-      trackedLinks.forEach(link => {
-        try {
-          const url = new URL(link.href);
-          if (url.hostname !== location.hostname) {
-            link.addEventListener("click", () => {
-              gtag('event', 'outbound_click', {
-                event_category: 'Outbound Link',
-                event_label: link.textContent.trim()
-              });
-            });
-          }
-        } catch (e) {
-          console.warn("Invalid URL for GA tracking:", link.href);
-        }
-      });
-    });
-  </script>
-
+<title>DexHunt: Reflex Showdown</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- ✅ SEO + Social Metadata -->
+<meta content="DexHunt is a reflex-based crypto arcade game powered by the $DEXHUNT token. Play now in beta, win by skill, and join the Wild West of Web3." name="description"/>
+<meta content="DexHunt, crypto arcade, Solana game, reflex duel, skill-based, $DEXHUNT token" name="keywords"/>
+<meta content="FifthGenHub" name="author"/>
+<link href="https://fifthgenhub.github.io/DexHunt.github.io/" rel="canonical"/>
+<!-- ✅ Open Graph -->
+<meta content="DexHunt — The Wild West of Skill-Based Crypto Gaming" property="og:title"/>
+<meta content="Play the reflex-based Solana arcade game powered by $DEXHUNT. No betting. No RNG. Just skill." property="og:description"/>
+<meta content="https://fifthgenhub.github.io/DexHunt.github.io/assets/dexhunt-banner.png" property="og:image"/>
+<meta content="https://fifthgenhub.github.io/DexHunt.github.io/" property="og:url"/>
+<meta content="website" property="og:type"/>
+<!-- ✅ Twitter Cards -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="DexHunt — Skill-Based Crypto Arcade" name="twitter:title"/>
+<meta content="Reflex duels. Arcade skill. $DEXHUNT on Solana." name="twitter:description"/>
+<meta content="https://fifthgenhub.github.io/DexHunt.github.io/assets/dexhunt-banner.png" name="twitter:image"/>
+<!-- Classic Fallback -->
+<link href="favicon.ico" rel="shortcut icon"/>
+<!-- Modern Browsers -->
+<link href="favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<!-- Mobile and Install Support -->
+<link href="apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="DexHunt" name="apple-mobile-web-app-title"/>
+<link href="site.webmanifest" rel="manifest"/>
   <style>
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
-    }
-    body {
+      background: #000 !important;
+      color: #ffc34d;
       min-height: 100vh;
       font-family: 'Courier New', Courier, monospace;
-      color: #f7d774;
-      font-size: 1.18rem;
+    }
+    body {
       background:
-        repeating-linear-gradient(135deg, #e86100 0 2px, transparent 2px 20px),
-        linear-gradient(to top, #2d1b00 0%, #e86100 60%, #ffd700 100%);
+        repeating-linear-gradient(135deg, #2d1b00 0 2px, transparent 2px 20px),
+        linear-gradient(to top, #181818 0%, #2d1b00 60%, #e86100 100%);
       background-attachment: fixed;
       background-size: cover;
       position: relative;
       overflow-x: hidden;
+
+      cursor: url('assets/cursors/blaster.png') 16 16, auto;
     }
     /* Animated sun */
     .sun {
@@ -109,42 +106,23 @@
       0% { left: -10vw; }
       100% { left: 110vw; }
     }
-    /* Birds */
-    .birds {
+    .cigarette {
       position: absolute;
-      top: 13vh;
-      left: 40vw;
-      font-size: 2.1rem;
-      opacity: 0.8;
-      z-index: 2;
-      pointer-events: none;
-      user-select: none;
-      animation: birdsfly 18s linear infinite;
+      top: 12%;
+      left: -100px;
+      font-size: 1.8rem;
+      animation: cigFloat 35s linear infinite;
+      z-index: 3;
     }
-    @keyframes birdsfly {
-      0% { left: 40vw; top: 13vh;}
-      100% { left: 110vw; top: 7vh;}
-    }
-    /* Tumbleweed */
-    .tumbleweed {
-      position: fixed;
-      left: -5vw;
-      bottom: 2.5rem;
-      font-size: 2.5rem;
-      opacity: 0.8;
-      z-index: 101;
-      animation: tumble 22s linear infinite;
-      pointer-events: none;
-      user-select: none;
-    }
-    @keyframes tumble {
-      0% { left: -5vw; transform: rotate(0deg);}
-      100% { left: 110vw; transform: rotate(720deg);}
+
+    @keyframes cigFloat {
+      0% { transform: translateX(0); opacity: 0.8; }
+      100% { transform: translateX(2200px); opacity: 0.3; }
     }
     /* Cactus and tumbleweed using emoji */
     .desert-art {
-      position: fixed;
-      bottom: 0;
+      position: relative;
+      bottom: 1rem;
       left: 0;
       width: 100vw;
       text-align: center;
@@ -154,7 +132,7 @@
       user-select: none;
       opacity: 0.92;
       letter-spacing: 0.5rem;
-      background: linear-gradient(to top, #2d1b00cc 70%, transparent 100%);
+      background: linear-gradient(to top, #000000cc 0%, transparent 100%);
       padding-bottom: 0.5rem;
     }
     /* Hero Section */
@@ -168,6 +146,7 @@
       box-shadow: 0 4px 24px #0008;
     }
     .hero-title {
+      font-family: 'Press Start 2P', 'VT323', 'Courier New', monospace;
       font-size: 2.9rem;
       margin: 0.2rem 0 0.6rem 0;
       color: #ffc107;
@@ -219,19 +198,15 @@
       top: 0;
       z-index: 10;
     }
-    nav a, nav button {
+    a, button {
       color: #00ffff;
       background: none;
       border: none;
-      font-size: 1.18rem;
       font-family: inherit;
-      text-decoration: none;
       font-weight: bold;
-      margin: 0 0.3rem;
-      cursor: pointer;
       transition: color 0.2s;
     }
-    nav a:hover, nav button:hover {
+    a:hover, button:hover {
       color: #ffc107;
       text-shadow: 0 0 6px #ffcc00;
     }
@@ -246,16 +221,11 @@
       z-index: 2;
     }
     .dashboard-section {
-      background: #232323e6;
+      background: rgba(26, 26, 26, 0.92);
       border: 2px solid #ffc107;
       border-radius: 12px;
-      padding: 1.5rem 1.2rem;
-      min-width: 280px;
-      max-width: 340px;
-      flex: 1 1 280px;
-      margin: 0.5rem;
-      box-shadow: 0 2px 12px #0007;
-      font-size: 1.13rem;
+      box-shadow: 0 4px 16px #000a;
+      color: #fffbe7;
     }
     .dashboard-section h3 {
       color: #ffc107;
@@ -345,43 +315,342 @@
       -webkit-user-select: none; /* Safari and iOS Safari */
       user-select: none;         /* Modern browsers */
     }
+    /* For best browser support */
+    .noselect {
+      -webkit-user-select: none; /* Safari, iOS */
+      user-select: none;         /* Modern browsers */
+    }
+    @media (max-width: 600px) {
+      .hero-title { font-size: 2.2rem; }
+      .hero-tagline, .dashboard-section, .how-to-play li {
+        font-size: 1rem;
+      }
+      .hero-cta a {
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
+      }
+      nav a, nav button {
+        font-size: 1rem;
+      }
+    }
+    /* Dashboard box feed-item style and fade-in */
+    #liveFeed, #leaderboardFeed {
+      height: 180px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+    .feed-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: background 0.3s;
+    }
+    .feed-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    /* Cowboy Image in Hero Section */
+    .cowboy-img {
+      position: absolute;
+      left: 2rem;
+      bottom: 0;
+      width: 120px;
+      max-width: 30vw;
+      z-index: 2;
+      filter: drop-shadow(0 8px 16px #000a);
+      pointer-events: auto;
+      user-select: none;
+      transition: left 0.5s cubic-bezier(.68,-0.55,.27,1.55), top 0.5s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    .hero {
+      position: relative; /* Ensure absolute children are relative to hero */
+    }
+    @media (max-width: 700px) {
+      .cowboy-img { width: 70px; left: 0.5rem; }
+    }
+    #backgroundWrapper {
+      position: relative;
+      width: 1280px;
+      margin: 2rem auto 2rem auto;
+      border-radius: 24px;
+      border: 8px solid #00ffff;
+      background: #000;
+      padding: 2.5rem 2rem;
+      box-sizing: border-box;
+      box-shadow: 0 0 32px #00ffff44;
+    }
+    .pixel-font {
+      font-family: 'Press Start 2P', 'Courier New', Courier, monospace;
+      letter-spacing: 1px;
+      color: #ffc34d;
+      text-shadow: 2px 2px #000, 0 0 10px #00ffff;
+    }
+    .info-title {
+      font-size: 2.1rem;
+      margin-bottom: 1.2rem;
+    }
+    .info-section {
+      color: #fffbe7;
+      font-size: 1.13rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .legal-disclaimer {
+      color: #ffc107;
+      font-size: 0.98rem;
+      margin-top: 2rem;
+      text-align: center;
+      opacity: 0.85;
+    }
+    /* Ticker */
+    .dexhunt-ticker {
+      position: fixed;
+      bottom: .2rem; /* Adjust so it's just above the emoji bar */
+      left: 0;
+      width: 100vw;
+      background: transparent;
+      color: #00ffff;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.05rem;
+      white-space: nowrap;
+      overflow: hidden;
+      z-index: 200;
+      border-top: none;
+      box-shadow: none;
+      margin-bottom: 0; /* Remove extra margin */
+    }
+    .dexhunt-ticker span {
+      display: inline-block;
+      padding-left: 100vw;
+      animation: ticker-move 40s linear infinite;
+    }
+    @keyframes ticker-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100vw); }
+    }
+    /* YEEHAW text and confetti effect */
+    .yeehaw-effect {
+      position: absolute;
+      left: 50%;
+      top: 10%;
+      transform: translateX(-50%);
+      font-size: 2.5rem;
+      color: #ffc107;
+      font-family: 'Press Start 2P', monospace;
+      text-shadow: 2px 2px #000, 0 0 10px #ffcc00;
+      animation: yeehaw-bounce 1s cubic-bezier(.68,-0.55,.27,1.55);
+      z-index: 20;
+      pointer-events: none;
+      opacity: 0.95;
+    }
+    @keyframes yeehaw-bounce {
+      0% { transform: translateX(-50%) scale(0.7); opacity: 0; }
+      50% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+      100% { transform: translateX(-50%) scale(1); opacity: 0; }
+    }
+    .confetti {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      opacity: 0.85;
+      pointer-events: none;
+      z-index: 30;
+      animation: confetti-fall 1.2s linear forwards;
+    }
+    @keyframes confetti-fall {
+      to {
+        transform: translateY(120px) rotate(360deg) scale(0.7);
+        opacity: 0;
+      }
+    }
+        .footer-ticker-fade {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-ticker-fade::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 1rem;
+      width: 100%;
+      background: linear-gradient(to top, #0d0d0d, transparent);
+      pointer-events: none;
+    }
   </style>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RW3W4Q1SY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2RW3W4Q1SY');
+  </script>
 </head>
 <body>
+  <!-- NFT Badge (hidden by default, shown if user owns any Founders NFT) -->
+  <div id="nftBadge" style="display:none;position:absolute;top:12px;right:12px;z-index:2000;background:#181818cc;border:2px solid #ffcc00;border-radius:10px;padding:8px 16px;color:#ffc107;font-weight:bold;box-shadow:0 2px 8px #0008;">
+    <img id="nftBadgeImg" src="assets/cowboy.png" alt="NFT Badge" style="width:32px;height:32px;vertical-align:middle;margin-right:8px;"/>
+    <span id="nftBadgeLabel">Founders NFT Holder</span>
+  </div>
+
   <!-- Beta Notice -->
   <div style="background:#ffc107;color:#1a1a1a;text-align:center;padding:0.7rem 1rem;font-weight:bold;font-size:1.18rem;letter-spacing:1px;box-shadow:0 2px 8px #0006;z-index:100;position:relative;">
     🚧 <strong>Beta Notice:</strong> DexHunt is in public beta. No real $DEXHUNT tokens, NFTs, or prizes are awarded yet. All gameplay and rewards are for testing only!
   </div>
 
-  <!-- Animated Sun & Atmosphere -->
-  <div class="sun">☀️</div>
-  <div class="cloud" style="animation-delay: 0s;">☁️</div>
-  <div class="cloud cloud2" style="animation-delay: 10s;">☁️</div>
-  <div class="cloud cloud3" style="animation-delay: 20s;">☁️</div>
-  <div class="birds">🕊️ 🕊️</div>
-  <div class="tumbleweed">🌾</div>
+<!-- Meme-Lore Sky Animation -->
+<div class="sun">🧠</div> <!-- Big brain sun -->
+<div class="cloud" style="animation-delay: 0s;">💨</div> <!-- Dusty puff -->
+<div class="cloud cloud2" style="animation-delay: 10s;">💸</div> <!-- Flying money -->
+<div class="cloud cloud3" style="animation-delay: 20s;">🥲</div> <!-- Hopium cloud -->
+<div class="cigarette" style="animation-delay: 5s;">🚬</div> <!-- Floating cig -->
 
-   <!-- Hero Section (with UTM) -->
+    <!-- Hero Section -->
   <div class="hero">
+    <img src="assets/cowboy.png" alt="DexHunt Cowboy" class="cowboy-img" id="cowboyImg" style="cursor:pointer; left:2rem; bottom:0;">
     <div class="hero-title">DexHunt: Reflex Showdown</div>
-    <div class="hero-tagline">The Wild West of Skill-Based Crypto Gaming.<br>No gambling. No RNG. Just pure reflex and $DEXHUNT rewards.</div>
+    <div class="hero-tagline">Pioneering Skill-Based Web3 eSports.<br>The first reflex-based crypto arcade for competitive gamers.<br>No gambling. No RNG. Just pure skill, eSports competition, and $DEXHUNT rewards.</div>
     <div class="hero-cta">
-      <a href="duel.html?utm_source=index&utm_medium=hero_cta&utm_campaign=play_game" target="_blank" rel="noopener">🎮 Play Now</a>
-      <a href="https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump?utm_source=index&utm_medium=hero_cta&utm_campaign=pumpfun_buy" target="_blank" rel="noopener">💸 Buy $DEXHUNT</a>
+      <a href="duel.html" target="_blank" rel="noopener" title="Test your reflexes and win $DEXHUNT by skill!">🎮 Play Now <span style='cursor:help;' title='Skill-based duels. No luck, just skill!'>ℹ️</span></a>
+      <a href="https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump" target="_blank" rel="noopener" title="Buy $DEXHUNT to unlock skins and compete!">💸 Buy $DEXHUNT <span style='cursor:help;' title='Buy $DEXHUNT instantly on Pump.fun'>ℹ️</span></a>
     </div>
   </div>
 
   <!-- Nav Bar -->
-   <nav>
-    <a href="duel.html?utm_source=index&utm_medium=nav&utm_campaign=play_game" target="_blank" rel="noopener">🎮 Play</a>
-    <a href="pixelshop.html">🛒 PixelShop</a>
-    <a href="https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump?utm_source=index&utm_medium=nav&utm_campaign=pumpfun_buy" target="_blank" rel="noopener">💸 Buy</a>
-    <a href="#" onclick="alert('Leaderboard coming soon!')">🏆 Leaderboard</a>
-    <a href="https://discord.gg/NNswE2P4?utm_source=index&utm_medium=nav&utm_campaign=discord_join" target="_blank" rel="noopener">💬 Discord</a>
-    <button onclick="connectWallet()" id="navWalletBtn">💼 Connect Wallet</button>
+  <nav>
+    <a href="duel.html" target="_blank" rel="noopener" title="Play the main Skill-to-Win duel game">🎮 Play <span style='cursor:help;' title='Skill-based duels. No luck, just skill!'>ℹ️</span></a>
+    <a href="pixelshop.html" rel="noopener" title="Unlock skins, FX, and more with $DEXHUNT">🛒 PixelShop <span style='cursor:help;' title='Spend $DEXHUNT for exclusive in-game items'>ℹ️</span></a>
+    <a href="https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump" target="_blank" rel="noopener" title="Buy $DEXHUNT instantly">💸 Buy <span style='cursor:help;' title='Buy $DEXHUNT instantly on Pump.fun'>ℹ️</span></a>
+    <a href="#" onclick="alert('Leaderboard coming soon!')" title="See the top gunslingers">🏆 Leaderboard <span style='cursor:help;' title='Leaderboard coming soon!'>ℹ️</span></a>
+    <a href="https://discord.gg/NNswE2P4" target="_blank" rel="noopener" title="Join the DexHunt Discord">💬 Discord <span style='cursor:help;' title='Join the DexHunt community on Discord'>ℹ️</span></a>
+    <button onclick="connectWallet()" id="navWalletBtn" title="Connect your wallet to play and earn skill rewards">💼 Connect Wallet <span style='cursor:help;' title='Connect your wallet to track stats and unlock rewards'>ℹ️</span></button>
   </nav>
 
-  <!-- Dashboard Sections -->
+  <!-- 🛡️ Trust & Security Highlights -->
+  <div style="background:#232323;border:2px solid #00ff99;border-radius:14px;padding:1.2rem 1.5rem;margin:2.2rem auto 1.5rem auto;max-width:700px;box-shadow:0 2px 16px #00ff9944; color:#fffbe7; font-size:1.13rem; text-align:center;">
+    <h2 style="color:#00ff99;margin-top:0;margin-bottom:0.7em;letter-spacing:1px;">🛡️ Trust & Security Highlights</h2>
+    <ul style="list-style:none;padding:0;margin:0 0 0.5em 0;font-size:1.13rem;">
+      <li><b>Immutable Supply:</b> $DEXHUNT token supply is permanently fixed. No more tokens can ever be created.</li>
+      <li><b>Mint Authority Renounced:</b> On-chain proof — <a href="https://solscan.io/token/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump" target="_blank" style="color:#00ffff;">Solscan: $DEXHUNT</a> ("Mint Authority: None").</li>
+      <li><b>No Rugs Possible:</b> No one (not even the devs) can mint or change the supply. 100% community trust.</li>
+      <li><b>Transparent Tokenomics:</b> All burns, allocations, and vesting are on-chain and verifiable.</li>
+    </ul>
+  </div>
+
+  <!-- MOVE THIS BLOCK HERE -->
+  <div id="backgroundWrapper">
+    <div class="pixel-font info-title">$DEXHUNT Tokenomics & Info</div>
+    <div class="info-section">
+      <b>Supply:</b> 1,000,000,000 $DEXHUNT<br>
+      <b>Tax:</b> 0%<br>
+      <b>Ownership:</b> Renounced<br>
+      <b>Liquidity:</b> Locked<br>
+      <b>Transparency:</b> 100% On-Chain<br>
+      <br>
+      <b>Quick Buy & Track:</b><br>
+      <a href="https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump" target="_blank" rel="noopener" style="color:#00ff99;font-weight:bold;">💸 Buy $DEXHUNT on Pump.fun</a><br>
+      <a href="https://dexscreener.com/solana/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump" target="_blank" rel="noopener" style="color:#00ffff;font-weight:bold;">📊 View on Dexscreener</a><br>
+      <span style="color:#ffc107;font-size:0.98em;">CA: <span style="user-select:all;">5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump</span></span>
+      <br><br>
+      <b>Why $DEXHUNT?</b><br>
+      <span style="color:#00ffff;">Pioneering the skill-based Web3 eSports revolution. $DEXHUNT is the first reflex-based crypto arcade game designed for competitive gamers and eSports enthusiasts.</span> 
+      <br>
+      <b>How to Play:</b> Connect your wallet, test your reflexes, and unlock exclusive skins & FX. Compete for the fastest draw, climb the leaderboard, and join our eSports tournaments!
+      <br><br>
+      <span style="color:#ffc107;">Ready to join the new era of Web3 eSports? $DEXHUNT is built for the bold—no luck, just skill. The next legend could be you.</span>
+    </div>
+    <div class="legal-disclaimer pixel-font">
+      $DEXHUNT is a skill-based arcade game. No investment advice, no guaranteed returns. All gameplay and rewards are for entertainment only. Please play responsibly.
+    </div>
+  </div>
+  <!-- END MOVE -->
+
+  <!-- Founders Collection NFTs Section -->
+  <div id="foundersNFTSection" style="background:linear-gradient(135deg,#232323 80%,#ffc10722 100%);border-radius:18px;box-shadow:0 4px 32px #000a,0 1.5px 0 #ffc10744 inset;padding:2rem 1.5rem 1.5rem 1.5rem;margin:2.5rem auto 2rem auto;max-width:900px;position:relative;">
+    <h2 style="color:#ffc107;letter-spacing:1px;">🔥 Founders Collection NFTs <span style='cursor:help;' title='Limited-edition, cosmetic-only collectibles. No gameplay advantage, no investment value.'>ℹ️</span></h2>
+    <div style="display:flex;flex-wrap:wrap;gap:32px;justify-content:center;align-items:flex-end;">
+      <div class="nft-card" style="background:#181818;border:2px solid #ffcc00;border-radius:12px;padding:1.2em;width:180px;text-align:center;">
+        <img src="assets/cowboy.png" alt="Clickbuddy Cowboy" style="width:100px;height:auto;margin-bottom:0.5em;"/>
+        <div style="font-weight:bold;">Clickbuddy Cowboy</div>
+        <div style="font-size:0.95em;color:#ffc34d;">OG Mascot</div>
+        <button class="mint-btn" onclick="openNFTModal('Clickbuddy Cowboy')">Mint</button>
+        <div class="nft-supply" id="supply-cowboy">0/100</div>
+      </div>
+      <div class="nft-card" style="background:#181818;border:2px solid #ffcc00;border-radius:12px;padding:1.2em;width:180px;text-align:center;">
+        <img src="assets/pow_explosion.png" alt="POW! Explosion" style="width:100px;height:auto;margin-bottom:0.5em;"/>
+        <div style="font-weight:bold;">POW! Explosion</div>
+        <div style="font-size:0.95em;color:#ffc34d;">Hand-crafted Art</div>
+        <button class="mint-btn" onclick="openNFTModal('POW! Explosion')">Mint</button>
+        <div class="nft-supply" id="supply-pow">0/100</div>
+      </div>
+      <div class="nft-card" style="background:#181818;border:2px solid #ffcc00;border-radius:12px;padding:1.2em;width:180px;text-align:center;">
+        <img src="assets/10.png" alt="Vault Guardian" style="width:100px;height:auto;margin-bottom:0.5em;"/>
+        <div style="font-weight:bold;">Vault Guardian</div>
+        <div style="font-size:0.95em;color:#ffc34d;">Legendary</div>
+        <button class="mint-btn" onclick="openNFTModal('Vault Guardian')">Mint</button>
+        <div class="nft-supply" id="supply-vault">0/25</div>
+      </div>
+      <div class="nft-card" style="background:#181818;border:2px solid #ffcc00;border-radius:12px;padding:1.2em;width:180px;text-align:center;">
+        <img src="assets/11.png" alt="Goldflare Monument" style="width:100px;height:auto;margin-bottom:0.5em;"/>
+        <div style="font-weight:bold;">Goldflare Monument</div>
+        <div style="font-size:0.95em;color:#ffc34d;">Legendary</div>
+        <button class="mint-btn" onclick="openNFTModal('Goldflare Monument')">Mint</button>
+        <div class="nft-supply" id="supply-goldflare">0/25</div>
+      </div>
+      <div class="nft-card" style="background:#181818;border:2px solid #ffcc00;border-radius:12px;padding:1.2em;width:180px;text-align:center;">
+        <img src="assets/13.png" alt="Arcade Sovereign" style="width:100px;height:auto;margin-bottom:0.5em;"/>
+        <div style="font-weight:bold;">Arcade Sovereign</div>
+        <div style="font-size:0.95em;color:#ffc34d;">Legendary</div>
+        <button class="mint-btn" onclick="openNFTModal('Arcade Sovereign')">Mint</button>
+        <div class="nft-supply" id="supply-sovereign">0/25</div>
+      </div>
+    </div>
+    <div style="margin-top:1em;font-size:0.98em;color:#ffc34d;">
+      <span style="font-size:1.2em;">💡</span> 💡 All items shown are cosmetic collectibles only. No financial value, no gameplay advantage, and no investment promise. See legal docs for full terms. <a href="legal/terms_and_conditions.html" style="color:#00ffff;">See legal docs</a>.
+    </div>
+  </div>
+
+  <!-- NFT Modal -->
+  <div id="nftModal" class="notification-popup" style="display:none;z-index:2000;">
+    <div id="nftModalContent"></div>
+    <button class="mint-btn" id="mintNFTBtn">Mint Now</button>
+    <button class="mint-btn" onclick="closeNFTModal()">Close</button>
+    <div style="margin-top:1em;font-size:0.9em;color:#ffc34d;">All NFTs are cosmetic-only. No investment, no profit, no gameplay advantage.</div>
+  </div>
+
+  <!-- Dashboard: Live Feed & Leaderboard (dashboard box style, above main dashboard) -->
+  <div class="dashboard" style="margin-top:1.5rem;">
+    <div class="dashboard-section" id="liveFeedBox" style="max-width:340px;min-width:260px;flex:1 1 260px;">
+      <h3 style="color:#ffc107;display:flex;align-items:center;gap:0.5em;">🌵 Live Feed <span style='cursor:help;' title='Live updates of duels, burns, and meme moments.'>ℹ️</span></h3>
+      <div id="liveFeed" style="height:180px;overflow-y:auto;"></div>
+    </div>
+    <div class="dashboard-section" id="leaderboardBox" style="max-width:340px;min-width:260px;flex:1 1 260px;">
+      <h3 style="color:#ffc107;display:flex;align-items:center;gap:0.5em;">💀 Leaderboard <span style='cursor:help;' title='Top skill-based draws and $DEXHUNT burned. Global stats coming soon!'>ℹ️</span></h3>
+      <div id="leaderboardFeed" style="height:180px;overflow-y:auto;"></div>
+      <div id="globalStats" style="margin-top:0.7em;font-size:0.95em;color:#ffc34d;">
+        <b>Global Best:</b> 187ms | <b>Top Streak:</b> 12 | <b>Total Burned:</b> 1,234,567 $DEXHUNT
+        <span style='cursor:help;' title='Mock stats for demo. Real stats coming soon!'>ℹ️</span>
+      </div>
+      <button class="share-btn" id="shareScoreBtn" style="margin-top:1em;" title="Share your best draw and streak on X (Twitter) or copy a meme!">Share Score 🚀</button>
+    </div>
+    <div class="dashboard-section" id="viralChallengeBox" style="max-width:340px;min-width:260px;flex:1 1 260px;">
+      <h3 style="color:#ffc107;display:flex;align-items:center;gap:0.5em;">🔥 Viral Challenge <span style='cursor:help;' title='Complete challenges and flex your streak for meme glory!'>ℹ️</span></h3>
+      <div id="viralChallengeContent">
+        <b>Today’s Challenge:</b> Win 3 duels in a row under 400ms!<br>
+        <span id="challengeStatus" style="color:#00ff99;">Not started</span>
+        <br><button class="share-btn" id="flexStreakBtn" style="margin-top:0.7em;display:none;" title="Flex your streak with a meme!">Flex Your Streak 💪</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Dashboard Sections (unchanged) -->
   <div class="dashboard">
     <!-- Your Stats -->
     <div class="dashboard-section" id="yourStats">
@@ -389,65 +658,6 @@
       <div id="statsContent">
         <p>Connect your wallet to see your stats!</p>
       </div>
-    </div>
-    <!-- Leaderboard Preview -->
-    <div class="dashboard-section" id="leaderboardPreview">
-      <h3>Leaderboard</h3>
-      <ul id="leaderboardList">
-        <li>Loading top gunslingers...</li>
-      </ul>
-      <a href="#" onclick="alert('Full leaderboard coming soon!')">View Full Leaderboard</a>
-    </div>
-    <!-- PixelShop Preview -->
-    <div class="dashboard-section pixelshop-preview">
-      <h3>PixelShop Preview</h3>
-      <div class="item">
-        <h4>🔫 Golden Gun Skin</h4>
-        <p>Cost: 500 $DEXHUNT</p>
-        <button onclick="burnDexhuntToken('Golden Gun Skin')">Unlock</button>
-      </div>
-      <div class="item">
-        <h4>🎵 Yeehaw Sound FX</h4>
-        <p>Cost: 250 $DEXHUNT</p>
-        <button onclick="burnDexhuntToken('Yeehaw Sound FX')">Unlock</button>
-      </div>
-      <a href="pixelshop.html" style="color:#00ffff;display:inline-block;margin-top:0.8rem;">See All Items</a>
-    </div>
-    <!-- Lucky Cactus Spin Mini-Game -->
-    <div class="dashboard-section" id="luckySpin">
-      <h3>🌵 Lucky Cactus Spin!</h3>
-      <div id="spinResult" style="margin:1rem 0;min-height:2.2rem;"></div>
-      <button onclick="spinCactus()" style="font-size:1.2rem;padding:0.7rem 2rem;">Spin 🌵</button>
-      <p style="font-size:0.95rem;color:#ffc107;margin-top:0.7rem;">Spin daily for a chance at $DEXHUNT or NFT prizes!</p>
-    </div>
-    <!-- News/Updates -->
-    <div class="dashboard-section">
-      <h3>News & Updates</h3>
-      <ul style="text-align:left;max-width:290px;margin:0 auto;">
-        <li>🔥 Beta live! Compete for the fastest draw.</li>
-        <li>🏆 Tournaments & NFTs launching soon.</li>
-        <li>💸 $DEXHUNT now tradable on Pump.fun!</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Live Game Feed & Testimonials -->
-  <div class="dashboard" style="margin-top:0;">
-    <div class="dashboard-section live-feed">
-      <h3>Live Game Feed</h3>
-      <div id="liveFeed">
-        <p>🤠 Sawn-Off Slim just set a new record: 212ms!</p>
-        <p>🎉 Player0 unlocked Golden Gun Skin!</p>
-      </div>
-    </div>
-    <div class="dashboard-section testimonials">
-      <h3>What Players Say</h3>
-      <div>
-        <p>“Fastest, fairest crypto game I’ve played!”</p>
-        <p>“No gambling, just skill. Love it!”</p>
-      </div>
-    </div>
-  </div>
 
   <!-- How to Play / Why Play Section -->
   <section class="how-to-play">
@@ -456,66 +666,127 @@
       <li>🎯 Click “Play Now” and connect your wallet.</li>
       <li>⏳ Wait for the “DRAW!” signal, then click as fast as you can.</li>
       <li>🏆 Win $DEXHUNT for fast draws. Unlock skins & FX in the PixelShop.</li>
-      <li>🤝 Compete on the leaderboard. No luck, no gambling—just skill!</li>
+      <li>🤝 Compete on the leaderboard and in future eSports tournaments. No luck, no gambling—just skill!</li>
+      <li>🎮 Built for eSports: Skill-based, competitive, and ready for the next generation of Web3 gaming.</li>
       <li>🔒 100% transparent, legal, and community-driven.</li>
     </ul>
     <p style="margin-top:1.2rem;">
-      <a href="LITEPAPER_v2.0.md" target="_blank" style="color:#00ffff;">Read the Litepaper</a>
+      <a href="LITEPAPER_v2.0.md" target="_blank" rel="noopener" style="color:#00ffff;">Read the Litepaper</a>
     </p>
   </section>
 
-  <script src="swapFromGame.js"></script>
-  <script>
-    // Example: Populate stats if wallet connected (mock)
-    function connectWallet() {
-      document.getElementById('navWalletBtn').textContent = "💼 Wallet: 7x...123";
-      document.getElementById('statsContent').innerHTML = `
-        <p><strong>Best Draw:</strong> 241ms</p>
-        <p><strong>$DEXHUNT:</strong> 1,250</p>
-        <p><strong>Unlocked:</strong> Golden Gun Skin</p>
-      `;
-      document.getElementById('wallet-address') && (document.getElementById('wallet-address').textContent = "Wallet: 7x...123");
-    }
-    // Example: Populate leaderboard preview (mock)
-    document.getElementById('leaderboardList').innerHTML = `
-      <li>1. Sawn-Off Slim — 212ms</li>
-      <li>2. QuickDrawKate — 233ms</li>
-      <li>3. Player0 — 241ms</li>
-    `;
+  <!-- Meme-Lore Emoji Bar (spacer/ambience only) -->
+  <div class="footer-ticker-fade" style="font-size: 1.5rem; text-align: center; opacity: 0.85; letter-spacing: 0.3rem; padding: 0.4rem 0;">
+    🧠&nbsp;🚬&nbsp;💸&nbsp;🌵&nbsp;🪙&nbsp;🎯&nbsp;💀&nbsp;🧢&nbsp;🔥&nbsp;🧠
+  </div>
 
-    // Lucky Cactus Spin Mini-Game
-    function spinCactus() {
-      const outcomes = [
-        "🎉 You won 5 $DEXHUNT!",
-        "🌵 Try again tomorrow!",
-        "💎 NFT drop coming soon!",
-        "🔥 Double your next reward!",
-        "😅 No luck this time, cowboy!"
-      ];
-      const result = outcomes[Math.floor(Math.random() * outcomes.length)];
-      document.getElementById('spinResult').textContent = result;
-      // Monetization: Show ad, affiliate, or buy link after spin
-      if(result.includes("won")) {
-        setTimeout(() => {
-          document.getElementById('spinResult').innerHTML +=
-            '<br><a href="https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump?utm_source=index&utm_medium=lucky_spin&utm_campaign=pumpfun_buy" target="_blank" style="color:#00ffff;">Buy more $DEXHUNT</a>';
-        }, 1200);
-      }
-    }
-  </script>
+  <!-- Hype Ticker (Live Scroll Updates) -->
+  <div class="dexhunt-ticker">
+    <span>🔥 2,500 $DEXHUNT burned | 🏆 Fastest Draw: 312ms | 💸 1.2 SOL Buy Triggered | 🎯 Reflex Master Engaged | 🎰 PixelShop Preview Dropped | 🤠 Saddle Up, Cowboy</span>
+  </div>
+  <!-- Meme-Lore Sky Animation -->
+  <div class="yeehaw-effect" id="yeehawText" style="display:none;">YEEHAW!</div>
+  <div id="confettiContainer" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10;"></div>
 
+  <!-- Support the Dev Section -->
+<div style="text-align:center; background:#181818dd; padding:2rem; border-radius:12px; margin:2rem auto; max-width:480px; border:2px solid #ffc107; box-shadow:0 0 16px #ffc10755;">
+<h2 style="color:#ffc107; font-family:'Press Start 2P', monospace; font-size:1.1rem;">☕ Tip the Dev</h2>
+<p style="color:#aaa; font-size:0.95rem;">Support ongoing development — 100% voluntary. No unlocks, no rewards.</p>
+<div style="margin:1rem 0;">
+<label for="tipWalletInput" style="display:none;">DexHunt Tip Wallet</label>  
+<input id="tipWalletInput" readonly placeholder="Copy wallet address" title="Tip wallet address" value="CU2AznX2UgZxcxwBjLYW87BpKyCcFX56Nb37w1UwMm4F" style="width:80%; padding:0.5rem; border:none; border-radius:6px; font-size:0.95rem;" />
+<button onclick="copyWallet()" style="margin-left:0.5rem; padding:0.5rem; font-weight:bold;">📋 Copy</button>
+</div>
+<button onclick="sendTipWithPhantom()" style="background:#ffc107; color:#000; font-weight:bold; padding:0.7rem 1.2rem; border:none; border-radius:8px; margin-top:1rem;">🦊 Tip with Phantom</button>
+<p style="margin-top:1rem;">
+<a href="solana:CU2AznX2UgZxcxwBjLYW87BpKyCcFX56Nb37w1UwMm4F?amount=0.1" style="color:#00ffff; text-decoration:none;" target="_blank">
+      📱 Mobile Tip Link (Phantom, Solflare)
+    </a>
+</p>
+<div style="margin-top:1.5rem;">
+<img alt="QR Code for SOL Tips" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&amp;data=CU2AznX2UgZxcxwBjLYW87BpKyCcFX56Nb37w1UwMm4F" style="border-radius:8px;"/>
+<p style="font-size:0.8rem; color:#888;">Scan with mobile Phantom or Solflare</p>
+</div>
+</div>
+<script>
+function copyWallet() {
+  const walletInput = document.getElementById('tipWalletInput');
+  walletInput.select();
+  walletInput.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  alert("Wallet address copied to clipboard!");
+}
+
+async function sendTipWithPhantom() {
+  if (window.solana && window.solana.isPhantom) {
+    try {
+      const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
+      const fromPubkey = window.solana.publicKey;
+      const toPubkey = new solanaWeb3.PublicKey("CU2AznX2UgZxcxwBjLYW87BpKyCcFX56Nb37w1UwMm4F");
+      const transaction = new solanaWeb3.Transaction().add(
+        solanaWeb3.SystemProgram.transfer({
+          fromPubkey,
+          toPubkey,
+          lamports: 10000000
+        })
+      );
+      const latestBlockhash = await connection.getLatestBlockhash();
+      transaction.recentBlockhash = latestBlockhash.blockhash;
+      transaction.feePayer = fromPubkey;
+      const signed = await window.solana.signTransaction(transaction);
+      const signature = await connection.sendRawTransaction(signed.serialize());
+      alert("Tip sent! TX: " + signature);
+    } catch (e) {
+      console.error("Tip failed:", e);
+      alert("Failed to send tip.");
+    }
+  } else {
+    alert("Phantom wallet not found.");
+  }
+}
+</script>
+
+  <!-- Footer remains at the bottom of the HTML, but not fixed -->
   <footer>
     <p>
-      <a href="https://x.com/DexHuntGame" title="Follow DexHunt on Twitter">@DexHuntGame</a> |
+      <a href="https://x.com/DexHuntGame" target="_blank" rel="noopener" title="Follow DexHunt on Twitter">@DexHuntGame</a> |
       <a href="links.html" title="All Official Links">🔗 All DexHunt Links</a> |
       <a href="mailto:dexhuntgame@gmail.com" title="Email Us">📬 Contact</a> |
       <a href="legal/legal.html">📜 Legal Hub</a> |
       <a href="https://discord.gg/NNswE2P4" target="_blank" rel="noopener">💬 Discord</a>
     </p>
-    <p style="font-size: 0.8rem; margin-top: 0.5rem;">
+  <footer style="text-align:center; font-size:0.85rem; margin-top:2rem; color:#aaa; padding-bottom:1rem;">
+    <p style="margin-bottom: 0.2rem;">
       This town ain't big enough for stolen code. © 2025 DexHunt: Reflex Showdown
     </p>
+    <p style="font-size: 0.75rem; margin-top: 0.2rem; color: #888;">
+      All in-game $DEXHUNT balances and purchases are simulated using browser storage during Beta. No real crypto is earned or spent.
+    </p>
+    <div style="text-align:center; margin-top: 2rem;">
+  </div>
   </footer>
-  <div class="desert-art">🌵&nbsp;&nbsp;🌵&nbsp;&nbsp;💀&nbsp;&nbsp;🌵&nbsp;&nbsp;🌾&nbsp;&nbsp;🌵&nbsp;&nbsp;🌾&nbsp;&nbsp;🌵</div>
+
+
+  <!-- Audio for meme/viral and cowboy effects (always keep these) -->
+  <audio id="cowboyHitSound" src="assets/sounds/cowboy-hit-grunt.mp3" preload="auto"></audio>
+  <audio id="yeehawSound" src="assets/sounds/yeehaw-13229.mp3" preload="auto"></audio>
+
+  <audio id="gruntAudio" src="assets/grunt.mp3" preload="auto"></audio>
+  <audio id="yeehawAudio" src="assets/yeehaw.mp3" preload="auto"></audio>
+
+  <script src="js/common.js"></script>
+  <script>
+    // Register service worker for PWA support
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function(err) {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+  </script>
 </body>
 </html>
+

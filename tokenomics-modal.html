@@ -1,0 +1,40 @@
+<!-- Tokenomics Modal -->
+<div id="tokenomicsModal" style="display:none; position:fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); z-index:9999; color:#fff; font-family:sans-serif;">
+  <div style="background:#222; border-radius:12px; max-width:420px; margin:60px auto; padding:2rem; position:relative; box-shadow:0 8px 32px #000a;">
+    <button onclick="closeTokenomicsModal()" style="position:absolute; right:1rem; top:1rem; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">×</button>
+    <h2 style="margin-top:0;">$DEXHUNT Tokenomics</h2>
+    <p style="font-size:1.1em; background:#181; color:#fff; border-radius:6px; padding:0.5em 1em; margin-bottom:1em; font-family:inherit;"><b>Play, Earn, Burn, Repeat:</b> $DEXHUNT powers the DexHunt arcade. Duel, earn, and upgrade in a fair, transparent, and community-driven ecosystem. Every duel, shop purchase, and event helps reduce supply through innovative, game-integrated burn mechanics. <b>All on-chain, all for the community.</b></p>
+    <p><b>Contract Address:</b> <span id="caSpan">5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump</span>
+      <button onclick="navigator.clipboard.writeText(document.getElementById('caSpan').textContent);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1000);">Copy</button>
+      <a href="https://solscan.io/token/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump" target="_blank" rel="noopener" style="color:#0ff;">View on Solscan</a>
+    </p>
+    <ul style="list-style:none; padding:0;">
+      <li><b>Circulating Supply (Dynamic):</b> <span id="circulatingSupply">[Live]</span> $DEXHUNT</li>
+      <li><b>Burned:</b> <span id="burnedAmount">[Live]</span> $DEXHUNT</li>
+      <li><b>Bonding Curve Price:</b> <span id="bondingCurvePrice">[Live]</span> SOL/$DEXHUNT</li>
+    </ul>
+    <p style="font-size:0.95em; color:#aaa; margin-bottom:1em;">$DEXHUNT uses a bonding curve: token price and circulating supply increase as more tokens are minted via gameplay and purchases. All mint/burn events are on-chain and verifiable.</p>
+    <img src="assets/DEXHUNT_PixelShop_UtilityFlow_Transparent.png" alt="Tokenomics Chart" style="width:100%;border-radius:8px;margin:1rem 0;"/>
+    <h4>How to get $DEXHUNT?</h4>
+    <ul>
+      <li>Play DexHunt and win duels (mints new tokens on curve)</li>
+      <li>Participate in airdrops</li>
+      <li>Swap on DEX (coming soon)</li>
+    </ul>
+    <h4>Game-Integrated Burn Logic</h4>
+    <ul>
+      <li><b>Duel Entry:</b> A % of every duel entry is burned, the rest goes to prizes and treasury.</li>
+      <li><b>Shop Purchases:</b> Buying cosmetics, power-ups, or upgrades burns a portion of $DEXHUNT.</li>
+      <li><b>Special Events:</b> Limited events may feature higher burn rates or unique burn-based rewards.</li>
+      <li><b>Leaderboard:</b> Top players can burn tokens for exclusive badges or NFT avatars.</li>
+      <li><b>Community Votes:</b> Periodic votes decide additional burns from the treasury.</li>
+    </ul>
+    <h4>Technical & Legal</h4>
+    <ul>
+      <li>All mints and burns are verifiable on-chain (testnet for demo).</li>
+      <li>Bonding curve logic is open and transparent.</li>
+      <li>$DEXHUNT is a utility token for in-game use only. No investment or profit guarantees.</li>
+      <li>All tokenomics are for demo/beta. Not financial advice. CA is testnet for now.</li>
+    </ul>
+  </div>
+</div>

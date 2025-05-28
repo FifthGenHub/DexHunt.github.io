@@ -1,0 +1,117 @@
+{
+  "Gun Skins Pack": [
+    {
+      "name": "Hellfire Revolver",
+      "description": "Flames flicker down the barrel every time you draw. Cosmetic only.",
+      "cost": 800,
+      "rarity": "Epic",
+      "lore": "Forged in the last duel of the Ghost West."
+    },
+    {
+      "name": "Chrome Showstopper",
+      "description": "Reflective silver skin that gleams with every shot. Style points included.",
+      "cost": 600,
+      "rarity": "Rare",
+      "lore": "So flashy, it might get you shot first."
+    },
+    {
+      "name": "Dusty Iron",
+      "description": "Rust-tinted revolver from the Badlands. Feels cursed.",
+      "cost": 450,
+      "rarity": "Uncommon",
+      "lore": "No one remembers who owned it last. They didn\u2019t last long."
+    }
+  ],
+  "Sound FX Pack": [
+    {
+      "name": "Yeehaw Echo",
+      "description": "Triggers a loud 'YEEHAW!' on successful shot.",
+      "cost": 300,
+      "rarity": "Rare",
+      "lore": "Legacy of the Old Saloon Shootout champion."
+    },
+    {
+      "name": "Ricochet Madness",
+      "description": "Adds a high-speed ricochet ping to your draws.",
+      "cost": 350,
+      "rarity": "Rare",
+      "lore": "Once bounced a bullet across five wanted posters."
+    },
+    {
+      "name": "Cowpoke Grunt",
+      "description": "Unique hit grunt for your cowboy foe.",
+      "cost": 250,
+      "rarity": "Uncommon",
+      "lore": "The sound of losing never sounded so good."
+    }
+  ],
+  "Background Pack": [
+    {
+      "name": "Storm Showdown",
+      "description": "Adds dynamic lightning and dark clouds to your duel background.",
+      "cost": 600,
+      "rarity": "Epic",
+      "lore": "Every thunderclap marks another draw won."
+    },
+    {
+      "name": "Saloon Sunset",
+      "description": "Turns the backdrop into a glowing saloon sunset.",
+      "cost": 400,
+      "rarity": "Rare",
+      "lore": "Painted by an outlaw turned artist. He still owes rent."
+    },
+    {
+      "name": "Ghost Canyon",
+      "description": "Duel among the haunted ridges of Ghost Canyon.",
+      "cost": 500,
+      "rarity": "Rare",
+      "lore": "Echoes from past duelists still whisper here."
+    }
+  ],
+  "FX Overlay Pack": [
+    {
+      "name": "Quickdraw Glow",
+      "description": "Adds a golden glow ring around your cursor on shot.",
+      "cost": 500,
+      "rarity": "Rare",
+      "lore": "Only the fastest trigger this aura."
+    },
+    {
+      "name": "Phantom Blur",
+      "description": "Your target blur-trails slightly before appearing.",
+      "cost": 650,
+      "rarity": "Epic",
+      "lore": "Even the wind can\u2019t catch you now."
+    },
+    {
+      "name": "Bullet Comet",
+      "description": "Adds comet tail FX to the explosion when you hit.",
+      "cost": 550,
+      "rarity": "Rare",
+      "lore": "Fast enough to light the air on fire."
+    }
+  ],
+  "NFT Preview Pack": [
+    {
+      "name": "The Last Draw",
+      "description": "1-of-1 NFT \u2014 only given to the fastest tournament duelist.",
+      "cost": "Not for sale",
+      "rarity": "Legendary",
+      "lore": "No one wins it by luck. It must be earned."
+    },
+    {
+      "name": "Phantom Rider",
+      "description": "Ultra-rare limited NFT with ghostly gun overlays.",
+      "cost": "NFT Drop Only",
+      "rarity": "Mythic",
+      "lore": "Rides through the code. Only appears every 1,000 duels."
+    },
+    {
+      "name": "Gunmetal Prophet",
+      "description": "Epic NFT skin \u2014 silver trenchcoat, glowing eyes.",
+      "cost": "NFT Drop Only",
+      "rarity": "Epic",
+      "lore": "He saw the burn mechanics before they launched."
+    }
+  ]
+}

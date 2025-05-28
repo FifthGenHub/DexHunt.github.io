@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DexHunt Market Cap Projection (2025–2029)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      background: #181818;
+      color: #ffc107;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    h2 {
+      margin-top: 2rem;
+      color: #ffc107;
+      text-shadow: 1px 1px #000;
+    }
+    #chartContainer {
+      background: #232323;
+      border-radius: 18px;
+      box-shadow: 0 4px 32px #000a;
+      padding: 2rem 2.5rem;
+      margin: 2rem 0;
+      max-width: 700px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h2>DexHunt Market Cap Projection (2025–2029)</h2>
+  <div id="chartContainer">
+    <canvas id="marketCapChart" width="600" height="340"></canvas>
+  </div>
+  <script>
+    const ctx = document.getElementById('marketCapChart').getContext('2d');
+    const data = {
+      labels: ['2025', '2026', '2027', '2028', '2029'],
+      datasets: [{
+        label: 'Projected Market Cap (USD)',
+        data: [2500000, 10500000, 28000000, 60000000, 108000000],
+        borderColor: '#00ff99', // Brighter green for crypto look
+        backgroundColor: 'rgba(0,255,153,0.08)',
+        pointBackgroundColor: '#fff',
+        pointBorderColor: '#00ff99',
+        pointRadius: 6,
+        pointHoverRadius: 10,
+        borderWidth: 3,
+        tension: 0.18,
+        fill: false, // No fill for classic crypto chart
+        shadowOffsetX: 2,
+        shadowOffsetY: 2,
+        shadowBlur: 8,
+        shadowColor: '#00ff99',
+      }]
+    };
+    const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          labels: { color: '#ffc107', font: { size: 16 } }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              let val = context.parsed.y;
+              return ' $' + val.toLocaleString();
+            }
+          }
+        },
+        title: {
+          display: false
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#ffc107', font: { size: 15 } },
+          grid: { color: '#333' }
+        },
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: '#ffc107',
+            font: { size: 15 },
+            callback: function(value) {
+              if (value >= 1000000) return '$' + (value/1000000) + 'M';
+              return '$' + value.toLocaleString();
+            }
+          },
+          grid: { color: '#333' }
+        }
+      }
+    };
+    new Chart(ctx, { type: 'line', data, options });
+  </script>
+</body>
+</html>

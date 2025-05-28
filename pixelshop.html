@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DexHunt PixelShop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Courier New', Courier, monospace; background: #181818; color: #ffc107; text-align: center; margin:0; }
+    .pixel-font { font-family: 'Press Start 2P', 'Courier New', Courier, monospace; letter-spacing: 1px; color: #ffc107; text-shadow: 2px 2px #000, 0 0 10px #00ffff; }
+    h1, h2, h3 { font-family: 'Press Start 2P', 'Courier New', Courier, monospace; color: #ffc107; text-shadow: 2px 2px #000, 0 0 10px #00ffff; }
+    .shop { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px; }
+    .item { background: #232323; border: 2px solid #00ffff; border-radius: 12px; padding: 15px; width: 160px; }
+    .item img { width: 100%; height: auto; border-radius: 8px; }
+    .item button { margin-top: 10px; padding: 6px 12px; border: none; background: #ffc107; color: #181818; cursor: pointer; border-radius: 8px; font-family: 'Press Start 2P', monospace; font-size: 1em; }
+    .item .equipped { background: green; color: white; }
+    .notification-popup { position: fixed; top: 20%; left: 50%; transform: translateX(-50%); background: #232323; border: 2px solid #00ffff; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 32px #000a; z-index: 1000; display: none; flex-direction: column; align-items: center; }
+    .notification-popup button { margin-top: 1rem; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; background: #ffc107; color: #222; font-family: 'Press Start 2P', monospace; }
+    .share-btn { background: #ffc107; color: #222; font-family: 'Press Start 2P', monospace; }
+    .confetti { position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 2000; overflow: hidden; display: none; }
+    .confetti span { position: absolute; font-size: 2.2rem; pointer-events: none; user-select: none; animation: confetti-fall 1.2s linear forwards; }
+    @keyframes confetti-fall { 0% { transform: translateY(-60px) rotate(0deg) scale(1);} 80% { opacity: 1;} 100% { transform: translateY(90vh) rotate(360deg) scale(0.7); opacity: 0;} }
+    /* Cowboy image styles */
+    .cowboy-img { position: absolute; left: 2rem; bottom: 2rem; width: 120px; max-width: 30vw; z-index: 100; filter: drop-shadow(0 8px 16px #000a); pointer-events: auto; user-select: none; transition: left 0.5s cubic-bezier(.68,-0.55,.27,1.55), top 0.5s cubic-bezier(.68,-0.55,.27,1.55); }
+    @media (max-width: 700px) { .cowboy-img { width: 70px; left: 0.5rem; } }
+    /* Shop container styling for cohesion */
+    #shopWrapper { background: linear-gradient(135deg, #232323 80%, #ffc10722 100%); border-radius: 18px; box-shadow: 0 4px 32px #000a, 0 1.5px 0 #ffc10744 inset; padding: 2.5rem 1.5rem 1.5rem 1.5rem; margin: 2.5rem auto 2rem auto; max-width: 1100px; position: relative; }
+    #dexhunt-balance, #balance { color: #00ffff; font-family: 'Press Start 2P', monospace; font-size: 1.1em; margin-bottom: 0.5em; }
+    #refreshBalanceBtn, #connectWalletBtn { background: #00ffff; color: #181818; border-radius: 8px; padding: 6px 16px; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 0.95rem; margin-bottom: 1rem; }
+    #refreshBalanceBtn:hover, #connectWalletBtn:hover { background: #ffc107; color: #222; }
+    #toast { background: #232323; color: #ffc107; border: 2px solid #00ffff; border-radius: 8px; padding: 1em 2em; font-family: 'Press Start 2P', monospace; position: fixed; left: 50%; top: 10%; transform: translateX(-50%); z-index: 3000; }
+    .yeehaw-effect {
+    color: #ffcc00;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px #000;
+    z-index: 3000;
+    animation: fadeUp 1.2s ease-out;
+  }
+
+  @keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(10px); }
+    20% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-40px); }
+  }
+  </style>
+</head>
+<body>
+  <div id="shopWrapper">
+    <h1 class="pixel-font">🎯 DexHunt PixelShop <span style='cursor:help;' title='Spend $DEXHUNT to unlock fun, cosmetic-only skins and reticles! No gameplay advantage, no real-world value.'>ℹ️</span></h1>
+    <div class="pixel-font" style="background:#232323;border:2px solid #ff9900;border-radius:10px;padding:0.7em 1em;margin:0.7em auto 1.2em auto;max-width:600px;color:#ffc107;font-size:1.01em;">
+      <b>Disclaimer:</b> All PixelShop items are <b>cosmetic only</b>. No gameplay advantage, no real-world value, and no investment or profit. $DEXHUNT is a utility token for in-game fun and customization only.
+    </div>
+    <!-- Animated Cowboy -->
+    <img src="assets/cowboy.png" alt="DexHunt Cowboy" class="cowboy-img" id="cowboyImg" style="cursor:pointer; left:2rem; bottom:2rem;">
+    <!-- Jupiter Swap Widget for $DEXHUNT with custom styling -->
+    <div style="
+      margin: 2.5rem auto 2rem auto;
+      max-width: 460px;
+      background: linear-gradient(135deg, #232323 80%, #ffc10722 100%);
+      border-radius: 18px;
+      box-shadow: 0 4px 32px #000a, 0 1.5px 0 #ffc10744 inset;
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      ">
+      <h2 style="color:#ffc107; margin-bottom:0.5rem; letter-spacing:1px;">Buy $DEXHUNT Instantly <span style='cursor:help;' title='Swap SOL or USDC for $DEXHUNT to use for cosmetic fun in the PixelShop. No investment or profit.'>ℹ️</span></h2>
+      <p style="color:#eee; font-size:1.08rem; margin-bottom:1.2rem; max-width: 340px;">
+        Swap SOL or USDC for $DEXHUNT using this non-custodial widget.
+        Tokens are used to unlock fun, cosmetic-only skins and FX.
+        🛡️ No gameplay advantage, no financial utility, no investment return.
+      </p>
+      <iframe
+        src="https://terminal.jup.ag/?inputCurrency=SOL&outputCurrency=5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump"
+        title="Jupiter Swap"
+        width="420"
+        height="600"
+        style="border:0;border-radius:14px;overflow:hidden;background:#181818;box-shadow:0 2px 16px #0007;"
+        allow="clipboard-read; clipboard-write"
+      ></iframe>
+      <div style="margin-top:1.2rem; color:#ffc107; font-size:0.98rem;">
+        <span style="font-size:1.2em;">💡</span> Need $DEXHUNT? Swap instantly above! <span style='cursor:help;' title='Reminder: $DEXHUNT is for in-game cosmetic fun only.'>ℹ️</span>
+        <p style="font-size: 0.8rem; color: #888; margin-top: 0.7rem;">
+        Powered by <a href="https://jup.ag" target="_blank" style="color:#00ffff;">Jupiter</a>.  
+        This tool is for convenience only. Swaps are on-chain and voluntary.
+        </p>
+      </div>
+    </div>
+
+    <div id="dexhunt-balance" title="Your current $DEXHUNT balance (refresh after purchases)">Balance: -- <span style='cursor:help;' title='Your $DEXHUNT balance. Refresh after purchases. $DEXHUNT is for cosmetic use only.'>ℹ️</span></div>
+    <button id="refreshBalanceBtn" style="margin-bottom:1rem;font-size:0.95rem;background:#333;color:#ffc107;border-radius:8px;padding:6px 16px;cursor:pointer;" title="Refresh your $DEXHUNT balance">🔄 Refresh Balance <span style='cursor:help;' title='Refresh your $DEXHUNT balance. $DEXHUNT is for cosmetic use only.'>ℹ️</span></button>
+    <div id="balance"></div>
+
+    <!-- Founders Collection NFT Section -->
+    <div id="foundersNFTSection" style="background:linear-gradient(135deg,#232323 80%,#ffc10722 100%);border-radius:18px;box-shadow:0 4px 32px #000a,0 1.5px 0 #ffc10744 inset;padding:2rem 1.5rem 1.5rem 1.5rem;margin:2.5rem auto 2rem auto;max-width:900px;position:relative;">
+      <h2 style="color:#ffc107;letter-spacing:1px;">🔥 Founders Collection NFTs <span style='cursor:help;' title='Limited-edition, cosmetic-only collectibles. No gameplay advantage, no investment value.'>ℹ️</span></h2>
+      <div style="display:flex;flex-wrap:wrap;gap:32px;justify-content:center;align-items:flex-end;">
+        <div class="nft-card" style="background:#181818;border:2px solid #ffcc00;border-radius:12px;padding:1.2em;width:180px;text-align:center;">
+          <img src="assets/cowboy.png" alt="Clickbuddy Cowboy" style="width:100px;height:auto;margin-bottom:0.5em;"/>
+          <div style="font-weight:bold;">Clickbuddy Cowboy</div>
+          <div style="font-size:0.95em;color:#ffc34d;">OG Mascot</div>
+          <button class="mint-btn" onclick="openNFTModal('Clickbuddy Cowboy')">Mint</button>
+          <div class="nft-supply" id="supply-cowboy">0/100</div>
+        </div>
+        <div class="nft-card" style="background:#181818;border:2px solid #ffcc00;border-radius:12px;padding:1.2em;width:180px;text-align:center;">
+          <img src="assets/pow_explosion.png" alt="POW! Explosion" style="width:100px;height:auto;margin-bottom:0.5em;"/>
+          <div style="font-weight:bold;">POW! Explosion</div>
+          <div style="font-size:0.95em;color:#ffc34d;">Hand-crafted Art</div>
+          <button class="mint-btn" onclick="openNFTModal('POW! Explosion')">Mint</button>
+          <div class="nft-supply" id="supply-pow">0/100</div>
+        </div>
+        <div class="nft-card" style="background:#181818;border:2px solid #ffcc00;border-radius:12px;padding:1.2em;width:180px;text-align:center;">
+          <img src="assets/10.png" alt="Vault Guardian" style="width:100px;height:auto;margin-bottom:0.5em;"/>
+          <div style="font-weight:bold;">Vault Guardian</div>
+          <div style="font-size:0.95em;color:#ffc34d;">Legendary</div>
+          <button class="mint-btn" onclick="openNFTModal('Vault Guardian')">Mint</button>
+          <div class="nft-supply" id="supply-vault">0/25</div>
+        </div>
+        <div class="nft-card" style="background:#181818;border:2px solid #ffcc00;border-radius:12px;padding:1.2em;width:180px;text-align:center;">
+          <img src="assets/11.png" alt="Goldflare Monument" style="width:100px;height:auto;margin-bottom:0.5em;"/>
+          <div style="font-weight:bold;">Goldflare Monument</div>
+          <div style="font-size:0.95em;color:#ffc34d;">Legendary</div>
+          <button class="mint-btn" onclick="openNFTModal('Goldflare Monument')">Mint</button>
+          <div class="nft-supply" id="supply-goldflare">0/25</div>
+        </div>
+        <div class="nft-card" style="background:#181818;border:2px solid #ffcc00;border-radius:12px;padding:1.2em;width:180px;text-align:center;">
+          <img src="assets/13.png" alt="Arcade Sovereign" style="width:100px;height:auto;margin-bottom:0.5em;"/>
+          <div style="font-weight:bold;">Arcade Sovereign</div>
+          <div style="font-size:0.95em;color:#ffc34d;">Legendary</div>
+          <button class="mint-btn" onclick="openNFTModal('Arcade Sovereign')">Mint</button>
+          <div class="nft-supply" id="supply-sovereign">0/25</div>
+        </div>
+      </div>
+      <div style="margin-top:1em;font-size:0.98em;color:#ffc34d;">
+        <span style="font-size:1.2em;">💡</span> All NFTs are for cosmetic/collectible use only. No investment, profit, or gameplay advantage. <a href="legal/terms_and_conditions.html" style="color:#00ffff;">See legal docs</a>.
+      </div>
+    </div>
+    <!-- NFT Modal -->
+    <div id="nftModal" class="notification-popup" style="display:none;z-index:2000;">
+      <div id="nftModalContent"></div>
+      <button class="mint-btn" id="mintNFTBtn">Mint Now</button>
+      <button class="mint-btn" onclick="closeNFTModal()">Close</button>
+      <div style="margin-top:1em;font-size:0.9em;color:#ffc34d;">All NFTs are cosmetic-only. No investment, no profit, no gameplay advantage.</div>
+    </div>
+
+    <h2>Gun Shop <span style='cursor:help;' title='Unlock new gun skins for fun, cosmetic-only customization. No gameplay advantage.'>ℹ️</span></h2>
+    <div class="shop" id="gun-shop"></div>
+    <h2>Reticle Shop <span style='cursor:help;' title='Unlock new reticle styles for fun, cosmetic-only customization. No gameplay advantage.'>ℹ️</span></h2>
+    <div class="shop" id="reticle-shop"></div>
+    <button onclick="window.location.href='duel.html'" style="margin-bottom:1rem;font-size:1rem;background:#ffc107;color:#222;border-radius:8px;padding:8px 18px;cursor:pointer;" title="Return to the main game">⬅️ Return to Game <span style='cursor:help;' title='Return to the main duel game.'>ℹ️</span></button>
+    <h2 style="color:#ffc107;">My Inventory <span style='cursor:help;' title='View your unlocked skins and FX'>ℹ️</span></h2>
+    <div class="shop" id="inventory"></div>
+    <!-- Optionally add: <div class="shop" id="reticle-inventory"></div> -->
+
+    <div id="toast" style="display:none;"></div>
+
+    <!-- Connect Wallet tooltip -->
+    <button id="connectWalletBtn" onclick="connectWalletAndUpdateBalance()" style="margin-bottom:1rem;font-size:1rem;background:#ffc107;color:#222;border-radius:8px;padding:8px 18px;cursor:pointer;" title="Connect your wallet to spend and earn $DEXHUNT">💼 Connect Wallet <span style='cursor:help;' title='Connect your wallet to spend and earn $DEXHUNT.'>ℹ️</span></button>
+
+    <!-- Add meme popup and viral features -->
+    <div class="notification-popup" id="memePopup" style="display:none;">
+      <div id="memeContent" style="font-size:1.2em;margin-bottom:1em;"></div>
+      <button class="share-btn" onclick="closeMemePopup()">Close</button>
+      <button class="share-btn" id="copyMemeBtn">Copy Meme</button>
+    </div>
+    <button class="share-btn" id="shareShopMemeBtn" style="margin:1.2em 0 0.5em 0;" title="Share your latest unlock or meme on X (Twitter) or copy a meme!">Share Shop Meme 🚀</button>
+
+    <!-- Add confetti container -->
+    <div class="confetti" id="confetti"></div>
+  </div>
+
+  <!-- Audio for meme/viral and cowboy effects (always keep these) -->
+  <audio id="gruntAudio" src="assets/grunt.mp3" preload="auto"></audio>
+  <audio id="yeehawAudio" src="assets/yeehaw.mp3" preload="auto"></audio>
+
+  <!-- Load Solana Web3 -->
+  <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+
+  <script src="js/inventory.js"></script>
+  <script src="js/shop.js"></script>
+  <script src="js/swapFromGame.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    async function connectWalletAndUpdateBalance() {
+  if (!window.solana || !window.solana.isPhantom) {
+    alert("Phantom wallet not found.");
+    return;
+  }
+  try {
+    const resp = await window.solana.connect();
+    const publicKey = resp.publicKey;
+    // Show wallet address (optional)
+    document.getElementById("connectWalletBtn").textContent = "Wallet: " + publicKey.toString().slice(0, 4) + "..." + publicKey.toString().slice(-4);
+    // Get and show DEXHUNT balance
+    const balance = await getDexhuntBalance(publicKey);
+    document.getElementById("dexhunt-balance").textContent = `Balance: ${balance} $DEXHUNT`;
+  } catch (e) {
+    alert("Wallet connection failed.");
+  }
+}
+
+document.getElementById("refreshBalanceBtn").onclick = async function() {
+  if (!window.solana || !window.solana.isPhantom) {
+    alert("Phantom wallet not found.");
+    return;
+  }
+  let publicKey = window.solana.publicKey;
+  if (!publicKey) {
+    try {
+      const resp = await window.solana.connect();
+      publicKey = resp.publicKey;
+    } catch (e) {
+      alert("Wallet connection failed.");
+      return;
+    }
+  }
+  try {
+    const balance = await getDexhuntBalance(publicKey);
+    document.getElementById("dexhunt-balance").textContent = `Balance: ${balance} $DEXHUNT`;
+  } catch (e) {
+    document.getElementById("dexhunt-balance").textContent = "Balance: error";
+    console.error("Error fetching DEXHUNT balance:", e);
+  }
+};
+
+    // Cowboy animation, sound, and confetti logic (from index.html, adapted for pixelshop)
+    const cowboyImg = document.getElementById('cowboyImg');
+    const gruntAudio = document.getElementById('gruntAudio');
+    const yeehawAudio = document.getElementById('yeehawAudio');
+    let cowboyClicks = 0;
+    if (cowboyImg && gruntAudio && yeehawAudio) {
+    }
+
+    // NFT Modal logic
+// TODO: On wallet connect, check for Founders NFT ownership and show a badge or frame in the UI if owned.
+const nftDetails = {
+  'Clickbuddy Cowboy': {
+    img: 'assets/cowboy.png',
+    desc: 'OG mascot of DexHunt. Cosmetic-only, no gameplay advantage, no investment or profit.',
+    supply: '100',
+  },
+  'POW! Explosion': {
+    img: 'assets/pow_explosion.png',
+    desc: 'Hand-crafted pixel POW! Cosmetic-only, no gameplay advantage, no investment or profit.',
+    supply: '100',
+  },
+  'Vault Guardian': {
+    img: 'DiamondDexHuntNFTs/10.png',
+    desc: 'Legendary guardian of the $SALOONA vault. Cosmetic-only, no gameplay advantage, no investment or profit.',
+    supply: '25',
+  },
+  'Goldflare Monument': {
+    img: 'DiamondDexHuntNFTs/11.png',
+    desc: 'Golden cowboy statue with laser eyes. Cosmetic-only, no gameplay advantage, no investment or profit.',
+    supply: '25',
+  },
+  'Arcade Sovereign': {
+    img: 'DiamondDexHuntNFTs/13.png',
+    desc: 'Crowned founder of DexHunt. Cosmetic-only, no gameplay advantage, no investment or profit.',
+    supply: '25',
+  },
+};
+function openNFTModal(name) {
+  const d = nftDetails[name];
+  document.getElementById('nftModalContent').innerHTML = `<img src="${d.img}" alt="${name}" style="width:120px;margin-bottom:1em;"/><h3>${name}</h3><div style='margin-bottom:0.7em;'>${d.desc}</div><div style='color:#ffc34d;'>Supply: ${d.supply}</div>`;
+  document.getElementById('mintNFTBtn').onclick = function() { mintNFT(name); };
+  document.getElementById('nftModal').style.display = 'flex';
+}
+function closeNFTModal() {
+  document.getElementById('nftModal').style.display = 'none';
+}
+function mintNFT(name) {
+  // TODO: Integrate NFT minting backend (Candy Machine or custom contract) in the mintNFT(name) function.
+  alert(`Minting ${name}... (integration required)`);
+  closeNFTModal();
+}
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RW3W4Q1SY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2RW3W4Q1SY');
+
+window.addEventListener("DOMContentLoaded", async () => {
+  renderGunShop("gun-shop");
+  renderReticleShop("reticle-shop");
+  renderInventory("inventory");
+  renderReticleSelector();
+  renderReticleInventory("reticle-inventory");
+  updateBalanceDisplay();
+  renderGunSelector?.();
+
+  // Wallet auto-connect logic
+  if (window.solana && window.solana.isPhantom && window.solana.isConnected) {
+    const publicKey = window.solana.publicKey;
+    if (publicKey) {
+      document.getElementById("connectWalletBtn").textContent = "Wallet: " +
+        publicKey.toString().slice(0, 4) + "..." + publicKey.toString().slice(-4);
+      const balance = await getDexhuntBalance(publicKey);
+      document.getElementById("dexhunt-balance").textContent = `Balance: ${balance} $DEXHUNT`;
+    }
+  }
+
+  // Coin drop triggers
+  document.getElementById("refreshBalanceBtn").addEventListener("click", showCoinDrop);
+  const shareBtn = document.getElementById("shareShopMemeBtn");
+  if (shareBtn) shareBtn.addEventListener("click", showCoinDrop);
+});
+    cowboyImg.addEventListener('click', () => {
+    cowboyClicks++;
+    gruntAudio.currentTime = 0;
+    gruntAudio.play();
+    const wrapper = document.getElementById('shopWrapper');
+    const rect = wrapper.getBoundingClientRect();
+    const imgRect = cowboyImg.getBoundingClientRect();
+    const minLeft = 0;
+    const maxLeft = rect.width - imgRect.width;
+    const minTop = 0;
+    const maxTop = rect.height - imgRect.height;
+    const left = Math.max(minLeft, Math.min(maxLeft, Math.random() * maxLeft));
+    const top = Math.max(minTop, Math.min(maxTop, Math.random() * maxTop));
+    cowboyImg.style.left = left + 'px';
+    cowboyImg.style.top = top + 'px';
+    cowboyImg.style.transform = 'rotate(' + (Math.random() * 40 - 20) + 'deg) scale(1.15)';
+    setTimeout(() => {
+      cowboyImg.style.transform = 'rotate(0deg) scale(1)';
+    }, 400);
+
+    showConfetti();
+
+    if (cowboyClicks % 5 === 0) {
+      yeehawAudio.currentTime = 0;
+      yeehawAudio.play();
+      const yeehaw = document.createElement('div');
+      yeehaw.className = 'yeehaw-effect';
+      yeehaw.textContent = 'YEEHAW!';
+      yeehaw.style.position = 'absolute';
+      yeehaw.style.left = (left + imgRect.width / 2) + 'px';
+      yeehaw.style.top = (top - 40) + 'px';
+      wrapper.appendChild(yeehaw);
+      setTimeout(() => { yeehaw.remove(); }, 1200);
+    }
+  });
+
+    // Share meme button logic
+    document.getElementById("shareShopMemeBtn").addEventListener("click", () => {
+      const memeText = "Check out my latest DexHunt PixelShop unlock! #DexHunt #PixelShop";
+      const memeContent = document.getElementById("memeContent");
+      memeContent.textContent = memeText;
+      document.getElementById("memePopup").style.display = "flex";
+      document.getElementById("copyMemeBtn").onclick = () => {
+        navigator.clipboard.writeText(memeText).then(() => {
+          alert("Meme copied to clipboard!");
+        });
+      };
+    });
+
+    // Close meme popup
+    function closeMemePopup() {
+      document.getElementById("memePopup").style.display = "none";
+    }
+  </script>
+</body>
+</html>
