@@ -110,8 +110,6 @@
     body.dark-mode .double-or-nothing-popup,
     body.dark-mode .settings-popup,
     body.dark-mode .cookie-consent {
-    body.dark-mode .settings-popup,
-    body.dark-mode .cookie-consent {
       background: rgba(40, 40, 40, 0.85);
     }
 
@@ -121,8 +119,6 @@
     body.dark-mode .settings-btn,
     body.dark-mode .share-btn,
     body.dark-mode .sound-toggle-btn,
-    body.dark-mode .reset-btn,
-    body.dark-mode .cookie-btn {
     body.dark-mode .reset-btn,
     body.dark-mode .cookie-btn {
       background: #b33c00;
@@ -144,9 +140,6 @@
     .game-container {
       
       width: 100vw;
-      height: 100dvh;
-      overflow-x: hidden;
-      overflow-y: auto;
       height: 100dvh;
       overflow-x: hidden;
       overflow-y: auto;
@@ -295,13 +288,9 @@
       max-width: 90%;
       margin-bottom: 100px;
       z-index: 9;
-      margin-bottom: 100px;
-      z-index: 9;
       font-family: 'Chalkduster', 'Courier New', monospace;
       text-shadow: 1px 1px #000;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-      margin: 20px auto;
-      position: relative;
       margin: 20px auto;
       position: relative;
     }
@@ -330,9 +319,6 @@
       0% { transform: scale(1); }
       50% { transform: scale(1.05); }
       100% { transform: scale(1); }
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
     }
 
     .quick-draw {
@@ -347,8 +333,6 @@
     }
 
     @keyframes flash {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
@@ -401,9 +385,6 @@
     .notification-popup,
     .wallet-popup,
     .cookie-consent {
-    .notification-popup,
-    .wallet-popup,
-    .cookie-consent {
       display: none;
       position: fixed;
       top: 50%;
@@ -431,8 +412,6 @@
     .sound-toggle-btn,
     .reset-btn,
     .cookie-btn {
-    .reset-btn,
-    .cookie-btn {
       background: #1a1a1a;
       border: 2px solid #ff9900;
       border-radius: 8px;
@@ -446,8 +425,6 @@
 
     .share-btn:hover,
     .sound-toggle-btn:hover,
-    .reset-btn:hover,
-    .cookie-btn:hover {
     .reset-btn:hover,
     .cookie-btn:hover {
       background-color: #e6d7a8;
@@ -482,12 +459,9 @@
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
     }
 
     footer {
-      position: relative;
       position: relative;
       bottom: 0;
       left: 0;
@@ -1025,6 +999,43 @@ window.addEventListener('DOMContentLoaded', function() {
         popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
       }
     </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 </body>
 </html>
-
