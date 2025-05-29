@@ -31,6 +31,25 @@ $DEXHUNT fuels the ecosystem:
 
 [Buy $DEXHUNT on Pump.fun](https://pump.fun/coin/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump?utm_source=litepaper&utm_medium=referral&utm_campaign=litepaper&utm_content=buynow)
 
+📊 Tokenomics & Burn Logic (Technical)
+
+    Total Supply: 1,000,000,000 $DEXHUNT
+    Allocations:
+        Skill Rewards: 50%
+        Team (Vested): 20% (1-year cliff, 2-3 year linear vesting)
+        Liquidity: 20%
+        Marketing: 8%
+        Ecosystem Reserve: 2%
+    On-chain Burn: All burns are executed to a public burn address, verifiable on Solana (testnet for beta).
+    Game-Integrated Burns:
+        Duel entry fees: A % is burned, the rest goes to prizes and treasury.
+        Shop purchases: Buying cosmetics, power-ups, or upgrades burns a portion of $DEXHUNT.
+        Special events: Limited events may feature higher burn rates or unique burn-based rewards.
+        Leaderboard: Top players can burn tokens for exclusive badges or NFT avatars.
+        Community votes: Periodic votes decide additional burns from the treasury.
+    Utility: $DEXHUNT is required for gameplay, upgrades, and future NFT integrations.
+    Vesting: Team and marketing tokens are vested for trust and compliance.
+
 ---
 
 ## 📜 Roadmap Snapshot
