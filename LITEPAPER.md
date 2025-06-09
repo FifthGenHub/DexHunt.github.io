@@ -70,7 +70,7 @@ No luck. No scams. Just speed.
 
 | Phase                   | Features                                        |
 | ----------------------- | ----------------------------------------------- |
-| ✅ **Beta Live**         | Game, \$DEXHUNT token, mock payouts             |
+| ✅ **Beta Live**        | Game, \$DEXHUNT token, mock payouts             |
 | 🔜 **NFT Jackpot**      | *The Last Draw* — 1-of-1 skill-based NFT        |
 | 🔜 **Tournaments**      | Leaderboards, PvP draws, skill-based prize flow |
 | 🔜 **Arcade Expansion** | New titles inside the future Saloona Arcade     |
@@ -106,7 +106,7 @@ Token utility is directly linked to in-game purchases. Cosmetic upgrades like gu
 ## 🔗 Official Links
 
 * Website: [https://fifthgenhub.github.io/DexHunt.github.io/](https://fifthgenhub.github.io/DexHunt.github.io/)
-* Discord: [https://discord.gg/NNswE2P4](https://discord.gg/NNswE2P4)
+* Discord: [https://discord.gg/NNswE2P4](https://discord.gg/vXJZPcZn)
 * Twitter: [@PlayDexHunt](https://twitter.com/PlayDexHunt)
 
 ---
