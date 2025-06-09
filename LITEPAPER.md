@@ -106,7 +106,7 @@ Token utility is directly linked to in-game purchases. Cosmetic upgrades like gu
 ## 🔗 Official Links
 
 * Website: [https://fifthgenhub.github.io/DexHunt.github.io/](https://fifthgenhub.github.io/DexHunt.github.io/)
-* Discord: [https://discord.gg/NNswE2P4](https://discord.gg/vXJZPcZn)
+* Discord: [https://discord.gg/vXJZPcZn](https://discord.gg/vXJZPcZn)
 * Twitter: [@PlayDexHunt](https://twitter.com/PlayDexHunt)
 
 ---
