@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="description" content="DexHunt: Reflex-based Web3 arcade dueling game built on Solana">
   <title>DexHunt: Reflex Duel</title>
   <link rel="stylesheet" href="styles.css">
@@ -153,119 +153,99 @@
       z-index: 1;
     
     }
-
+    
+    /* Professional pixel-gaming header + stat bar */
     .top-bar {
-      width: 100%;
-      background: rgba(0, 0, 0, 0.75);
-      padding: 5px 10px;
+      position: relative;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      z-index: 10;
-      border-bottom: 3px solid #ffcc00;
-      box-shadow: 0 0 10px rgba(255, 204, 0, 0.6);
-      flex-wrap: wrap;
-      gap: 10px;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.85);
+      border: 2px solid #ffcc00;
+      border-radius: 10px;
+      padding: 6px 16px;
+      margin: 10px auto;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.8rem;
+      text-align: center;
+      gap: 4px;
+      line-height: 1.4;
+      height: fit-content;
+      pointer-events: none; /* allows game interaction underneath */
+      z-index: 5;
+      box-shadow: 0 0 10px #ffcc00aa;
     }
 
-    .top-bar h1, .dashboard-section h3, .tutorial-popup h3, .double-or-nothing-popup h3, .settings-popup h3, .rewards-popup h3, .notification-popup h3, .wallet-popup h3 {
-      font-family: 'Press Start 2P', 'Courier New', Courier, monospace !important;
-      letter-spacing: 1px;
-      color: #ffc107;
-      text-shadow: 2px 2px #000, 0 0 10px #00ffff;
-      font-size: 1.25rem;
-    }
-    .pixel-font, .dashboard-section h3, .top-bar h1 {
-      font-family: 'Press Start 2P', 'Courier New', Courier, monospace !important;
-      letter-spacing: 1px;
-      color: #ffc107;
-      text-shadow: 2px 2px #000, 0 0 10px #00ffff;
-    }
-    .start-btn, .share-btn, #flexStreakBtn, .sound-toggle-btn, .reset-btn, .cookie-btn, .settings-btn, .links-leaderboard-btn, .tutorial-btn, .wallet-btn, .stop-btn {
-      font-family: 'Press Start 2P', 'Courier New', Courier, monospace !important;
-      letter-spacing: 1px;
-      font-weight: bold;
-      font-size: 1.08rem;
-    }
-    /* Ensure dashboard-section backgrounds match index/pixelshop for cohesion */
-    .dashboard-section {
-      background: linear-gradient(135deg, #232323 80%, #ffc10722 100%) !important;
-      border: 2px solid #00ffff !important;
-      color: #fffbe7;
-    }
-    /* Viral challenge, leaderboard, live feed: pixel font for section titles */
-    #viralChallengeBox h3, #leaderboardBox h3, #liveFeedBox h3 {
-      font-family: 'Press Start 2P', 'Courier New', Courier, monospace !important;
-      color: #ffc107;
-      text-shadow: 2px 2px #000, 0 0 10px #00ffff;
-      font-size: 1.15rem;
-    }
-    /* Popups: pixel font for all h3 */
-    .leaderboard-popup h3, .tutorial-popup h3, .double-or-nothing-popup h3, .settings-popup h3, .rewards-popup h3, .notification-popup h3, .wallet-popup h3 {
-      font-family: 'Press Start 2P', 'Courier New', Courier, monospace !important;
-      color: #ffc107;
-      text-shadow: 2px 2px #000, 0 0 10px #00ffff;
-    }
-    /* Ensure meme popup uses pixel font for memeContent */
-    #memeContent {
-      font-family: 'Press Start 2P', 'Courier New', Courier, monospace !important;
-      color: #ffc107;
-      text-shadow: 2px 2px #000, 0 0 10px #00ffff;
+    .top-bar * {
+      pointer-events: auto; /* restore interaction only on elements */
     }
 
-    .top-bar .button-row {
-      display: flex;
-      gap: 5px;
-      margin: 0;
-      padding: 0;
-      background: none;
-      box-shadow: none;
-      flex-wrap: nowrap;
-    }
-
-    .top-bar .wallet-hud {
-      font-size: clamp(0.8rem, 1.5vw, 1rem);
+    .top-bar h1 {
+      font-size: 1rem;
       color: #00ffff;
-      padding: 5px 10px;
-      border-left: 2px solid #00ffff;
-      border-bottom: 2px solid #00ffff;
-      border-bottom-left-radius: 8px;
+      text-shadow: 1px 1px #000, 0 0 10px #ffcc00;
+      margin: 0;
     }
 
-    .top-bar .beta-label {
-      font-size: clamp(0.8rem, 1.5vw, 1rem);
+    .wallet-hud {
+      color: #ffc107;
+      font-size: 0.75rem;
+      text-shadow: 0 0 4px #000;
+      margin: 2px 0;
+    }
+
+    .beta-label {
       color: #ff00ff;
-      padding: 5px 10px;
-      background: rgba(0, 0, 0, 0.5);
-      border-radius: 5px;
-      margin-left: 10px;
-    }
-
-    .button-row button {
-      background: #1a1a1a;
-      border: 2px solid #ff9900;
-      border-radius: 8px;
-      padding: 5px 10px;
-      font-size: clamp(0.8rem, 1.5vw, 1rem);
-      cursor: pointer;
-      color: #f0c420;
-      font-weight: bold;
-      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
-      transition: transform 0.2s, background-color 0.3s;
+      font-size: 0.65rem;
+      margin-top: 2px;
+      opacity: 0.9;
     }
 
     .top-bar, .top-bar button {
-  cursor: inherit !important;
-}
+      cursor: inherit !important;
+    }
 
     .duel-area {
       display: flex;
+      flex-direction: row;
       justify-content: center;
-      align-items: center;
-      height: auto;
-      margin-top: 10px;
-      margin-bottom: 40px;
-      overflow: hidden;
+      align-items: flex-start;
+      flex-wrap: nowrap;
+      gap: 1.25rem;
+      margin: 1.5rem auto;
+      max-width: 100vw;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    .side-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1rem 0.5rem;
+      background: rgba(0, 0, 0, 0.65);
+      border: 2px solid #ffcc00;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #000;
+      top: 0;
+      position: relative;
+      height: fit-content;
+      align-self: flex-start;
+    }
+
+    @media (max-width: 768px) {
+      .duel-area {
+        flex-direction: column;
+        align-items: center;
+      }
+      .side-panel {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        padding: 0.5rem;
+      }
     }
 
     .start-btn {
@@ -345,23 +325,27 @@
     }
 
     #backgroundWrapper {
-      position: relative;
-      width: 1280px;
-      height: 800px;
-      margin: 0 auto 24px auto;
+      flex: 0 1 auto;
+      width: 100%;
+      max-width: 1280px;
+      aspect-ratio: 16 / 10;
+      margin: 0 auto;
       overflow: hidden;
-      border-radius: 24px;
-      border: 8px solid #00ffff; /* Thicker, more defined cyan border */
+      border: 12px solid transparent;
+      border-radius: 16px;
+      border-image: linear-gradient(45deg, #00ffff, #ffcc00) 2;
+      box-shadow: 15px 15px 18px #00ffffaa;
+      background: #000;
     }
 
     #gameCanvas {
-      width: 100% !important;
-      height: auto !important;
-      max-width: 100vw;
+      width: 100%;
+      height: 100%;
       display: block;
       background: transparent;
       cursor: url('assets/reticles/blasterReticle.png') 32 32, auto;
     }
+
 
     .bang {
       position: absolute;
@@ -378,6 +362,13 @@
     @keyframes bang-glow {
       0% { filter: drop-shadow(0 0 16px #ff4444cc);}
       100% { filter: drop-shadow(0 0 32px #ffc107);}
+    }
+
+    @media (max-height: 500px) {
+      #backgroundWrapper {
+        aspect-ratio: auto;
+        height: 80vh;
+      }
     }
 
     .leaderboard-popup,
@@ -526,10 +517,25 @@
       100% { transform: translateX(100vw); }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
+      .duel-area {
+        flex-direction: column;
+        align-items: center;
+      } 
+
+      .side-panel {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        padding: 0.5rem;
+      }
+
       #backgroundWrapper {
-        transform: scale(0.85);
-        transform-origin: top center;
+        width: 100%;
+        max-width: 100vw;
+        height: auto;
+        aspect-ratio: 16 / 10;
       }
 
       #gameCanvas {
@@ -541,6 +547,7 @@
         height: auto;
         max-height: 90vh;
       }
+
       #gameWrapper {
         position: relative;
         width: 100%;
@@ -550,6 +557,7 @@
         align-items: center;
         flex-direction: column;
       }
+
       .hud {
         position: absolute;
         top: 0;
@@ -559,6 +567,7 @@
         font-family: 'Press Start 2P', monospace;
         color: #fff;
       }
+      
       .button-row button {
         font-size: 1rem;
         padding: 10px 14px;
@@ -799,35 +808,25 @@
     <div class="game-container" id="game">
       <div class="top-bar">
         <h1>DexHunt: Cowboy Reflex Showdown</h1>
-        <div class="button-row">
-          <button class="start-btn" onclick="startDuel()" title="Skill-to-Win! Click to start a reflex duel. Fastest click wins simulated $DEXHUNT. A portion of duel entries will be burned on mainnet for scarcity.">Start Duel <span style='cursor:help;' title='Skill-to-Win: Your reflexes earn you $DEXHUNT. No luck, no gambling.'>ℹ️</span></button>
-          <button class="settings-btn" onclick="toggleSettings()" title="Game settings, sound, stats, and legal info.">⚙️</button>
-          <button class="links-leaderboard-btn" onclick="toggleLinksLeaderboard()" title="View your best draw and total $DEXHUNT burned.">📊</button>
-          <button class="tutorial-btn" onclick="toggleTutorial()" title="How to play DexHunt and earn skill rewards.">❓</button>
-          <button class="wallet-btn" onclick="connectWallet()" id="connectWalletBtn" title="$DEXHUNT is a skill-based, in-game utility token. No investment or profit guarantees. Connect wallet to track rewards.">💼 <span style='cursor:help;' title='Connect your Solana wallet to track $DEXHUNT skill rewards. Beta only, no real value.'>ℹ️</span></button>
-          <button onclick="window.location.href='pixelshop.html'" title="Visit the DexHunt PixelShop for skins and upgrades. A portion of every purchase is burned!">🛒 PixelShop</button>
-        </div>
-        <!-- Add Leaderboard and Viral Challenge buttons below header buttons -->
-        <div class="button-row" style="margin-top:0.7em;">
-          <button class="share-btn" onclick="toggleLeaderboardPopup()" title="Show Leaderboard (Simulated skill stats only, no real prizes)">Leaderboard 🏆</button>
-          <button class="share-btn" onclick="toggleViralChallengePopup()" title="Show Viral Challenge (for fun, simulated rewards)">Viral Challenge 🔥</button>
-          <button class="share-btn" onclick="toggleDailyMissionPopup()" title="Show Daily Mission (cosmetic/XP only, no real value)">Daily Mission ⭐</button>
-        </div>
         <div class="wallet-hud" id="walletHUD" title="$DEXHUNT: Skill rewards only. All balances and rewards are simulated in beta. No real-world value, no investment, no profit.">
           💰 $DEXHUNT: 0 | ⚡ Best Draw: --ms | 🔥 Streak: 0 <span style='cursor:help;' title='Skill rewards only. All balances and rewards are simulated in beta. No real-world value, no investment, no profit.'>ℹ️</span>
-        </div>
-        <!-- Session Timer & XP Bar -->
-        <div id="sessionStats" style="margin:0.5em auto 0.2em auto;max-width:420px;text-align:center;">
-          <span id="sessionTimer" style="font-size:1.05em;color:#00ffff;">Session: 0m 00s</span>
-          <div id="xpBarWrapper" style="margin-top:0.3em;background:#232323;border-radius:8px;height:18px;box-shadow:0 2px 8px #00ffff44;overflow:hidden;">
-            <div id="xpBar" style="height:100%;width:0%;background:linear-gradient(90deg,#ffc34d,#ff00ff);transition:width 0.5s;"></div>
-          </div>
-          <span id="xpLabel" style="font-size:0.95em;color:#ffc34d;">XP: 0 / 100 <span style='cursor:help;' title='XP and levels are for fun and cosmetic rewards only. No gameplay advantage or real-world value.'>ℹ️</span></span>
         </div>
         <div class="beta-label" title="Beta: All gameplay and rewards are for testing only. No real $DEXHUNT tokens, NFTs, or prizes are awarded. All rewards are simulated, cosmetic, or for fun only.">Beta Testing</div>
       </div>
 
-      <div class="duel-area" id="duel-area">
+      <div class="duel-area">
+        <div class="side-panel">
+          <button class="start-btn" onclick="startDuel()">Start Duel ℹ️</button>
+          <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
+          <button class="links-leaderboard-btn" onclick="toggleLinksLeaderboard()">📊</button>
+          <button class="tutorial-btn" onclick="toggleTutorial()">❓</button>
+          <button class="wallet-btn" onclick="connectWallet()">💼 ℹ️</button>
+          <button onclick="window.location.href='pixelshop.html'">🛒</button>
+          <button class="share-btn" onclick="toggleLeaderboardPopup()">Leaderboard 🏆</button>
+          <button class="share-btn" onclick="toggleViralChallengePopup()">Viral Challenge 🔥</button>
+          <button class="share-btn" onclick="toggleDailyMissionPopup()">Daily Mission ⭐</button>
+        </div>
+
         <div id="backgroundWrapper">
           <canvas id="gameCanvas"></canvas>
           <img src="assets/pow_explosion.png" id="bang" class="bang" alt="POW explosion target" title="Click to shoot" onclick="shoot();" />
@@ -836,8 +835,8 @@
         </div>
       </div>
 
-      <div class="log" id="log">All rewards are simulated on Solana Devnet. No real-world value, no investment, no profit. Think you’re quick enough, cowboy? Beat Sawn-Off Slim in under 0.5 seconds!</div>
-      <div class="ambient-lantern"></div>
+      <div class="log" id="log">All rewards are simulated on Solana Devnet...</div>
+    </div>
 
       <!-- Popups -->
       <div class="leaderboard-popup" id="leaderboardPopup" style="display:none;">
