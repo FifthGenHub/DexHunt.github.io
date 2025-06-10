@@ -31,7 +31,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     html, body {
-      background-color: #E86100;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
     }
   </style>
   <meta name="color-scheme" content="light dark">
@@ -351,9 +355,9 @@
     }
 
     #gameCanvas {
-      width: 1280px;
-      height: 800px;
-      max-width: 100%;
+      width: 100% !important;
+      height: auto !important;
+      max-width: 100vw;
       display: block;
       background: transparent;
       cursor: url('assets/reticles/blasterReticle.png') 32 32, auto;
@@ -522,7 +526,7 @@
       100% { transform: translateX(100vw); }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       #backgroundWrapper {
         transform: scale(0.85);
         transform-origin: top center;
@@ -533,6 +537,28 @@
         height: auto;
       }
 
+      canvas {
+        height: auto;
+        max-height: 90vh;
+      }
+      #gameWrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .hud {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 10px;
+        z-index: 10;
+        font-family: 'Press Start 2P', monospace;
+        color: #fff;
+      }
       .button-row button {
         font-size: 1rem;
         padding: 10px 14px;
@@ -742,6 +768,11 @@
         <div class="spinner" style="margin: 20px auto;"></div>
       </div>
     </div>
+    <div id="gameWrapper">
+      <canvas id="duelCanvas"></canvas>
+      <div class="hud">Reflex Ready</div>
+    </div>
+    <script src="duel.js"></script>
 
     <div class="cookie-consent" id="cookieConsent">
       <p>We use local storage to save your game progress and stats. Accept to continue.</p>
