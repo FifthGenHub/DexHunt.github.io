@@ -371,12 +371,13 @@
     }
     #backgroundWrapper {
       position: relative;
-      width: 1280px;
-      margin: 2rem auto 2rem auto;
+      width: 100%;
+      max-width: 1280px;
+      margin: 2rem auto;
       border-radius: 24px;
       border: 8px solid #00ffff;
       background: #000;
-      padding: 2.5rem 2rem;
+      padding: 2.5rem 1rem;
       box-sizing: border-box;
       box-shadow: 0 0 32px #00ffff44;
     }
@@ -431,6 +432,44 @@
     @keyframes ticker-move {
       0% { transform: translateX(0); }
       100% { transform: translateX(-100vw); }
+    }
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 1.7rem;
+      }
+
+      .hero-tagline {
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+
+      #backgroundWrapper {
+        padding: 1.5rem 0.8rem;
+        border-width: 4px;
+      }
+
+      .cowboy-img {
+        position: relative;
+        left: auto;
+        width: 70px;
+        margin: 0 auto 1rem auto;
+        display: block;
+      }
+
+      .hero-cta a {
+        font-size: 1rem;
+        padding: 0.7rem 1.2rem;
+      }
+
+      nav {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      nav a, nav button {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.6rem;
+      }
     }
     /* YEEHAW text and confetti effect */
     .yeehaw-effect {
@@ -532,18 +571,7 @@
     <button onclick="connectWallet()" id="navWalletBtn" title="Connect your wallet to play and earn skill rewards">💼 Connect Wallet <span style='cursor:help;' title='Connect your wallet to track stats and unlock rewards'>ℹ️</span></button>
   </nav>
 
-  <!-- 🛡️ Trust & Security Highlights -->
-  <div style="background:#232323;border:2px solid #00ff99;border-radius:14px;padding:1.2rem 1.5rem;margin:2.2rem auto 1.5rem auto;max-width:700px;box-shadow:0 2px 16px #00ff9944; color:#fffbe7; font-size:1.13rem; text-align:center;">
-    <h2 style="color:#00ff99;margin-top:0;margin-bottom:0.7em;letter-spacing:1px;">🛡️ Trust & Security Highlights</h2>
-    <ul style="list-style:none;padding:0;margin:0 0 0.5em 0;font-size:1.13rem;">
-      <li><b>Immutable Supply:</b> $DEXHUNT token supply is permanently fixed. No more tokens can ever be created.</li>
-      <li><b>Mint Authority Renounced:</b> On-chain proof — <a href="https://solscan.io/token/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump" target="_blank" style="color:#00ffff;">Solscan: $DEXHUNT</a> ("Mint Authority: None").</li>
-      <li><b>No Rugs Possible:</b> No one (not even the devs) can mint or change the supply. 100% community trust.</li>
-      <li><b>Transparent Tokenomics:</b> All burns, allocations, and vesting are on-chain and verifiable.</li>
-    </ul>
-  </div>
-
-  <!-- MOVE THIS BLOCK HERE -->
+    <!-- MOVE THIS BLOCK HERE -->
   <div id="backgroundWrapper">
     <div class="pixel-font info-title">$DEXHUNT Tokenomics & Info</div>
     <div class="info-section">
@@ -570,6 +598,17 @@
     </div>
   </div>
   <!-- END MOVE -->
+
+  <!-- 🛡️ Trust & Security Highlights -->
+  <div style="background:#232323;border:2px solid #00ff99;border-radius:14px;padding:1.2rem 1.5rem;margin:2.2rem auto 1.5rem auto;max-width:700px;box-shadow:0 2px 16px #00ff9944; color:#fffbe7; font-size:1.13rem; text-align:center;">
+    <h2 style="color:#00ff99;margin-top:0;margin-bottom:0.7em;letter-spacing:1px;">🛡️ Trust & Security Highlights</h2>
+    <ul style="list-style:none;padding:0;margin:0 0 0.5em 0;font-size:1.13rem;">
+      <li><b>Immutable Supply:</b> $DEXHUNT token supply is permanently fixed. No more tokens can ever be created.</li>
+      <li><b>Mint Authority Renounced:</b> On-chain proof — <a href="https://solscan.io/token/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump" target="_blank" style="color:#00ffff;">Solscan: $DEXHUNT</a> ("Mint Authority: None").</li>
+      <li><b>No Rugs Possible:</b> No one (not even the devs) can mint or change the supply. 100% community trust.</li>
+      <li><b>Transparent Tokenomics:</b> All burns, allocations, and vesting are on-chain and verifiable.</li>
+    </ul>
+  </div>
 
   <!-- Founders Collection NFTs Section -->
   <div id="foundersNFTSection" style="background:linear-gradient(135deg,#232323 80%,#ffc10722 100%);border-radius:18px;box-shadow:0 4px 32px #000a,0 1.5px 0 #ffc10744 inset;padding:2rem 1.5rem 1.5rem 1.5rem;margin:2.5rem auto 2rem auto;max-width:900px;position:relative;">
@@ -681,7 +720,7 @@
 
   <!-- Hype Ticker (Live Scroll Updates) -->
   <div class="dexhunt-ticker">
-    <span>🔥 2,500 $DEXHUNT burned | 🏆 Fastest Draw: 312ms | 💸 1.2 SOL Buy Triggered | 🎯 Reflex Master Engaged | 🎰 PixelShop Preview Dropped | 🤠 Saddle Up, Cowboy</span>
+    <span> *SIMULATED TICKER DATA* 🔥 2,500 $DEXHUNT burned | 🏆 Fastest Draw: 312ms | 💸 1.2 SOL Buy Triggered | 🎯 Reflex Master Engaged | 🎰 PixelShop Preview Dropped | 🤠 Saddle Up, Cowboy</span>
   </div>
   <!-- Meme-Lore Sky Animation -->
   <div class="yeehaw-effect" id="yeehawText" style="display:none;">YEEHAW!</div>
@@ -696,16 +735,7 @@
 <input id="tipWalletInput" readonly placeholder="Copy wallet address" title="Tip wallet address" value="CU2AznX2UgZxcxwBjLYW87BpKyCcFX56Nb37w1UwMm4F" style="width:80%; padding:0.5rem; border:none; border-radius:6px; font-size:0.95rem;" />
 <button onclick="copyWallet()" style="margin-left:0.5rem; padding:0.5rem; font-weight:bold;">📋 Copy</button>
 </div>
-<button onclick="sendTipWithPhantom()" style="background:#ffc107; color:#000; font-weight:bold; padding:0.7rem 1.2rem; border:none; border-radius:8px; margin-top:1rem;">🦊 Tip with Phantom</button>
-<p style="margin-top:1rem;">
-<a href="solana:CU2AznX2UgZxcxwBjLYW87BpKyCcFX56Nb37w1UwMm4F?amount=0.1" style="color:#00ffff; text-decoration:none;" target="_blank">
-      📱 Mobile Tip Link (Phantom, Solflare)
-    </a>
 </p>
-<div style="margin-top:1.5rem;">
-<img alt="QR Code for SOL Tips" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&amp;data=CU2AznX2UgZxcxwBjLYW87BpKyCcFX56Nb37w1UwMm4F" style="border-radius:8px;"/>
-<p style="font-size:0.8rem; color:#888;">Scan with mobile Phantom or Solflare</p>
-</div>
 </div>
 <script>
 function copyWallet() {
