@@ -235,18 +235,55 @@
     }
 
     @media (max-width: 768px) {
+      /* Canvas wrapper resizes for mobile view */
+      #backgroundWrapper {
+        width: 100vw;
+        height: auto;
+        max-width: 100%;
+        transform: scale(0.95);
+        transform-origin: top center;
+        margin-bottom: 1rem;
+      }
+
+      /* Duel area stacks vertically */
       .duel-area {
         flex-direction: column;
         align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        padding: 0;
       }
+
+      /* Side panel buttons stack or wrap cleanly */
       .side-panel {
+        display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
         width: 100%;
         padding: 0.5rem;
+        margin-top: 1rem;
+      }
+
+      .side-panel button {
+        font-size: 0.95rem;
+        padding: 10px 14px;
+        flex: 1 1 auto;
+        min-width: 120px;
+        max-width: 160px;
+      }
+
+      .log,
+      .wallet-hud,
+      .top-bar {
+        font-size: 0.85em;
+        padding: 6px;
+        text-align: center;
       }
     }
+
 
     .start-btn {
       animation: pulse 1s infinite;
@@ -930,7 +967,7 @@
   
       <footer>
         &copy; 2025 DexHunt Arcade | Built by FifthGenHub<br>
-        <a href="https://x.com/DexHuntGame" target="_blank" rel="noopener noreferrer">@DexHuntGame</a> |
+        <a href="https://x.com/PlayDexHunt" target="_blank" rel="noopener noreferrer">@PlayDexHunt</a> |
         <a href="links.html">🔗 All DexHunt Links</a> |
         <p style="font-size: 0.8rem; margin-top: 0.5rem;">
           This town ain't big enough for stolen code. © 2025 DexHunt
