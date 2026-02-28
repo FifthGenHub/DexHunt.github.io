@@ -13,7 +13,7 @@ Wait for the countdown…
 See the neon **“DRAW!”** flash…  
 Tap faster than your opponent.  
 
-Lower reaction time = bigger $DEXHUNT rewards.  
+Lower reaction time = bigger rewards when the token launches.  
 Build insane win streaks.  
 Burn tokens on every duel.  
 Welcome to the Wild West of skill-based crypto gaming.
@@ -23,7 +23,7 @@ Welcome to the Wild West of skill-based crypto gaming.
 ### 🚀 Play Now
 [![Play on Web](https://img.shields.io/badge/Play_Now-FF00FF?style=for-the-badge&logo=playstation&logoColor=white)](https://fifthgenhub.github.io/DexHunt.github.io/)
 
-**iPhone 16 Pro Max native version coming this week** — built in Pyto, 60 FPS, full-screen neon particle explosions.
+**iPhone 16 Pro Max native version dropping this week** — built in Pyto, 60 FPS, full-screen neon particle explosions.
 
 ---
 
@@ -33,7 +33,7 @@ Welcome to the Wild West of skill-based crypto gaming.
 2. Watch the dramatic 3-second countdown  
 3. The second **“DRAW!”** flashes in neon — tap the screen **as fast as humanly possible**  
 4. Your reaction time in milliseconds appears instantly  
-5. Beat your personal best. Chain win streaks. Earn $DEXHUNT.  
+5. Beat your personal best. Chain win streaks. Get ready for real $DEXHUNT rewards on launch.
 
 **Pure skill. One tap decides everything.**
 
@@ -42,10 +42,10 @@ Welcome to the Wild West of skill-based crypto gaming.
 ### ✨ Why DexHunt Slaps
 
 - **True Skill-to-Earn** — No RNG, no pay-to-win. Only reflexes matter.  
-- **Instant Feedback** — Satisfying neon particle explosions on fast draws (coming to Pyto version)  
-- **Real Economic Loop** — Duel entry fees trigger verifiable on-chain $DEXHUNT burns  
+- **Instant Feedback** — Satisfying neon particle explosions on fast draws (Pyto version)  
+- **Real Economic Loop** — Duel entry fees will trigger verifiable on-chain burns  
 - **Streak System** — 3 wins = “Nice!” • 5 wins = “Hot Shot!” • 10 wins = legendary rewards  
-- **Mobile-First** — Built for iPhone touch precision (Pyto native version dropping soon)  
+- **Mobile-First** — Built for iPhone touch precision  
 - **Cyber-Western Neon Vibes** — Glowing revolvers, glitch effects, pulsing UI  
 
 ---
@@ -61,7 +61,7 @@ Welcome to the Wild West of skill-based crypto gaming.
 | Ecosystem Reserve     | 2%         | Future titles & NFT guns             |
 
 **Total Supply**: Fixed & immutable  
-**Burn Mechanism**: Every duel entry burns $DEXHUNT on Solana (verifiable)
+**Burn Mechanism**: Every duel entry will burn $DEXHUNT on Solana (verifiable)
 
 ---
 
@@ -69,7 +69,7 @@ Welcome to the Wild West of skill-based crypto gaming.
 
 - **Frontend**: HTML + CSS + Vanilla JS (current web version)  
 - **Mobile Native**: Pyto + pyto_ui (iPhone version — 60 FPS, single-file Python)  
-- **Blockchain**: Solana (Phantom wallet connect, on-chain burns)  
+- **Blockchain**: Solana (Phantom wallet connect coming on launch)  
 - **Visuals**: Neon cyber-western aesthetic (cyan, magenta, lime glows)  
 
 ---
@@ -77,7 +77,7 @@ Welcome to the Wild West of skill-based crypto gaming.
 ### 🗺️ Roadmap (2026)
 
 **Q1 2026**  
-- Pyto iPhone native version (live this month)  
+- Pyto iPhone native version (this week)  
 - Real Solana wallet connect + on-chain rewards  
 
 **Q2 2026**  
@@ -94,7 +94,7 @@ Welcome to the Wild West of skill-based crypto gaming.
 
 ---
 
-### 📸 Screenshots (Coming Soon — iPhone Pyto Version)
+### 📸 Screenshots (iPhone Pyto Version Coming This Week)
 
 *(Placeholder — replace with real screenshots once you run the Pyto script)*
 
@@ -108,7 +108,7 @@ Welcome to the Wild West of skill-based crypto gaming.
 
 - Mint authority renounced  
 - Liquidity locked on Raydium  
-- All burns verifiable on Solana Explorer  
+- All burns will be verifiable on Solana Explorer  
 - No betting or gambling mechanics  
 - Utility token only — for in-game use  
 
@@ -119,10 +119,10 @@ Welcome to the Wild West of skill-based crypto gaming.
 ### 🌐 Quick Links
 
 - **[Play the Web Version](https://fifthgenhub.github.io/DexHunt.github.io/)**  
-- **[Buy $DEXHUNT](https://pump.fun/DEXHUNT)** (update with real CA)  
+- **$DEXHUNT Token Launching Soon** — Join the Discord / follow on X for the exact launch details and CA  
 - **[GitHub](https://github.com/FifthGenHub/DexHunt.github.io)**  
 - **[X / Twitter](https://x.com/DexHuntSol)** (update handle)  
-- **[Discord](https://discord.gg/dexhunt)**  
+- **[Discord](https://discord.gg/dexhunt)** (update link)  
 
 ---
 
