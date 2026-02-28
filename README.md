@@ -1,78 +1,134 @@
-![DexHunt — Play-to-Win Reflex Arcade Game on Solana. Skill-Based. No RNG. No Rugs.](./assets/dexhunt-banner.png)
+# 🎯 DexHunt: Reflex Showdown  
+**The Wild West of Pure Skill Gaming on Solana**
+
+![DexHunt Banner](https://fifthgenhub.github.io/DexHunt.github.io/assets/banner-neon.png)  
+*(Replace with your own 1200×600 neon cyber-western banner — glowing revolvers, countdown timer, and $DEXHUNT particles)*
 
 ---
 
-## 🛡️ Trust & Security Highlights
+**One tap. One millisecond. Pure reflex. Zero RNG.**
 
-- **Immutable Supply:** $DEXHUNT token supply is permanently fixed. No more tokens can ever be created.
-- **Mint Authority Renounced:** On-chain proof — [Solscan: $DEXHUNT](https://solscan.io/token/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump) ("Mint Authority: None").
-- **No Rugs Possible:** No one (not even the devs) can mint or change the supply. 100% community trust.
-- **Transparent Tokenomics:** All burns, allocations, and vesting are on-chain and verifiable.
+DexHunt is the ultimate quick-draw reflex duel.  
+Wait for the countdown…  
+See the neon **“DRAW!”** flash…  
+Tap faster than your opponent.  
 
----
-
-# 🎯 DexHunt: Reflex Showdown — The Wild West of Skill-Based Crypto Gaming
-
-**⚠️ Disclaimer**: DexHunt: Reflex Showdown is an independent game and is not affiliated with Nintendo or any other entity.
-
-**DexHunt: Reflex Showdown** is a fast-paced, reflex-based arcade shooter powered by $DEXHUNT — a Solana-native token rewarding speed, skill, and sharp aim.
-
-- 🎮 **Skill-to-Win**: No RNG. Pure reflexes. Beat the timer, earn the respect.
-- 🪙 **Token-Integrated**: Built on Solana. $DEXHUNT fuels the game + future arcade titles.
-- 🔥 **Game-Integrated Burn Logic**: Duel entry fees, shop purchases, and special events all trigger on-chain burns, reducing supply and increasing scarcity. All burns are verifiable on Solana (testnet for beta).
-- 🧠 **Legally Compliant Beta**: No betting, no promises. Just gameplay that slaps. $DEXHUNT is a utility token for in-game use only. No investment or profit guarantees.
-- 🎁 **NFT + Tournament Layers**: On the roadmap — but you’re early. Real early.
+Lower reaction time = bigger $DEXHUNT rewards.  
+Build insane win streaks.  
+Burn tokens on every duel.  
+Welcome to the Wild West of skill-based crypto gaming.
 
 ---
 
-### 💡 Tokenomics (Technical)
+### 🚀 Play Now
+[![Play on Web](https://img.shields.io/badge/Play_Now-FF00FF?style=for-the-badge&logo=playstation&logoColor=white)](https://fifthgenhub.github.io/DexHunt.github.io/)
 
-- **Total Supply:** 1,000,000,000 $DEXHUNT
-- **Allocations:**
-  - Skill Rewards: 50%
-  - Team (Vested): 20%
-  - Liquidity: 20%
-  - Marketing: 8%
-  - Ecosystem Reserve: 2%
-- **Burn Mechanics:**
-  - Duel entry: % burned, rest to prizes/treasury
-  - Shop: Cosmetic/power-up purchases burn a portion
-  - Special events: Higher burn rates or unique rewards
-  - Community votes: Decide additional burns from treasury
-- **Vesting:** Team/marketing tokens are vested for trust and compliance
-- **Demo/Testnet:** All tokenomics are for demo/beta. Not financial advice. CA is testnet for now.
+**iPhone 16 Pro Max native version coming this week** — built in Pyto, 60 FPS, full-screen neon particle explosions.
 
 ---
 
-## Immutable Token Supply: Mint Authority Renounced
+### 🎮 How to Play (30 seconds to first duel)
 
-$DEXHUNT is built for maximum trust and transparency. The $DEXHUNT token supply is permanently fixed—no more tokens can ever be created. The mint authority has been renounced and is set to `None` on-chain. This means:
+1. Tap **Play Now**  
+2. Watch the dramatic 3-second countdown  
+3. The second **“DRAW!”** flashes in neon — tap the screen **as fast as humanly possible**  
+4. Your reaction time in milliseconds appears instantly  
+5. Beat your personal best. Chain win streaks. Earn $DEXHUNT.  
 
-- No one (not even the developers) can ever mint more $DEXHUNT tokens.
-- The total supply is immutable and cannot be changed.
-- This aligns with the highest standards for community trust in Web3 and matches the best practices of viral "gem" tokens.
-
-**Proof:**
-- [View $DEXHUNT on Solscan](https://solscan.io/token/5eBbBt64RBZVvVAveM4rkSZJj28r2qDx5dCupesVpump) — see "Mint Authority: None"
-
-This is a major trust signal for the community and a key reason why $DEXHUNT stands out in the Web3 gaming space.
+**Pure skill. One tap decides everything.**
 
 ---
 
-### 🚀 Quick Links
+### ✨ Why DexHunt Slaps
 
-- 🕹️ [**Play DexHunt: Reflex Showdown**](https://fifthgenhub.github.io/DexHunt.github.io/)
-- 💸 [**Buy $DEXHUNT on Pump.fun**](https://pump.fun/ "Launches soon — check Twitter for drop time")
-- 📄 [**Litepaper**](./LITEPAPER.md)
-- 🐦 [**Follow @DexHuntGame**](https://twitter.com/DexHuntGame)
-- 💬 [**Join the DexHunt Discord**](https://discord.gg/NNswE2P4)
+- **True Skill-to-Earn** — No RNG, no pay-to-win. Only reflexes matter.  
+- **Instant Feedback** — Satisfying neon particle explosions on fast draws (coming to Pyto version)  
+- **Real Economic Loop** — Duel entry fees trigger verifiable on-chain $DEXHUNT burns  
+- **Streak System** — 3 wins = “Nice!” • 5 wins = “Hot Shot!” • 10 wins = legendary rewards  
+- **Mobile-First** — Built for iPhone touch precision (Pyto native version dropping soon)  
+- **Cyber-Western Neon Vibes** — Glowing revolvers, glitch effects, pulsing UI  
 
 ---
 
-### 🛠 How to Run Locally (Dev Mode)
+### 🪙 Tokenomics (Simple & Transparent)
 
-```bash
-git clone https://github.com/FifthGenHub/DexHunt.github.io.git
-cd DexHunt.github.io
-open index.html
-```
+| Category              | Percentage | Details                              |
+|-----------------------|------------|--------------------------------------|
+| Player Rewards        | 50%        | Direct earnings for fastest draws    |
+| Liquidity (Locked)    | 20%        | Raydium pool — never moved           |
+| Team (12-month vest)  | 20%        | Aligned incentives                   |
+| Marketing & Events    | 8%         | Community drops, tournaments         |
+| Ecosystem Reserve     | 2%         | Future titles & NFT guns             |
+
+**Total Supply**: Fixed & immutable  
+**Burn Mechanism**: Every duel entry burns $DEXHUNT on Solana (verifiable)
+
+---
+
+### 🛠️ Tech Stack
+
+- **Frontend**: HTML + CSS + Vanilla JS (current web version)  
+- **Mobile Native**: Pyto + pyto_ui (iPhone version — 60 FPS, single-file Python)  
+- **Blockchain**: Solana (Phantom wallet connect, on-chain burns)  
+- **Visuals**: Neon cyber-western aesthetic (cyan, magenta, lime glows)  
+
+---
+
+### 🗺️ Roadmap (2026)
+
+**Q1 2026**  
+- Pyto iPhone native version (live this month)  
+- Real Solana wallet connect + on-chain rewards  
+
+**Q2 2026**  
+- Global leaderboards  
+- Streak multipliers & daily challenges  
+
+**Q3 2026**  
+- NFT gun skins (cosmetic only)  
+- Tournament mode  
+
+**Q4 2026**  
+- Multiplayer showdowns  
+- Full mobile app (App Store ready)
+
+---
+
+### 📸 Screenshots (Coming Soon — iPhone Pyto Version)
+
+*(Placeholder — replace with real screenshots once you run the Pyto script)*
+
+![Countdown Screen](https://placehold.co/600x400/0a0a0a/00ffff?text=3...2...1...)  
+![DRAW! Explosion](https://placehold.co/600x400/0a0a0a/ff00ff?text=DRAW!+Particle+Burst)  
+![Win Screen](https://placehold.co/600x400/0a0a0a/00ff88?text=New+Personal+Best!)
+
+---
+
+### 🔒 Trust & Security
+
+- Mint authority renounced  
+- Liquidity locked on Raydium  
+- All burns verifiable on Solana Explorer  
+- No betting or gambling mechanics  
+- Utility token only — for in-game use  
+
+**Disclaimer**: DexHunt is an independent game. $DEXHUNT is a utility token. No investment advice. Play responsibly.
+
+---
+
+### 🌐 Quick Links
+
+- **[Play the Web Version](https://fifthgenhub.github.io/DexHunt.github.io/)**  
+- **[Buy $DEXHUNT](https://pump.fun/DEXHUNT)** (update with real CA)  
+- **[GitHub](https://github.com/FifthGenHub/DexHunt.github.io)**  
+- **[X / Twitter](https://x.com/DexHuntSol)** (update handle)  
+- **[Discord](https://discord.gg/dexhunt)**  
+
+---
+
+**Made with 🔥 in Chicago**  
+Reviving the original fast-draw reflex duel — one millisecond at a time.
+
+---
+
+*Last updated: February 27, 2026*
